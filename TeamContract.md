@@ -18,39 +18,26 @@ This contract sets out shared expectations and commitments for how our team will
 
 ### Communication
 
-* Which platform will you use for communication outside of class, when required for work on your course project? (Examples: Text message, Discord, WeChat, etc.)
-* intsa
+We will primarily communicate through our Instagram group chat.
 
-* Each teammate agrees to respond to messages in at most how long? 1 day? 2 days? Some other amount of time?
-* 1 day
+All teammates will respond to messages after at most a day to ensure that communication remains consistent.
 
-* What things should a teammate notify you about? (Examples: if they think they won't be able to meet a deadline, if they have to miss lecture, etc.)
+Teammates should notify each other as soon as they believe that they are unable to make a deadline. Teammates should also notify each other when they are unable to attend a lab.
 
-* missing labs, Not beibg able to meet deadlines.
+Teammates will actively listen to each others ideas and meaningfully contribute to all discussions.
 
-* Respectful and inclusive behaviour are necessary for smooth and productive communication. What are some respectful and inclusive behaviours you expect when communicating with each other during lectures, labs, or outside of class? (Examples: Actively listening to each team members ideas, giving everyone a chance to meaningfully contribute, etc.)
-* Be a good person.
-
----
-
-### [Other Categories of norms and expectations go here]
-
-* Based on your previous teamwork experiences, what other behaviours do you agree upon as a team?
-    - some examples of possible additional team norms and expectations are included in the sample team contract in case your team needs some help getting ideas for what else you want to include.
-    - Give progress updates, make it clear if u cant make the deadline day in advance.
-    - if u are stuck ask for help.
 ---
 
 ## Decision Making
 
-* How will decisions about your team project be made? (Examples: By majority vote, by unanimous vote, etc.)
-   - Design choices must be made unanimously, implementation / coding choices can go by majority rule.
+
+Any large-scale architecture choices must be made unaninimously so that all members understand their role. All other choices (implementation, coding, etc) can be made instead by majority rule if an opinion cannot be settled on.
 
 ---
+
 ## Conflict resolution
 
-* How will your team resolve conflicts? (Example: by listening to each other's side of the issue and attempting to reach a compromise. By consulting a TA or instructor as a team, if a resolution has not yet been reached.)
-  - listening to both sides, consult a TA if needed.
+Teammates will try their best to be empathetic and listen to both sides when facing a compromise. If a compromise cannot be reached internally, then a TA will be consulted to help resolve the issue.
 
 ---
 
@@ -59,7 +46,7 @@ This contract sets out shared expectations and commitments for how our team will
 * Reliability and accountability are also important aspects of teamwork. What are the responsibilities of each team member? (Example: completing their share of the work in a timely manner, seeking assistance from teammates/TAs/instructors when required, etc.)
   - complete your share of the work,make it clear if u cant make the deadline day in advance.
 
----
+All members will be expected to be able to complete their work independently. If a member cannot make an agreed upon deadline for the project or a component of a project, they must make it clear to everyone else at least a day in advance.
 
 ---
 
