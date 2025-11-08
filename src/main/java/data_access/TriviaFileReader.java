@@ -13,6 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class TriviaFileReader implements TriviaDataAccess {
+
     private static final String API_URL = "https://opentdb.com/api.php";
     private final OkHttpClient client = new OkHttpClient();
 

@@ -12,6 +12,7 @@ public interface TriviaDataAccess {
      * @param difficulty optional difficulty ("easy", "medium", "hard")
      * @return list of Question entities
      */
+
     List<Question> fetchQuestions(int amount, String category, String difficulty, String type)
             throws IOException, InterruptedException;
 }

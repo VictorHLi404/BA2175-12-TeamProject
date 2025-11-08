@@ -7,6 +7,7 @@ public class TriviaFileReaderTest {
     public static void main(String[] args) {
         TriviaFileReader reader = new TriviaFileReader();
 
+
         try {
             // Example 1: Fetch 5 easy multiple-choice questions
             List<Question> mcqQuestions = reader.fetchQuestions(5, null, "easy", "multiple");

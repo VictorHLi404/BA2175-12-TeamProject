@@ -19,7 +19,6 @@ public class Question {
         this.correctChoice = correctChoice;
     }
 
-    // Getters
     public String getFormat() { return format; }
     public String getDifficulty() { return difficulty; }
     public String getQuestion() { return question; }
