@@ -16,3 +16,4 @@ public interface TriviaDataAccess {
     List<Question> fetchQuestions(int amount, String category, String difficulty, String type)
             throws IOException, InterruptedException;
 }
+

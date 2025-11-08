@@ -30,3 +30,4 @@ public class Question {
         return String.format("Q: %s (%s, %s)", question, difficulty, format);
     }
 }
+
