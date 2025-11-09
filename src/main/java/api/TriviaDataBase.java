@@ -16,7 +16,6 @@ public class TriviaDataBase {
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final String STATUS_CODE = "response_code";
-    private static final String MESSAGE = "message";
 
     private static final int SUCCESS_CODE = 0;
 
