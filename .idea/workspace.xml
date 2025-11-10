@@ -5,18 +5,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ff04fa17-c392-46ff-8b1f-3bea2125a16d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/checkstyle-idea.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/DataStore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/JsonFileDataStore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/persistence/JsonFileDataStoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/api/TriviaDataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/api/TriviaDataBase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/api/TriviaFetcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/api/TriviaFetcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TriviaDataBaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TriviaDataBaseTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -25,12 +40,12 @@
     &quot;assignee&quot;: &quot;VictorHLi404&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/VictorHLi404/BA2175-12-TeamProject.git&quot;,
-    &quot;accountId&quot;: &quot;8d45eaf1-c9d8-4e80-8dfc-78013a58dfc8&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/VictorHLi404/BA2175-12-TeamProject.git",
+    "accountId": "406c76d2-f541-444e-a83a-5ae281c4566c"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -45,7 +60,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#8 on 4-create-api-interface",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "create-file-saving",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -59,7 +75,6 @@
     <attachedChunks>
       <set>
         <option value="bundled-jdk-9823dce3aa75-bf35d07a577b-intellij.indexing.shared.core-IU-252.25557.131" />
-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-IU-252.25557.131" />
       </set>
     </attachedChunks>
   </component>

@@ -1,0 +1,97 @@
+package persistence;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import entities.User;
+import entities.Quiz;
+
+import java.io.*;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
+public class JsonFileDataStore implements DataStore {
+
+    // 固定我们的目录和文件名
+    private static final String DATA_DIR = "data";
+    private static final String USERS_FILE = DATA_DIR + "/users.json";
+    private static final String QUIZZES_FILE = DATA_DIR + "/quizzes.json";
+
+    private final Gson gson = new Gson();
+
+    public JsonFileDataStore() {
+        // 确保 data 目录存在，不然写文件会报错
+        File dir = new File(DATA_DIR);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+    }
+
+    // ================= 用户 =================
+
+    @Override
+    public void saveUser(User user) {
+        Map<String, User> allUsers = loadAllUsers();
+        allUsers.put(user.getUsername(), user);
+        writeJsonToFile(USERS_FILE, allUsers);
+    }
+
+    @Override
+    public User loadUser(String username) {
+        Map<String, User> allUsers = loadAllUsers();
+        return allUsers.get(username);
+    }
+
+    private Map<String, User> loadAllUsers() {
+        if (!Files.exists(Paths.get(USERS_FILE))) {
+            return new HashMap<>();
+        }
+        try (Reader reader = new FileReader(USERS_FILE)) {
+            Type type = new TypeToken<Map<String, User>>() {}.getType();
+            Map<String, User> users = gson.fromJson(reader, type);
+            return users != null ? users : new HashMap<>();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // ================= 测验 =================
+
+    @Override
+    public void saveQuiz(Quiz quiz) {
+        Map<Integer, Quiz> allQuizzes = loadAllQuizzes();
+        allQuizzes.put(quiz.getId(), quiz);
+        writeJsonToFile(QUIZZES_FILE, allQuizzes);
+    }
+
+    @Override
+    public Quiz loadQuiz(int quizId) {
+        Map<Integer, Quiz> allQuizzes = loadAllQuizzes();
+        return allQuizzes.get(quizId);
+    }
+
+    private Map<Integer, Quiz> loadAllQuizzes() {
+        if (!Files.exists(Paths.get(QUIZZES_FILE))) {
+            return new HashMap<>();
+        }
+        try (Reader reader = new FileReader(QUIZZES_FILE)) {
+            Type type = new TypeToken<Map<Integer, Quiz>>() {}.getType();
+            Map<Integer, Quiz> quizzes = gson.fromJson(reader, type);
+            return quizzes != null ? quizzes : new HashMap<>();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // ================= 通用写文件方法 =================
+
+    private void writeJsonToFile(String filename, Object obj) {
+        try (Writer writer = new FileWriter(filename)) {
+            gson.toJson(obj, writer);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
