@@ -36,9 +36,10 @@ public class JsonFileReader implements FileReaderGateway {
             Type type = new TypeToken<Map<String, User>>() {}.getType();
             Map<String, User> users = gson.fromJson(reader, type);
             return users != null ? users : new HashMap<>();
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error reading users.json", e);
         }
+
     }
 
     @Override
@@ -56,7 +57,7 @@ public class JsonFileReader implements FileReaderGateway {
             Type type = new TypeToken<Map<Integer, Quiz>>() {}.getType();
             Map<Integer, Quiz> quizzes = gson.fromJson(reader, type);
             return quizzes != null ? quizzes : new HashMap<>();
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException("Error reading quizzes.json", e);
         }
     }

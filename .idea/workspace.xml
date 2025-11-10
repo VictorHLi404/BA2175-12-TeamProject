@@ -4,15 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff04fa17-c392-46ff-8b1f-3bea2125a16d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/FileReaderGateway.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/persistence/JsonFileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data_access/TriviaDataAccess.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/data_access/TriviaFileReader.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/entity/Question.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/.gitkeep" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TriviaFileReaderTest.java" beforeDir="false" />
+    <list default="true" id="ff04fa17-c392-46ff-8b1f-3bea2125a16d" name="Changes" comment="Fixed.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/users.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/persistence/JsonFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/persistence/JsonFileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/persistence/JsonFileReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/persistence/JsonFileReaderTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,11 +53,20 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
+    "JUnit.JsonFileDataStoreTest.executor": "Run",
+    "JUnit.JsonFileReaderTest.executor": "Run",
+    "JUnit.JsonFileReaderTest.testCorruptedUsersJsonFileThrowsException.executor": "Run",
+    "JUnit.JsonFileReaderTest.testLoadAllQuizzesWhenFileDoesNotExist.executor": "Run",
+    "JUnit.JsonFileReaderTest.testReadQuizDataFromFile.executor": "Run",
+    "JUnit.JsonFileReaderTest.testSaveAndLoadQuiz.executor": "Run",
     "JUnit.JsonFileReaderTest.testSaveAndLoadUser.executor": "Run",
+    "JUnit.QuizResultsTest.executor": "Run",
+    "JUnit.UserTest.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
     "git-widget-placeholder": "#9 on FileReader",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -81,7 +86,70 @@
       <recent name="persistence" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.JsonFileReaderTest">
+    <configuration name="JsonFileReaderTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TeamProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="persistence" />
+      <option name="MAIN_CLASS_NAME" value="persistence.JsonFileReaderTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JsonFileReaderTest.testCorruptedUsersJsonFileThrowsException" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TeamProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="persistence" />
+      <option name="MAIN_CLASS_NAME" value="persistence.JsonFileReaderTest" />
+      <option name="METHOD_NAME" value="testCorruptedUsersJsonFileThrowsException" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JsonFileReaderTest.testLoadAllQuizzesWhenFileDoesNotExist" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TeamProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="persistence" />
+      <option name="MAIN_CLASS_NAME" value="persistence.JsonFileReaderTest" />
+      <option name="METHOD_NAME" value="testLoadAllQuizzesWhenFileDoesNotExist" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="JsonFileReaderTest.testReadQuizDataFromFile" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="TeamProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="persistence.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="persistence" />
+      <option name="MAIN_CLASS_NAME" value="persistence.JsonFileReaderTest" />
+      <option name="METHOD_NAME" value="testReadQuizDataFromFile" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="JsonFileReaderTest.testSaveAndLoadUser" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="TeamProject" />
       <extension name="coverage">
@@ -100,6 +168,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.JsonFileReaderTest" />
+        <item itemvalue="JUnit.JsonFileReaderTest.testReadQuizDataFromFile" />
+        <item itemvalue="JUnit.JsonFileReaderTest.testCorruptedUsersJsonFileThrowsException" />
+        <item itemvalue="JUnit.JsonFileReaderTest.testLoadAllQuizzesWhenFileDoesNotExist" />
         <item itemvalue="JUnit.JsonFileReaderTest.testSaveAndLoadUser" />
       </list>
     </recent_temporary>
@@ -120,9 +192,37 @@
       <updated>1762794195693</updated>
       <workItem from="1762794196764" duration="648000" />
     </task>
+    <task id="LOCAL-00001" summary="Fixed.">
+      <option name="closed" value="true" />
+      <created>1762809249579</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762809249579</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Fixed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/persistence/JsonFileReaderTest.java</url>
+          <line>69</line>
+          <properties class="persistence.JsonFileReaderTest" method="testReadQuizDataFromFile">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
