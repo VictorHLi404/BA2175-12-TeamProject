@@ -1,6 +1,6 @@
 package api;
 
-import entity.Question;
+import entities.Question;
 
 public interface TriviaFetcher {
     /**

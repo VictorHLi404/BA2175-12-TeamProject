@@ -6,7 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import entity.Question;
+import entities.Question;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -68,6 +68,8 @@ public class TriviaDataBase {
                 final Question[] quiz = new Question[questions.length()];
                 for (int i = 0; i < questions.length(); i++) {
                     final JSONObject questionJSON = questions.getJSONObject(i);
+
+                    // TODO: adapt the question JSON format to fit into Question() constructor
                     quiz[i] = new Question(questionJSON);
                 }
                 return quiz;
