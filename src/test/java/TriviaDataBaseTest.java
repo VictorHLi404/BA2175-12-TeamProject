@@ -1,5 +1,5 @@
 import api.TriviaDataBase;
-import entity.Question;
+import entities.Question;
 
 public class TriviaDataBaseTest {
     public static void main(String[] args) {
