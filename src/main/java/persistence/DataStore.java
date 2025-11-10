@@ -3,6 +3,7 @@ package persistence;
 import entities.User;
 import entities.Quiz;
 
+import java.util.Map;
 import java.util.UUID;
 
 public interface DataStore {
@@ -18,4 +19,8 @@ public interface DataStore {
 
 
     Quiz loadQuiz(UUID quizId);
+
+    Map<String, Integer> getCategoryToIdMapping();
+
+    Map<Integer, String> getIdToCategoryMapping();
 }
