@@ -19,8 +19,8 @@ public class TriviaDataBase {
 
     private static final int SUCCESS_CODE = 0;
 
-    private static final int DEFAULT_AMOUNT = 10;
-    private static final int DEFAULT_CATEGORY = 9;
+    private static final String DEFAULT_AMOUNT = "10";
+    private static final String DEFAULT_CATEGORY = "9";
     private static final String DEFAULT_DIFFICULTY = "medium"; // easy | medium | hard
     private static final String DEFAULT_TYPE = "multiple"; // multiple | boolean
 
@@ -29,14 +29,30 @@ public class TriviaDataBase {
         return generateRandomQuestion(DEFAULT_AMOUNT, DEFAULT_CATEGORY, DEFAULT_DIFFICULTY, DEFAULT_TYPE);
     }
 
-    public Question[] generateRandomQuestion(int amount, int category, String difficulty, String type) {
+    public Question[] generateRandomQuestion(String amount, String category, String difficulty, String type) {
         // Build the request to get questions.
-        final OkHttpClient client = new OkHttpClient().newBuilder()
-                .build();
-        final Request request = new Request.Builder()
-                .url(String.format("%samount=%s&category=%s&difficulty=%s&type=%s",
-                API_URL, amount, category, difficulty, type))
-                .addHeader(CONTENT_TYPE, APPLICATION_JSON)
+
+        StringBuilder urlBuilder = new StringBuilder(API_URL);
+        if (amount != null && !amount.isEmpty()) {
+            urlBuilder.append("?amount").append(amount);
+        }
+        else {
+            urlBuilder.append("?amount=").append(DEFAULT_AMOUNT);
+        }
+        if (!category.isEmpty()) {
+            urlBuilder.append("&category=").append(category);
+        }
+        if (difficulty != null && !difficulty.isEmpty()) {
+            urlBuilder.append("&difficulty=").append(difficulty);
+        }
+        if (type != null && !type.isEmpty()) {
+            urlBuilder.append("&type=").append(type);
+        }
+
+
+        Request request = new Request.Builder()
+                .url(urlBuilder.toString())
+                .get()
                 .build();
         //EX: https://opentdb.com/api.php?amount=10&category=16&difficulty=medium&type=multiple
 
