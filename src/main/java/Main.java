@@ -32,7 +32,7 @@ public class Main extends JFrame {
         gbc.weighty = 1;
         background.add(play, gbc);
 
-        JButton createQuestion = new JButton("CREATE QUESTION");
+        JButton createQuestion = new JButton("CREATE QUIZ");
         createQuestion.setFont(new Font("Times New Roman", Font.PLAIN, 32));
         createQuestion.setPreferredSize(new Dimension(400, 150));
         createQuestion.setBackground(Color.GREEN);
