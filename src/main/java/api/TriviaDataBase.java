@@ -69,8 +69,15 @@ public class TriviaDataBase {
                 for (int i = 0; i < questions.length(); i++) {
                     final JSONObject questionJSON = questions.getJSONObject(i);
 
-                    // TODO: adapt the question JSON format to fit into Question() constructor
-                    quiz[i] = new Question(questionJSON);
+                    String format = questionJSON.getString("type");
+                    String dif = questionJSON.getString("difficulty");
+                    String question = questionJSON.getString("question");
+                    String correctChoice = questionJSON.getString("correct_answer");
+                    List<String> choices = questionJSON.getString("incorrect_answers");
+                    choices.add(correctChoice);
+                    Boolean isCustom = false;
+
+                    quiz[i] = new Question(format, dif, question, choices, correctChoice, isCustom);
                 }
                 return quiz;
             } else {
