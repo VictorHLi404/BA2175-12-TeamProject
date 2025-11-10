@@ -33,6 +33,32 @@ public class Question {
         return String.format("Q: %s (%s, %s)", question, difficulty, format);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Question other = (Question) obj;
+
+        return format.equals(other.format)
+                && difficulty.equals(other.difficulty)
+                && question.equals(other.question)
+                && choices.equals(other.choices)
+                && correctChoice.equals(other.correctChoice)
+                && isCustom.equals(other.isCustom);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = format.hashCode();
+        result = 31 * result + difficulty.hashCode();
+        result = 31 * result + question.hashCode();
+        result = 31 * result + choices.hashCode();
+        result = 31 * result + correctChoice.hashCode();
+        result = 31 * result + isCustom.hashCode();
+        return result;
+    }
+
     public boolean isCorrect(String choice) {
         return correctChoice.equals(choice);
     }
