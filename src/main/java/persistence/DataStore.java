@@ -3,6 +3,8 @@ package persistence;
 import entities.User;
 import entities.Quiz;
 
+import java.util.UUID;
+
 public interface DataStore {
 
 
@@ -15,5 +17,5 @@ public interface DataStore {
     void saveQuiz(Quiz quiz);
 
 
-    Quiz loadQuiz(int quizId);
+    Quiz loadQuiz(UUID quizId);
 }

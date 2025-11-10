@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class JsonFileDataStore implements DataStore {
 
@@ -61,24 +62,24 @@ public class JsonFileDataStore implements DataStore {
 
     @Override
     public void saveQuiz(Quiz quiz) {
-        Map<Integer, Quiz> allQuizzes = loadAllQuizzes();
-        allQuizzes.put(quiz.getId(), quiz);
+        Map<UUID, Quiz> allQuizzes = loadAllQuizzes();
+        allQuizzes.put(quiz.getQuizId(), quiz);
         writeJsonToFile(QUIZZES_FILE, allQuizzes);
     }
 
     @Override
-    public Quiz loadQuiz(int quizId) {
-        Map<Integer, Quiz> allQuizzes = loadAllQuizzes();
+    public Quiz loadQuiz(UUID quizId) {
+        Map<UUID, Quiz> allQuizzes = loadAllQuizzes();
         return allQuizzes.get(quizId);
     }
 
-    private Map<Integer, Quiz> loadAllQuizzes() {
+    private Map<UUID, Quiz> loadAllQuizzes() {
         if (!Files.exists(Paths.get(QUIZZES_FILE))) {
             return new HashMap<>();
         }
         try (Reader reader = new FileReader(QUIZZES_FILE)) {
-            Type type = new TypeToken<Map<Integer, Quiz>>() {}.getType();
-            Map<Integer, Quiz> quizzes = gson.fromJson(reader, type);
+            Type type = new TypeToken<Map<UUID, Quiz>>() {}.getType();
+            Map<UUID, Quiz> quizzes = gson.fromJson(reader, type);
             return quizzes != null ? quizzes : new HashMap<>();
         } catch (IOException e) {
             throw new RuntimeException(e);
