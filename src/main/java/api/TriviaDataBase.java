@@ -1,6 +1,8 @@
 package api;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,7 +14,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class TriviaDataBase {
-    private static final String API_URL = "https://opentdb.com/api.php?";
+    private static final String API_URL = "https://opentdb.com/api.php";
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
     private static final String STATUS_CODE = "response_code";
@@ -34,12 +36,12 @@ public class TriviaDataBase {
 
         StringBuilder urlBuilder = new StringBuilder(API_URL);
         if (amount != null && !amount.isEmpty()) {
-            urlBuilder.append("?amount").append(amount);
+            urlBuilder.append("?amount=").append(amount);
         }
         else {
             urlBuilder.append("?amount=").append(DEFAULT_AMOUNT);
         }
-        if (!category.isEmpty()) {
+        if (category != null && !category.isEmpty()) {
             urlBuilder.append("&category=").append(category);
         }
         if (difficulty != null && !difficulty.isEmpty()) {
@@ -48,7 +50,8 @@ public class TriviaDataBase {
         if (type != null && !type.isEmpty()) {
             urlBuilder.append("&type=").append(type);
         }
-
+        final OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
 
         Request request = new Request.Builder()
                 .url(urlBuilder.toString())
@@ -73,7 +76,11 @@ public class TriviaDataBase {
                     String dif = questionJSON.getString("difficulty");
                     String question = questionJSON.getString("question");
                     String correctChoice = questionJSON.getString("correct_answer");
-                    List<String> choices = questionJSON.getString("incorrect_answers");
+                    JSONArray incorrect = questionJSON.getJSONArray("incorrect_answers");
+                    List<String> choices = new ArrayList<>();
+                    for (int k = 0; k < incorrect.length(); k++) {
+                        choices.add(incorrect.getString(k));
+                    }
                     choices.add(correctChoice);
                     Boolean isCustom = false;
 
