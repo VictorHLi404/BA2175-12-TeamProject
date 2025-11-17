@@ -4,6 +4,7 @@ import entities.User;
 import entities.Quiz;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public interface FileReaderGateway {
 
@@ -11,7 +12,7 @@ public interface FileReaderGateway {
 
     Map<String, User> loadAllUsers();
 
-    Quiz loadQuiz(int quizId);
+    Quiz loadQuiz(UUID quizId);
 
-    Map<Integer, Quiz> loadAllQuizzes();
+    Map<UUID, Quiz> loadAllQuizzes();
 }

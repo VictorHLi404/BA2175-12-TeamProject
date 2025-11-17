@@ -12,10 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,19 +68,20 @@ public class JsonFileReaderTest {
         // Arrange – create one quiz and write manually to file
         Question q1 = new Question("multiple", "easy", "1 + 1 = ?", List.of("1", "2", "3"), "2", false);
 
-        Quiz quiz = new Quiz(1, new ArrayList<>(List.of(q1)), true, 1);
-        Map<Integer, Quiz> quizzes = new HashMap<>();
-        quizzes.put(quiz.getId(), quiz);
+        Quiz quiz = new Quiz(new ArrayList<>(List.of(q1)), true, 1);
+        UUID quizId = quiz.getQuizId();
+        Map<UUID, Quiz> quizzes = new HashMap<>();
+        quizzes.put(quiz.getQuizId(), quiz);
 
         // Write valid JSON to file
         try (FileWriter writer = new FileWriter("data/quizzes.json")) {
             gson.toJson(quizzes, writer);
         }
 
-        Quiz loadedQuiz = reader.loadQuiz(1);
+        Quiz loadedQuiz = reader.loadQuiz(quizId);
 
         assertNotNull(loadedQuiz, "Quiz should be loaded successfully");
-        assertEquals(1, loadedQuiz.getId(), "Quiz ID should match");
+        assertEquals(quizId, loadedQuiz.getQuizId(), "Quiz ID should match");
         assertTrue(loadedQuiz.getIsCustom(), "Custom flag should match");
         assertEquals(1, loadedQuiz.getLength(), "Quiz length should match");
 

@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class JsonFileReader implements FileReaderGateway {
 
@@ -43,19 +44,19 @@ public class JsonFileReader implements FileReaderGateway {
     }
 
     @Override
-    public Quiz loadQuiz(int quizId) {
-        Map<Integer, Quiz> allQuizzes = loadAllQuizzes();
+    public Quiz loadQuiz(UUID quizId) {
+        Map<UUID, Quiz> allQuizzes = loadAllQuizzes();
         return allQuizzes.get(quizId);
     }
 
     @Override
-    public Map<Integer, Quiz> loadAllQuizzes() {
+    public Map<UUID, Quiz> loadAllQuizzes() {
         if (!Files.exists(Paths.get(QUIZZES_FILE))) {
             return new HashMap<>();
         }
         try (Reader reader = new FileReader(QUIZZES_FILE)) {
-            Type type = new TypeToken<Map<Integer, Quiz>>() {}.getType();
-            Map<Integer, Quiz> quizzes = gson.fromJson(reader, type);
+            Type type = new TypeToken<Map<UUID, Quiz>>() {}.getType();
+            Map<UUID, Quiz> quizzes = gson.fromJson(reader, type);
             return quizzes != null ? quizzes : new HashMap<>();
         } catch (Exception e) {
             throw new RuntimeException("Error reading quizzes.json", e);

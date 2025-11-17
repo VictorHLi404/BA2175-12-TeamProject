@@ -8,7 +8,7 @@ public class Quiz {
     private boolean isCustom;
     private int length;
 
-    public Quiz(int id, List<Question> questions, boolean isCustom, int length) {
+    public Quiz(List<Question> questions, boolean isCustom, int length) {
         this.quizId = UUID.randomUUID();
         this.questions = questions;
         this.isCustom = isCustom;
