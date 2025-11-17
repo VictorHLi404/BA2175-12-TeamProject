@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ff04fa17-c392-46ff-8b1f-3bea2125a16d" name="Changes" comment="">
+    <list default="true" id="ff04fa17-c392-46ff-8b1f-3bea2125a16d" name="Changes" comment="Fixed.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/users.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/persistence/JsonFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/persistence/JsonFileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/persistence/JsonFileReaderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/persistence/JsonFileReaderTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,9 +103,37 @@
       <updated>1762794195693</updated>
       <workItem from="1762794196764" duration="648000" />
     </task>
+    <task id="LOCAL-00001" summary="Fixed.">
+      <option name="closed" value="true" />
+      <created>1762809249579</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1762809249579</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Fixed." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/persistence/JsonFileReaderTest.java</url>
+          <line>69</line>
+          <properties class="persistence.JsonFileReaderTest" method="testReadQuizDataFromFile">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
