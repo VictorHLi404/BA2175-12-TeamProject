@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class JsonFileDataStore implements DataStore {
 
@@ -18,7 +19,8 @@ public class JsonFileDataStore implements DataStore {
     private static final String DATA_DIR = "data";
     private static final String USERS_FILE = DATA_DIR + "/users.json";
     private static final String QUIZZES_FILE = DATA_DIR + "/quizzes.json";
-
+    private static final String CATEGORY_TO_ID_MAPPING_FILE =  DATA_DIR + "/category_mapping/category_to_id_mapping.json";
+    private static final String ID_TO_CATEGORY_MAPPING_FILE =  DATA_DIR + "/category_mapping/id_to_category_mapping.json";
     private final Gson gson = new Gson();
 
     public JsonFileDataStore() {
@@ -28,8 +30,36 @@ public class JsonFileDataStore implements DataStore {
             dir.mkdir();
         }
     }
-
     // ================= 用户 =================
+
+    public Map<String, Integer> getCategoryToIdMapping() {
+        if (!Files.exists(Paths.get(CATEGORY_TO_ID_MAPPING_FILE))) {
+            return new HashMap<>();
+        }
+
+        try (Reader reader = new FileReader(CATEGORY_TO_ID_MAPPING_FILE)) {
+            Type type = new TypeToken<Map<String, Integer>>() {}.getType();
+            Map<String, Integer> mapping = gson.fromJson(reader, type);
+            return mapping != null ? mapping : new HashMap<>();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Map<Integer, String> getIdToCategoryMapping() {
+        if (!Files.exists(Paths.get(ID_TO_CATEGORY_MAPPING_FILE))) {
+            return new HashMap<>();
+        }
+
+        try (Reader reader = new FileReader(ID_TO_CATEGORY_MAPPING_FILE)) {
+            Type type = new TypeToken<Map<Integer, String>>() {}.getType();
+            Map<Integer, String> mapping = gson.fromJson(reader, type);
+            return mapping != null ? mapping : new HashMap<>();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     @Override
     public void saveUser(User user) {
@@ -61,24 +91,24 @@ public class JsonFileDataStore implements DataStore {
 
     @Override
     public void saveQuiz(Quiz quiz) {
-        Map<Integer, Quiz> allQuizzes = loadAllQuizzes();
-        allQuizzes.put(quiz.getId(), quiz);
+        Map<UUID, Quiz> allQuizzes = loadAllQuizzes();
+        allQuizzes.put(quiz.getQuizId(), quiz);
         writeJsonToFile(QUIZZES_FILE, allQuizzes);
     }
 
     @Override
-    public Quiz loadQuiz(int quizId) {
-        Map<Integer, Quiz> allQuizzes = loadAllQuizzes();
+    public Quiz loadQuiz(UUID quizId) {
+        Map<UUID, Quiz> allQuizzes = loadAllQuizzes();
         return allQuizzes.get(quizId);
     }
 
-    private Map<Integer, Quiz> loadAllQuizzes() {
+    private Map<UUID, Quiz> loadAllQuizzes() {
         if (!Files.exists(Paths.get(QUIZZES_FILE))) {
             return new HashMap<>();
         }
         try (Reader reader = new FileReader(QUIZZES_FILE)) {
-            Type type = new TypeToken<Map<Integer, Quiz>>() {}.getType();
-            Map<Integer, Quiz> quizzes = gson.fromJson(reader, type);
+            Type type = new TypeToken<Map<UUID, Quiz>>() {}.getType();
+            Map<UUID, Quiz> quizzes = gson.fromJson(reader, type);
             return quizzes != null ? quizzes : new HashMap<>();
         } catch (IOException e) {
             throw new RuntimeException(e);

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class Main extends JFrame {
 
@@ -32,14 +33,22 @@ public class Main extends JFrame {
         gbc.weighty = 1;
         background.add(play, gbc);
 
-        JButton createQuestion = new JButton("CREATE QUESTION");
-        createQuestion.setFont(new Font("Times New Roman", Font.PLAIN, 32));
-        createQuestion.setPreferredSize(new Dimension(400, 150));
-        createQuestion.setBackground(Color.GREEN);
+        JButton createQuiz = new JButton("CREATE QUIZ");
+        createQuiz.setFont(new Font("Times New Roman", Font.PLAIN, 32));
+        createQuiz.setPreferredSize(new Dimension(400, 150));
+        createQuiz.setBackground(Color.GREEN);
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weighty = 1;
-        background.add(createQuestion, gbc);
+        background.add(createQuiz, gbc);
+
+        createQuiz.addActionListener (new ActionListener() {
+
+            public void actionPerformed (ActionEvent e) {
+                System.out.println("CreateQuiz button is clicked"); // This will be changed.
+            }
+
+        });
 
         JButton viewScores = new JButton("VIEW MY SCORES");
         viewScores.setFont(new Font("Times New Roman", Font.PLAIN, 32));

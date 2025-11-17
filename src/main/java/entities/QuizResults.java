@@ -1,13 +1,16 @@
 package entities;
 
 import java.util.List;
+import java.util.UUID;
 
 public class QuizResults {
+    private UUID quizResultsId;
     private List<Question> questions;
     private List<String> answers;
     private int score;
 
     public QuizResults(List<Question> questions, List<String> answers) {
+        this.quizResultsId = UUID.randomUUID();
         this.questions = questions;
         this.answers = answers;
         this.score = calculateScore();
@@ -24,5 +27,5 @@ public class QuizResults {
     }
 
     public int getScore() { return score; }
-
+    public UUID getQuizResultsId() { return quizResultsId; }
 }

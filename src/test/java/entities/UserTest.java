@@ -15,8 +15,8 @@ public class UserTest {
     @BeforeEach
     public void setUp() {
         user = new User("testUser", "password123");
-        customQuiz = new Quiz(1, new ArrayList<>(), true, 5);
-        publicQuiz = new Quiz(2, new ArrayList<>(), false, 10);
+        customQuiz = new Quiz(new ArrayList<>(), true, 5);
+        publicQuiz = new Quiz(new ArrayList<>(), false, 10);
     }
 
     @Test

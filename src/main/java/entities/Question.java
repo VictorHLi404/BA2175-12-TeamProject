@@ -1,8 +1,10 @@
 package entities;
 
 import java.util.List;
+import java.util.UUID;
 
 public class Question {
+    private UUID questionId;
     private String format;
     private String difficulty;
     private String question;
@@ -12,6 +14,7 @@ public class Question {
 
     public Question(String format, String difficulty, String question, List<String> choices, String correctChoice
     , Boolean isCustom) {
+        this.questionId = UUID.randomUUID();
         this.format = format;
         this.difficulty = difficulty;
         this.question = question;
@@ -21,6 +24,7 @@ public class Question {
     }
 
     // getters
+    public UUID getQuestionId() { return questionId; }
     public String getFormat() { return format; }
     public String getDifficulty() { return difficulty; }
     public String getQuestion() { return question; }
