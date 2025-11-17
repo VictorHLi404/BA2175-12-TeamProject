@@ -15,5 +15,5 @@ public interface TriviaFetcher {
      * @param difficulty Difficulty level ("easy", "medium", "hard")
      * @param type Question type ("multiple", "boolean")
      */
-    Question[] generateRandomQuestion(int amount, int category, String difficulty, String type);
+    Question[] generateRandomQuestion(String amount, String category, String difficulty, String type);
 }

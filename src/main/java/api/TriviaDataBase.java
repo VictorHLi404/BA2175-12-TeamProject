@@ -13,7 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class TriviaDataBase {
+public class TriviaDataBase implements TriviaFetcher {
     private static final String API_URL = "https://opentdb.com/api.php";
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_JSON = "application/json";
