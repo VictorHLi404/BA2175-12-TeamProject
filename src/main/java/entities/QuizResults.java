@@ -9,9 +9,9 @@ public class QuizResults {
     private List<String> answers;
     private int score;
 
-    public QuizResults(List<Question> questions, List<String> answers) {
-        this.quizResultsId = UUID.randomUUID();
-        this.questions = questions;
+    public QuizResults(Quiz quiz, List<String> answers) {
+        this.quizResultsId = quiz.getQuizId();
+        this.questions = quiz.getQuestions();
         this.answers = answers;
         this.score = calculateScore();
     }
