@@ -8,8 +8,8 @@ public class User {
     private UUID userId;
     private String username;
     private String password;
-    private List<Quiz> playedQuizzes;
-    private List<Quiz> createdQuizzes;
+    private List<UUID> playedQuizzes;
+    private List<UUID> createdQuizzes;
 
     public User(String username, String password) {
         this.userId = UUID.randomUUID();
@@ -25,8 +25,8 @@ public class User {
 
     public String getUsername() { return username; }
     public String getPassword() { return password; }
-    public List<Quiz> getPlayedQuizzes() { return playedQuizzes; }
-    public List<Quiz> getCreatedQuizzes() { return createdQuizzes; }
+    public List<UUID> getPlayedQuizzes() { return playedQuizzes; }
+    public List<UUID> getCreatedQuizzes() { return createdQuizzes; }
 
     // setters
     public void setUsername(String username) { this.username = username; }
@@ -35,13 +35,13 @@ public class User {
 
     public void createQuiz(Quiz quiz) {
         if (quiz != null) {
-            createdQuizzes.add(quiz);
+            createdQuizzes.add(quiz.getQuizId());
         }
     }
 
     public boolean playQuiz(Quiz quiz) {
         if (quiz != null && !playedQuizzes.contains(quiz)) {
-            playedQuizzes.add(quiz);
+            playedQuizzes.add(quiz.getQuizId());
             return true;
         }
         return false;
