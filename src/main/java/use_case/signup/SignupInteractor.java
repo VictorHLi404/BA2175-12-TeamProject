@@ -1,6 +1,7 @@
 package use_case.signup;
 
 import entities.User;
+import persistence.DataStore;
 import persistence.FileReaderGateway;
 import persistence.JsonFileDataStore;
 
@@ -9,11 +10,11 @@ import persistence.JsonFileDataStore;
  */
 public class SignupInteractor implements SignupInputBoundary {
     private final FileReaderGateway userDataReadObject;
-    private final JsonFileDataStore userDataWriteObject;
+    private final DataStore userDataWriteObject;
     private final SignupOutputBoundary userPresenter;
 
     public SignupInteractor(FileReaderGateway userDataReadObject,
-                            JsonFileDataStore userDataWriteObject,
+                            DataStore userDataWriteObject,
                             SignupOutputBoundary signupOutputBoundary) {
         this.userDataReadObject = userDataReadObject;
         this.userDataWriteObject = userDataWriteObject;
