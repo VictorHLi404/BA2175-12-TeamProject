@@ -93,50 +93,19 @@ public class JsonFileDataStore implements DataStore {
 
     @Override
     public void saveQuiz(Quiz quiz) {
-        Map<UUID, Quiz> allQuizzes = loadAllQuizzes();
+        JsonFileReader reader = new JsonFileReader();
+        Map<UUID, Quiz> allQuizzes = reader.loadAllQuizzes();
         allQuizzes.put(quiz.getQuizId(), quiz);
         writeJsonToFile(QUIZZES_FILE, allQuizzes);
-    }
-
-    @Override
-    public Quiz loadQuiz(UUID quizId) {
-        Map<UUID, Quiz> allQuizzes = loadAllQuizzes();
-        return allQuizzes.get(quizId);
     }
 
     // ================= 测验 =================
     @Override
     public void saveQuestion(Question question) {
-        Map<UUID, Question> allQuestions = loadAllQuestions();
+        JsonFileReader reader = new JsonFileReader();
+        Map<UUID, Question> allQuestions = reader.loadAllQuestions();
         allQuestions.put(question.getQuestionId(), question);
         writeJsonToFile(QUESTIONS_FILE, allQuestions);
-    }
-
-    public Map<UUID, Question> loadAllQuestions() {
-        if (!Files.exists(Paths.get(QUESTIONS_FILE))) {
-            return new HashMap<>();
-        }
-        try (Reader reader = new FileReader(QUESTIONS_FILE)) {
-            Type type = new TypeToken<Map<UUID, Question>>() {}.getType();
-            Map<UUID, Question> questions = gson.fromJson(reader, type);
-            return questions != null ? questions : new HashMap<>();
-        } catch (Exception e) {
-            throw new RuntimeException("Error reading questions.json", e);
-        }
-    }
-
-    // ================= 测验 =================
-    private Map<UUID, Quiz> loadAllQuizzes() {
-        if (!Files.exists(Paths.get(QUIZZES_FILE))) {
-            return new HashMap<>();
-        }
-        try (Reader reader = new FileReader(QUIZZES_FILE)) {
-            Type type = new TypeToken<Map<UUID, Quiz>>() {}.getType();
-            Map<UUID, Quiz> quizzes = gson.fromJson(reader, type);
-            return quizzes != null ? quizzes : new HashMap<>();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     // ================= 通用写文件方法 =================
