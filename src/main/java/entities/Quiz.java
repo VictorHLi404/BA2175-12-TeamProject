@@ -1,32 +1,35 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 public class Quiz {
     private UUID quizId;
-    private List<UUID> questions;
+    private List<UUID> questionIds;
     private boolean isCustom;
     private int length;
 
     public Quiz(List<UUID> questions, boolean isCustom, int length) {
         this.quizId = UUID.randomUUID();
-        this.questions = questions;
+        this.questionIds = new ArrayList<>(questionIds);
         this.isCustom = isCustom;
-        this.length = length;
+        this.length = this.questionIds.size();
     }
 
     // getters
     public UUID getQuizId() { return quizId; }
-    public List<UUID> getQuestions() {return questions;}
+    public List<UUID> getQuestionIds() { return questionIds; }
     public boolean getIsCustom() {return isCustom;}
     public int getLength() {return length;}
 
-    public void addQuestion(Question question) {
-        questions.add(question.getQuestionId());
+    public void addQuestionId(UUID questionId) {
+        questionIds.add(questionId);
+        length = questionIds.size();
     }
 
     public void removeQuestion(Question question) {
-        questions.remove(question.getQuestionId());
+        questionIds.remove(question.getQuestionId());
+        length = questionIds.size();
     }
 
 }
