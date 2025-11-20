@@ -11,7 +11,7 @@ public class Quiz {
 
     public Quiz(List<UUID> questions, boolean isCustom, int length) {
         this.quizId = UUID.randomUUID();
-        this.questionIds = new ArrayList<>(questionIds);
+        this.questionIds = new ArrayList<>(questions);
         this.isCustom = isCustom;
         this.length = this.questionIds.size();
     }
