@@ -5,12 +5,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QuizResultsTest {
 
     private List<Question> questions;
+    private Quiz quiz;
 
     @BeforeEach
     public void setUp() {
@@ -18,14 +20,16 @@ public class QuizResultsTest {
         Question q2 = new Question("multiple", "medium", "Capital of France?", List.of("Paris", "London", "Berlin"), "Paris", true);
         Question q3 = new Question("boolean", "hard", "The sun is a star.", List.of("True", "False"), "True", false);
 
-        questions = new ArrayList<>(List.of(q1, q2, q3));
+        quiz.addQuestionId(q1.getQuestionId());
+        quiz.addQuestionId(q2.getQuestionId());
+        quiz.addQuestionId(q3.getQuestionId());
     }
 
     @Test
     public void testAllAnswersCorrect() {
         List<String> answers = List.of("2", "Paris", "True");
 
-        QuizResults results = new QuizResults(questions, answers);
+        QuizResults results = new QuizResults(quiz, answers);
 
         assertEquals(3, results.getScore());
     }
@@ -34,7 +38,7 @@ public class QuizResultsTest {
     public void testSomeAnswersIncorrect() {
         List<String> answers = List.of("2", "London", "False");
 
-        QuizResults results = new QuizResults(questions, answers);
+        QuizResults results = new QuizResults(quiz, answers);
 
         assertEquals(1, results.getScore());  // only first is correct
     }
@@ -43,7 +47,7 @@ public class QuizResultsTest {
     public void testNoAnswersCorrect() {
         List<String> answers = List.of("3", "Berlin", "False");
 
-        QuizResults results = new QuizResults(questions, answers);
+        QuizResults results = new QuizResults(quiz, answers);
 
         assertEquals(0, results.getScore());
     }
@@ -52,7 +56,7 @@ public class QuizResultsTest {
     public void testMoreAnswersThanQuestions() {
         List<String> answers = List.of("2", "Paris", "True", "Extra");
 
-        QuizResults results = new QuizResults(questions, answers);
+        QuizResults results = new QuizResults(quiz, answers);
 
         assertEquals(3, results.getScore());  //extra answer ignored
     }
@@ -61,15 +65,9 @@ public class QuizResultsTest {
     public void testFewerAnswersThanQuestions() {
         List<String> answers = List.of("2", "Paris");
 
-        QuizResults results = new QuizResults(questions, answers);
+        QuizResults results = new QuizResults(quiz, answers);
 
         assertEquals(2, results.getScore());  // only first two checked
     }
 
-    @Test
-    public void testEmptyLists() {
-        QuizResults results = new QuizResults(new ArrayList<>(), new ArrayList<>());
-
-        assertEquals(0, results.getScore());
-    }
 }
