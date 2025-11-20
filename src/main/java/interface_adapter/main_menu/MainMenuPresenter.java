@@ -1,7 +1,7 @@
 package interface_adapter.main_menu;
 
 import interface_adapter.ViewManagerModel;
-import usecase.main_menu.MainMenuOutputBoundary;
+import use_case.main_menu.MainMenuOutputBoundary;
 
 public class MainMenuPresenter implements MainMenuOutputBoundary {
 

@@ -1,4 +1,4 @@
-package usecase.signup;
+package use_case.signup;
 
 import entities.User;
 import persistence.FileReaderGateway;

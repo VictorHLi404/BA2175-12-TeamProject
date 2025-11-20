@@ -1,4 +1,4 @@
-package usecase.main_menu;
+package use_case.main_menu;
 
 public interface MainMenuOutputBoundary {
 
