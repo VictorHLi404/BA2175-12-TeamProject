@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.UUID;
 public class Quiz {
     private UUID quizId;
-    private List<Question> questions;
+    private List<UUID> questions;
     private boolean isCustom;
     private int length;
 
-    public Quiz(List<Question> questions, boolean isCustom, int length) {
+    public Quiz(List<UUID> questions, boolean isCustom, int length) {
         this.quizId = UUID.randomUUID();
         this.questions = questions;
         this.isCustom = isCustom;
@@ -17,16 +17,16 @@ public class Quiz {
 
     // getters
     public UUID getQuizId() { return quizId; }
-    public List<Question> getQuestions() {return questions;}
+    public List<UUID> getQuestions() {return questions;}
     public boolean getIsCustom() {return isCustom;}
     public int getLength() {return length;}
 
     public void addQuestion(Question question) {
-        questions.add(question);
+        questions.add(question.getQuestionId());
     }
 
     public void removeQuestion(Question question) {
-        questions.remove(question);
+        questions.remove(question.getQuestionId());
     }
 
 }
