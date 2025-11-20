@@ -11,6 +11,7 @@ public class QuizResults {
     private List<String> answers;
     private int score;
 
+
     public QuizResults(Quiz quiz, List<String> answers) {
         this.quizResultsId = quiz.getQuizId();
         this.questions = quiz.getQuestionIds();

@@ -1,3 +1,4 @@
+package api;
 import api.TriviaDataBase;
 import entities.Question;
 import org.junit.jupiter.api.Test;
