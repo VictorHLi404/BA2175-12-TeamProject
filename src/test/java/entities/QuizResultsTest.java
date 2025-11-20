@@ -2,7 +2,14 @@ package entities;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import persistence.JsonFileDataStore;
+import persistence.JsonFileReader;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -11,18 +18,34 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class QuizResultsTest {
 
-    private List<Question> questions;
+    private static final Path DATA_DIR = Path.of("data");
+    private static final Path QUESTIONS_FILE = DATA_DIR.resolve("questions.json");
+
+    private List<UUID> questionsIds;
     private Quiz quiz;
+    private JsonFileDataStore writer;
+    private JsonFileReader reader;
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws IOException {
+
+        writer = new JsonFileDataStore();
+        Files.createDirectories(DATA_DIR);
+        Files.deleteIfExists(QUESTIONS_FILE);
+
         Question q1 = new Question("multiple", "easy", "1 + 1 = ?", List.of("1", "2", "3"), "2", false);
         Question q2 = new Question("multiple", "medium", "Capital of France?", List.of("Paris", "London", "Berlin"), "Paris", true);
         Question q3 = new Question("boolean", "hard", "The sun is a star.", List.of("True", "False"), "True", false);
 
-        quiz.addQuestionId(q1.getQuestionId());
-        quiz.addQuestionId(q2.getQuestionId());
-        quiz.addQuestionId(q3.getQuestionId());
+        writer.saveQuestion(q1);
+        writer.saveQuestion(q2);
+        writer.saveQuestion(q3);
+
+        questionsIds = new ArrayList<>();
+        questionsIds.add(q1.getQuestionId());
+        questionsIds.add(q2.getQuestionId());
+        questionsIds.add(q3.getQuestionId());
+        quiz = new Quiz(questionsIds, true, questionsIds.size());
     }
 
     @Test

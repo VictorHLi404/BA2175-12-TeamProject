@@ -109,7 +109,7 @@ public class JsonFileDataStore implements DataStore {
     public void saveQuestion(Question question) {
         Map<UUID, Question> allQuestions = loadAllQuestions();
         allQuestions.put(question.getQuestionId(), question);
-        writeJsonToFile(QUIZZES_FILE, allQuestions);
+        writeJsonToFile(QUESTIONS_FILE, allQuestions);
     }
 
     public Map<UUID, Question> loadAllQuestions() {
