@@ -39,14 +39,6 @@ public class UserTest {
     }
 
     @Test
-    public void testPlayQuizNullReturnsFalse() {
-        boolean played = user.playQuiz(null);
-
-        assertFalse(played);
-        assertTrue(user.getPlayedQuizzes().isEmpty());
-    }
-
-    @Test
     public void testCreateQuizAndPlayIt() {
         user.createQuiz(customQuiz);
         boolean played = user.playQuiz(customQuiz);

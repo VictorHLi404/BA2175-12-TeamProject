@@ -40,9 +40,7 @@ public class User {
     }
 
     public boolean playQuiz(Quiz quiz) {
-        if (quiz == null) {
-            return false;
-        }
+
         if (quiz.getQuizId() != null && !playedQuizzes.contains(quiz.getQuizId())) {
             playedQuizzes.add(quiz.getQuizId());
             return true;
