@@ -21,7 +21,7 @@ public interface DataStore {
 
     Quiz loadQuiz(UUID quizId);
 
-    void saveQuestion(UUID questionId);
+    void saveQuestion(Question question);
 
     Map<String, Integer> getCategoryToIdMapping();
 
