@@ -97,7 +97,15 @@ public class JsonFileReaderTest {
         assertFalse(loadedQuestion.getIsCustom());
     }
 
+    void testLoadAllQuestionsWhenFileDoesNotExist() {
+        java.io.File f = new java.io.File("data/questions.json");
+        if (f.exists()) f.delete();
 
+        var questions = reader.loadAllQuestions();
+
+        assertNotNull(questions, "Returned map should not be null");
+        assertTrue(questions.isEmpty(), "Map should be empty when file does not exist");
+    }
 
 
 }
