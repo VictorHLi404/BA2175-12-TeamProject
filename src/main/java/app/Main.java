@@ -7,10 +7,13 @@ import java.awt.event.*;
 public class Main {
 
     public static void main(String[] args) {
-//        new Main();
         AppBuilder appBuilder = new AppBuilder();
         JFrame application = appBuilder
+                .addSignupView()
                 .addMainMenuView()
+                .addLoginView()
+                .addSignupUseCase()
+                .addLoginUseCase()
                 .build();
         application.pack();
         application.setLocationRelativeTo(null);
