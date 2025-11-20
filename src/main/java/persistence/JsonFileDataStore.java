@@ -107,9 +107,9 @@ public class JsonFileDataStore implements DataStore {
     // ================= 测验 =================
     @Override
     public void saveQuestion(Question question) {
-        Map<UUID, Question> allQuizzes = loadAllQuestions();
-        allQuizzes.put(question.getQuestionId(), question);
-        writeJsonToFile(QUIZZES_FILE, allQuizzes);
+        Map<UUID, Question> allQuestions = loadAllQuestions();
+        allQuestions.put(question.getQuestionId(), question);
+        writeJsonToFile(QUIZZES_FILE, allQuestions);
     }
 
     public Map<UUID, Question> loadAllQuestions() {
