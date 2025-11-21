@@ -7,13 +7,15 @@ import java.util.UUID;
 
 public class QuizResults {
     private UUID quizResultsId;
+    private UUID userId;
     private List<UUID> questions;
     private List<String> answers;
     private int score;
 
 
-    public QuizResults(Quiz quiz, List<String> answers) {
+    public QuizResults(Quiz quiz, UUID userId, List<String> answers) {
         this.quizResultsId = quiz.getQuizId();
+        this.userId = userId;
         this.questions = quiz.getQuestionIds();
         this.answers = answers;
         this.score = calculateScore();

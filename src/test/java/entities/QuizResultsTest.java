@@ -52,7 +52,7 @@ public class QuizResultsTest {
     public void testAllAnswersCorrect() {
         List<String> answers = List.of("2", "Paris", "True");
 
-        QuizResults results = new QuizResults(quiz, answers);
+        QuizResults results = new QuizResults(quiz, UUID.randomUUID(), answers);
 
         assertEquals(3, results.getScore());
     }
@@ -61,7 +61,7 @@ public class QuizResultsTest {
     public void testSomeAnswersIncorrect() {
         List<String> answers = List.of("2", "London", "False");
 
-        QuizResults results = new QuizResults(quiz, answers);
+        QuizResults results = new QuizResults(quiz, UUID.randomUUID(), answers);
 
         assertEquals(1, results.getScore());  // only first is correct
     }
@@ -70,7 +70,7 @@ public class QuizResultsTest {
     public void testNoAnswersCorrect() {
         List<String> answers = List.of("3", "Berlin", "False");
 
-        QuizResults results = new QuizResults(quiz, answers);
+        QuizResults results = new QuizResults(quiz, UUID.randomUUID(), answers);
 
         assertEquals(0, results.getScore());
     }
@@ -79,7 +79,7 @@ public class QuizResultsTest {
     public void testMoreAnswersThanQuestions() {
         List<String> answers = List.of("2", "Paris", "True", "Extra");
 
-        QuizResults results = new QuizResults(quiz, answers);
+        QuizResults results = new QuizResults(quiz, UUID.randomUUID(), answers);
 
         assertEquals(3, results.getScore());  //extra answer ignored
     }
@@ -88,7 +88,7 @@ public class QuizResultsTest {
     public void testFewerAnswersThanQuestions() {
         List<String> answers = List.of("2", "Paris");
 
-        QuizResults results = new QuizResults(quiz, answers);
+        QuizResults results = new QuizResults(quiz, UUID.randomUUID(), answers);
 
         assertEquals(2, results.getScore());  // only first two checked
     }
