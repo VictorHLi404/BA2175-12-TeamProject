@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class QuizResults {
     private UUID quizResultsId;
+    private UUID quizId;
     private UUID userId;
     private List<UUID> questions;
     private List<String> answers;
@@ -14,7 +15,8 @@ public class QuizResults {
 
 
     public QuizResults(Quiz quiz, UUID userId, List<String> answers) {
-        this.quizResultsId = quiz.getQuizId();
+        this.quizResultsId = UUID.randomUUID();
+        this.quizId = quiz.getQuizId();
         this.userId = userId;
         this.questions = quiz.getQuestionIds();
         this.answers = answers;
@@ -34,5 +36,6 @@ public class QuizResults {
     }
 
     public int getScore() { return score; }
+
     public UUID getQuizResultsId() { return quizResultsId; }
 }
