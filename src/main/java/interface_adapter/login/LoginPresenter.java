@@ -24,7 +24,6 @@ public class LoginPresenter implements LoginOutputBoundary {
 
     @Override
     public void prepareSuccessView(LoginOutputData response) {
-        // On success, update the loggedInViewModel's state
 
         // and clear everything from the LoginViewModel's state
         loginViewModel.setState(new LoginState());

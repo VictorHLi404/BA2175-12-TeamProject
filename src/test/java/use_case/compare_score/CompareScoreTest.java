@@ -49,6 +49,8 @@ class CompareScoreTest {
         questionsIds.add(q2.getQuestionId());
         questionsIds.add(q3.getQuestionId());
         quiz = new Quiz(questionsIds, true, questionsIds.size());
+
+        writer.saveQuiz(quiz);
     }
 
     @Test
