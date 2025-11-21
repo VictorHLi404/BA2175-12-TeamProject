@@ -1,11 +1,13 @@
 package app;
 
+import entities.User;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.ViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
 import interface_adapter.main_menu.MainMenuViewModel;
+import interface_adapter.session.SessionManager;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
@@ -39,6 +41,8 @@ public class AppBuilder {
     private SignupViewModel signupViewModel;
     private LoginView loginView;
     private LoginViewModel loginViewModel;
+
+    private SessionManager currentSession = new SessionManager();
 
     private final DataStore userDataWriteObject = new JsonFileDataStore();
     private final FileReaderGateway userDataReadObject = new JsonFileReader();
@@ -84,7 +88,7 @@ public class AppBuilder {
                 new LoginPresenter(viewManagerModel, mainMenuViewModel, loginViewModel);
 
         final LoginInputBoundary loginInteractor =
-                new LoginInteractor(userDataReadObject, userDataWriteObject, loginOutputBoundary);
+                new LoginInteractor(userDataReadObject, userDataWriteObject, loginOutputBoundary, currentSession);
 
         LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
