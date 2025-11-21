@@ -1,5 +1,6 @@
 package persistence;
 
+import entities.Question;
 import entities.User;
 import entities.Quiz;
 import java.util.List;
@@ -15,4 +16,8 @@ public interface FileReaderGateway {
     Quiz loadQuiz(UUID quizId);
 
     Map<UUID, Quiz> loadAllQuizzes();
+
+    Question loadQuestions(UUID questionId);
+
+    Map<UUID, Question> loadAllQuestions();
 }

@@ -2,6 +2,7 @@ package persistence;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import entities.Question;
 import entities.User;
 import entities.Quiz;
 
@@ -19,6 +20,7 @@ public class JsonFileDataStore implements DataStore {
     private static final String DATA_DIR = "data";
     private static final String USERS_FILE = DATA_DIR + "/users.json";
     private static final String QUIZZES_FILE = DATA_DIR + "/quizzes.json";
+    private static final String QUESTIONS_FILE = DATA_DIR + "/questions.json";
     private static final String CATEGORY_TO_ID_MAPPING_FILE =  DATA_DIR + "/category_mapping/category_to_id_mapping.json";
     private static final String ID_TO_CATEGORY_MAPPING_FILE =  DATA_DIR + "/category_mapping/id_to_category_mapping.json";
     private final Gson gson = new Gson();
@@ -91,28 +93,19 @@ public class JsonFileDataStore implements DataStore {
 
     @Override
     public void saveQuiz(Quiz quiz) {
-        Map<UUID, Quiz> allQuizzes = loadAllQuizzes();
+        JsonFileReader reader = new JsonFileReader();
+        Map<UUID, Quiz> allQuizzes = reader.loadAllQuizzes();
         allQuizzes.put(quiz.getQuizId(), quiz);
         writeJsonToFile(QUIZZES_FILE, allQuizzes);
     }
 
+    // ================= 测验 =================
     @Override
-    public Quiz loadQuiz(UUID quizId) {
-        Map<UUID, Quiz> allQuizzes = loadAllQuizzes();
-        return allQuizzes.get(quizId);
-    }
-
-    private Map<UUID, Quiz> loadAllQuizzes() {
-        if (!Files.exists(Paths.get(QUIZZES_FILE))) {
-            return new HashMap<>();
-        }
-        try (Reader reader = new FileReader(QUIZZES_FILE)) {
-            Type type = new TypeToken<Map<UUID, Quiz>>() {}.getType();
-            Map<UUID, Quiz> quizzes = gson.fromJson(reader, type);
-            return quizzes != null ? quizzes : new HashMap<>();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void saveQuestion(Question question) {
+        JsonFileReader reader = new JsonFileReader();
+        Map<UUID, Question> allQuestions = reader.loadAllQuestions();
+        allQuestions.put(question.getQuestionId(), question);
+        writeJsonToFile(QUESTIONS_FILE, allQuestions);
     }
 
     // ================= 通用写文件方法 =================
