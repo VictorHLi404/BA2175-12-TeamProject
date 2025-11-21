@@ -38,4 +38,8 @@ public class QuizResults {
     public int getScore() { return score; }
 
     public UUID getQuizResultsId() { return quizResultsId; }
+
+    public UUID getQuizId() { return quizId; }
+
+    public UUID getUserId() { return userId; }
 }
