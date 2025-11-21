@@ -1,6 +1,7 @@
 package persistence;
 
 import entities.Question;
+import entities.QuizResults;
 import entities.User;
 import entities.Quiz;
 
@@ -16,6 +17,8 @@ public interface DataStore {
     void saveQuiz(Quiz quiz);
 
     void saveQuestion(Question question);
+
+    void saveQuizResults(QuizResults quizResults);
 
     Map<String, Integer> getCategoryToIdMapping();
 
