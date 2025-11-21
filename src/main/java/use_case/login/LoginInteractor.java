@@ -1,6 +1,7 @@
 package use_case.login;
 
 import entities.User;
+import interface_adapter.session.SessionManager;
 import persistence.DataStore;
 import persistence.FileReaderGateway;
 
@@ -11,13 +12,16 @@ public class LoginInteractor implements LoginInputBoundary {
     private final DataStore userDataWriteObject;
     private final FileReaderGateway userDataReadObject;
     private final LoginOutputBoundary loginPresenter;
+    private final SessionManager currentSession;
 
     public LoginInteractor(FileReaderGateway userDataReadObject,
                            DataStore userDataWriteObject,
-                           LoginOutputBoundary loginOutputBoundary) {
+                           LoginOutputBoundary loginOutputBoundary,
+                           SessionManager currentSession) {
         this.userDataWriteObject = userDataWriteObject;
         this.userDataReadObject = userDataReadObject;
         this.loginPresenter = loginOutputBoundary;
+        this.currentSession = currentSession;
     }
 
     @Override
@@ -35,8 +39,7 @@ public class LoginInteractor implements LoginInputBoundary {
             else {
 
                 final User user = userDataReadObject.loadUser(username);
-
-                //TODO: Implement logic to keep track of the current user throughout the application
+                this.currentSession.setCurrentUser(user);
 
                 final LoginOutputData loginOutputData = new LoginOutputData(user.getUsername());
                 loginPresenter.prepareSuccessView(loginOutputData);
