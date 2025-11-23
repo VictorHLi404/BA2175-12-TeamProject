@@ -1,8 +1,6 @@
 package app;
 
-import entities.User;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.ViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -11,6 +9,19 @@ import interface_adapter.session.SessionManager;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+
+import interface_adapter.customize_quiz.CustomizeQuizController;
+import interface_adapter.customize_quiz.CustomizeQuizPresenter;
+import interface_adapter.customize_quiz.CustomizeQuizViewModel;
+
+import use_case.customize_quiz.CustomizeQuizDataAccessInterface;
+import use_case.customize_quiz.CustomizeQuizInputBoundary;
+import use_case.customize_quiz.CustomizeQuizInteractor;
+import use_case.customize_quiz.CustomizeQuizOutputBoundary;
+
+import data_access.CustomizeQuizAPIDataAccessObject;
+import view.CustomizeQuizView;
+
 import persistence.DataStore;
 import persistence.FileReaderGateway;
 import persistence.JsonFileDataStore;
@@ -41,6 +52,8 @@ public class AppBuilder {
     private SignupViewModel signupViewModel;
     private LoginView loginView;
     private LoginViewModel loginViewModel;
+    private CustomizeQuizView customizeQuizView;
+    private CustomizeQuizViewModel customizeQuizViewModel;
 
     private SessionManager currentSession = new SessionManager();
 
@@ -94,6 +107,36 @@ public class AppBuilder {
         loginView.setLoginController(loginController);
         return this;
     }
+
+    public AppBuilder addCustomizeQuizUseCase() {
+
+        customizeQuizViewModel = new CustomizeQuizViewModel();
+
+        CustomizeQuizOutputBoundary outputBoundary =
+                new CustomizeQuizPresenter(customizeQuizViewModel);
+
+        CustomizeQuizDataAccessInterface customizeQuizDAO =
+                new CustomizeQuizAPIDataAccessObject();
+
+        CustomizeQuizInputBoundary customizeQuizInteractor =
+                new CustomizeQuizInteractor(customizeQuizDAO, outputBoundary);
+
+        CustomizeQuizController customizeQuizController =
+                new CustomizeQuizController(customizeQuizInteractor);
+
+        customizeQuizView =
+                new CustomizeQuizView(customizeQuizController, customizeQuizViewModel);
+
+        cardPanel.add(customizeQuizView, customizeQuizView.getViewName());
+
+        mainMenuView.addPlayAction(() -> {
+            viewManagerModel.setState("customize quiz");
+            viewManagerModel.firePropertyChange();
+        });
+
+        return this;
+    }
+
 
     public JFrame build() {
         final JFrame application = new JFrame();

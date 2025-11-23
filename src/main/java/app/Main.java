@@ -14,6 +14,7 @@ public class Main {
                 .addLoginView()
                 .addSignupUseCase()
                 .addLoginUseCase()
+                .addCustomizeQuizUseCase()
                 .build();
         application.pack();
         application.setLocationRelativeTo(null);

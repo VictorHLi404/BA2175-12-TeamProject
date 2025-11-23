@@ -15,6 +15,7 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
     private final String viewName = "Main Menu";
     private final MainMenuViewModel mainMenuViewModel;
     private MainMenuController mainMenuController;
+    private JButton play;
 
     public MainMenuView(MainMenuViewModel mainMenuViewModel) {
         this.mainMenuViewModel = mainMenuViewModel;
@@ -32,7 +33,7 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
         gbc.fill = GridBagConstraints.NORTH;
         this.add(titleCard, gbc);
 
-        JButton play = new JButton(MainMenuViewModel.PLAY_BUTTON_LABEL);
+        play = new JButton(MainMenuViewModel.PLAY_BUTTON_LABEL);
         play.setFont(new Font("Times New Roman", Font.PLAIN, 32));
         play.setPreferredSize(new Dimension(400, 150));
         play.setBackground(Color.GREEN);
@@ -85,5 +86,9 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
 
     public void setMainMenuController(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
+    }
+
+    public void addPlayAction(Runnable action) {
+        play.addActionListener(e -> action.run());
     }
 }
