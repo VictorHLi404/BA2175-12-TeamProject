@@ -45,5 +45,6 @@ public class CustomizeQuizInteractor implements CustomizeQuizInputBoundary {
         } catch (IOException e) {
             presenter.prepareFailView("Failed to fetch customized questions: " + e.getMessage());
         }
+
     }
 }

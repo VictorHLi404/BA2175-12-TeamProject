@@ -5,3 +5,4 @@ public interface CustomizeQuizOutputBoundary {
     void prepareSuccessView(CustomizeQuizOutputData outputData);
     void prepareFailView(String error);
 }
+

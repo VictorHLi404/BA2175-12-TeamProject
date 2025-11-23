@@ -16,3 +16,4 @@ public class CustomizeQuizOutputData {
     public String getMessage() { return message; }
     public boolean isSuccess() { return success; }
 }
+
