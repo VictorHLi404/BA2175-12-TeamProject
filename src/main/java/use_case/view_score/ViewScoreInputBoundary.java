@@ -13,4 +13,5 @@ public interface ViewScoreInputBoundary {
      */
     void execute(ViewScoreInputData viewScoreInputData);
 
+    public void switchToMainMenuView();
 }
