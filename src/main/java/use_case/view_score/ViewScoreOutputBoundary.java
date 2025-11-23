@@ -13,5 +13,7 @@ public interface ViewScoreOutputBoundary {
 
     void prepareNoResultsView(String username);
 
-    void prepareFailView(String username);
+    void prepareFailView(String error);
+
+    void switchToMainMenuView();
 }
