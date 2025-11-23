@@ -4,11 +4,10 @@ import interface_adapter.ViewModel;
 
 public class ViewScoreViewModel extends ViewModel<ViewScoreState> {
 
-    public static final String SELECT_USER_LABEL = "Select user";
-    public static final String VIEW_SCORE_LABEL = "View Score";
+    public static final String VIEW_SCORE_LABEL = "view Score";
 
     public ViewScoreViewModel() {
-        super("view Score");
+        super(VIEW_SCORE_LABEL);
         setState(new ViewScoreState());
     }
 }
