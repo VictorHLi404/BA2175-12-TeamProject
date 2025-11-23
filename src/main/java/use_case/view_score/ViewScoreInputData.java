@@ -12,22 +12,16 @@ import java.util.UUID;
 public class ViewScoreInputData {
 
     private final String username;
-    private final UUID userId;
 
 
     public ViewScoreInputData(String username) {
         this.username = username;
-        this.userId = getUserId();
 
     }
 
     String getUsername() {
         return username;
     }
-    UUID getUserId() {
-        JsonFileReader reader = new  JsonFileReader();
-        User user = reader.loadUser(username);
-        return user.getUserId();
-    }
+
 
 }
