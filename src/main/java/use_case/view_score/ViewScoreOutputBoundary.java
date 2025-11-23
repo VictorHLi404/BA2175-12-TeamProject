@@ -11,4 +11,7 @@ public interface ViewScoreOutputBoundary {
      */
     void prepareSuccessView(ViewScoreOutputData outputData);
 
+    void prepareNoResultsView(String username);
+
+    void prepareFailView(String username);
 }
