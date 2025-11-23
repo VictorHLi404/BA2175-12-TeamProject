@@ -10,8 +10,8 @@ public class Main {
         AppBuilder appBuilder = new AppBuilder();
         JFrame application = appBuilder
                 .addSignupView()
-                .addViewScoreComponents()
                 .addMainMenuView()
+                .addViewScoreComponents()
                 .addLoginView()
                 .addSignupUseCase()
                 .addLoginUseCase()
