@@ -1,6 +1,8 @@
 package view;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.view_score.ViewScoreController;
+import interface_adapter.view_score.ViewScoreState;
 import interface_adapter.view_score.ViewScoreViewModel;
 
 import javax.swing.*;
@@ -14,10 +16,16 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
     private final String viewName = "view Score";
     private final ViewScoreViewModel viewScoreViewModel;
+    private final ViewManagerModel viewManagerModel;
     private ViewScoreController viewScoreController;
 
-    public ViewScoreView(ViewScoreViewModel viewScoreViewModel) {
+    private final JButton viewScoreButton;
+    private final JButton backButton;
+
+
+    public ViewScoreView(ViewScoreViewModel viewScoreViewModel, ViewManagerModel viewManagerModel) {
         this.viewScoreViewModel = viewScoreViewModel;
+        this.viewManagerModel = viewManagerModel;
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.GRAY);
         this.viewScoreViewModel.addPropertyChangeListener(this);
@@ -32,16 +40,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         gbc.fill = GridBagConstraints.NORTH;
         this.add(titleCard, gbc);
 
-        JButton selectUserButton = new JButton(viewScoreViewModel.SELECT_USER_LABEL);
-        selectUserButton.setFont(new Font("Times New Roman", Font.PLAIN, 32));
-        selectUserButton.setPreferredSize(new Dimension(400, 150));
-        selectUserButton.setBackground(Color.GREEN);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weighty = 1;
-        this.add(selectUserButton, gbc);
-
-        JButton viewScoreButton = new JButton(viewScoreViewModel.VIEW_SCORE_LABEL);
+        viewScoreButton = new JButton(viewScoreViewModel.VIEW_SCORE_LABEL);
         viewScoreButton.setFont(new Font("Times New Roman", Font.PLAIN, 32));
         viewScoreButton.setPreferredSize(new Dimension(400, 150));
         viewScoreButton.setBackground(Color.GREEN);
@@ -50,7 +49,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         gbc.weighty = 1;
         this.add(viewScoreButton, gbc);
 
-        JButton backButton = new JButton("Back");
+        backButton = new JButton("Back");
         backButton.setFont(new Font("Times New Roman", Font.PLAIN, 32));
         backButton.setPreferredSize(new Dimension(400, 150));
         backButton.setBackground(Color.GREEN);
@@ -58,6 +57,32 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         gbc.gridy = 3;
         gbc.weighty = 1;
         this.add(backButton, gbc);
+
+        viewScoreButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(viewScoreButton)){
+                            final ViewScoreState currentState = viewScoreViewModel.getState();
+
+                            viewScoreController.execute(currentState.getUsername());
+
+                        }
+                    }
+                }
+        );
+
+        backButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(backButton)){
+                            viewManagerModel.setState("main");
+                            viewManagerModel.firePropertyChange();
+                        }
+                    }
+                }
+        );
 
     }
 
