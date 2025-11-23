@@ -7,16 +7,16 @@ public class ViewScoreOutputData {
     private final String username;
     private final int score;
 
-    public ViewScoreOutputData(String username) {
+    public ViewScoreOutputData(String username, int score) {
         this.username = username;
-        this.score = getScore();
+        this.score = score;
     }
 
     public String getUsername() {
         return username;
     }
+
     public int getScore() {
-        ViewScore score =  new ViewScore();
-        return score.ViewAverageScore();
+        return score;
     }
 }
