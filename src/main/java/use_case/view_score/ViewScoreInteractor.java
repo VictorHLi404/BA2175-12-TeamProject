@@ -31,13 +31,14 @@ public class ViewScoreInteractor implements ViewScoreInputBoundary
 
         String username = viewScoreInputData.getUsername();
         User user = userDataReadObject.loadUser(username);
-        UUID userID = user.getUserId();
 
         if (user == null) {
+
             viewScoreOutputBoundary.prepareFailView(username);
             return;
         }
 
+        UUID userID = user.getUserId();
         Map<UUID, QuizResults> allQuizResults = userDataReadObject.loadAllQuizResults();
         List<UUID> userQuizResult = new ArrayList<>();
         int totalQuestions = 0;

@@ -23,7 +23,7 @@ public class ViewScoreController {
     /**
      * Executes the "switch to LoginView" Use Case.
      */
-    public void switchToLoginView() {
+    public void switchToMainMenuView() {
         viewScoreInteractor.switchToMainMenuView();
     }
 }
