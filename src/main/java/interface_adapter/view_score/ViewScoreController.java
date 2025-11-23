@@ -5,11 +5,11 @@ import use_case.view_score.ViewScoreInputData;
 
 public class ViewScoreController {
 
-    private final ViewScoreInputBoundary viewScoreInputBoundary;
+    private final ViewScoreInputBoundary viewScoreInteractor;
             ;
 
     public ViewScoreController(ViewScoreInputBoundary viewScoreInteractor) {
-        this.viewScoreInputBoundary = viewScoreInteractor;
+        this.viewScoreInteractor = viewScoreInteractor;
     }
 
     /**
@@ -18,6 +18,12 @@ public class ViewScoreController {
      */
     public void execute(String username) {
         final ViewScoreInputData viewScoreInputData = new ViewScoreInputData(username);
-        viewScoreInputBoundary.execute(viewScoreInputData);
+        viewScoreInteractor.execute(viewScoreInputData);
+    }
+    /**
+     * Executes the "switch to LoginView" Use Case.
+     */
+    public void switchToLoginView() {
+        viewScoreInteractor.switchToMainMenuView();
     }
 }

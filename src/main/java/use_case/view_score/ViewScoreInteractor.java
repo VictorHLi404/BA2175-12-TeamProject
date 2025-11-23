@@ -57,5 +57,9 @@ public class ViewScoreInteractor implements ViewScoreInputBoundary
             ViewScoreOutputData outputData = new ViewScoreOutputData(username, scorePercentage);
             viewScoreOutputBoundary.prepareSuccessView(outputData);
         }
+
+    }
+    public void switchToMainMenuView() {
+        viewScoreOutputBoundary.switchToMainMenuView();
     }
 }
