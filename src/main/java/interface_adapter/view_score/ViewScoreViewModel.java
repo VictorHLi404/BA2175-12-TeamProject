@@ -9,5 +9,6 @@ public class ViewScoreViewModel extends ViewModel {
 
     public ViewScoreViewModel() {
         super("view Score");
+        setState(new ViewScoreState());
     }
 }
