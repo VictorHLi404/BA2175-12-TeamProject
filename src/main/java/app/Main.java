@@ -17,6 +17,7 @@ public class Main {
                 .addLoginUseCase()
                 .addPlayQuizView()
                 .addPlayQuizUseCase()
+                .addCustomizeQuizUseCase()
                 .addMainMenuUseCases()
                 .build();
         application.pack();

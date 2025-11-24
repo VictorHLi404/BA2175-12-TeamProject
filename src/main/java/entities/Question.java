@@ -14,7 +14,7 @@ public class Question {
     private String category;
 
     public Question(String format, String difficulty, String question, List<String> choices, String correctChoice
-    , Boolean isCustom, String category) {
+            , Boolean isCustom, String category) {
         this.questionId = UUID.randomUUID();
         this.format = format;
         this.difficulty = difficulty;
