@@ -1,19 +1,26 @@
 package persistence;
 
+import entities.Question;
+import entities.QuizResults;
 import entities.User;
 import entities.Quiz;
 
-public interface DataStore {
+import java.util.Map;
+import java.util.UUID;
 
+public interface DataStore {
 
     void saveUser(User user);
 
-
     User loadUser(String username);
-
 
     void saveQuiz(Quiz quiz);
 
+    void saveQuestion(Question question);
 
-    Quiz loadQuiz(int quizId);
+    void saveQuizResults(QuizResults quizResults);
+
+    Map<String, Integer> getCategoryToIdMapping();
+
+    Map<Integer, String> getIdToCategoryMapping();
 }
