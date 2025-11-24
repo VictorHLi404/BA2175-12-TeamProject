@@ -1,5 +1,6 @@
 package view;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.main_menu.MainMenuController;
 import interface_adapter.main_menu.MainMenuViewModel;
 
@@ -15,9 +16,11 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
     private final String viewName = "Main Menu";
     private final MainMenuViewModel mainMenuViewModel;
     private MainMenuController mainMenuController;
+    private ViewManagerModel viewManagerModel;
 
-    public MainMenuView(MainMenuViewModel mainMenuViewModel) {
+    public MainMenuView(MainMenuViewModel mainMenuViewModel,  ViewManagerModel viewManagerModel) {
         this.mainMenuViewModel = mainMenuViewModel;
+        this.viewManagerModel = viewManagerModel;
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.GRAY);
         mainMenuViewModel.addPropertyChangeListener(this);
@@ -73,6 +76,14 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
         gbc.weighty = 1;
         this.add(viewScores, gbc);
 
+        viewScores.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                if (e.getSource().equals(viewScores)){
+                    mainMenuController.switchToViewScore();
+                }
+            }
+
+        });
     }
 
     @Override
