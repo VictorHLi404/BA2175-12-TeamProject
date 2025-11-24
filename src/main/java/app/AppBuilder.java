@@ -1,16 +1,35 @@
 package app;
 
-import entities.User;
 import interface_adapter.ViewManagerModel;
-import interface_adapter.ViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.main_menu.MainMenuController;
+import interface_adapter.main_menu.MainMenuPresenter;
 import interface_adapter.main_menu.MainMenuViewModel;
+import interface_adapter.play.PlayQuizController;
+import interface_adapter.play.PlayQuizPresenter;
+import interface_adapter.play.PlayQuizViewModel;
 import interface_adapter.session.SessionManager;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+
+import interface_adapter.customize_quiz.CustomizeQuizController;
+import interface_adapter.customize_quiz.CustomizeQuizPresenter;
+import interface_adapter.customize_quiz.CustomizeQuizViewModel;
+
+import use_case.customize_quiz.CustomizeQuizDataAccessInterface;
+import use_case.customize_quiz.CustomizeQuizInputBoundary;
+import use_case.customize_quiz.CustomizeQuizInteractor;
+import use_case.customize_quiz.CustomizeQuizOutputBoundary;
+
+import data_access.CustomizeQuizAPIDataAccessObject;
+import view.CustomizeQuizView;
+
+import interface_adapter.view_score.ViewScoreController;
+import interface_adapter.view_score.ViewScorePresenter;
+import interface_adapter.view_score.ViewScoreViewModel;
 import persistence.DataStore;
 import persistence.FileReaderGateway;
 import persistence.JsonFileDataStore;
@@ -18,13 +37,18 @@ import persistence.JsonFileReader;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
+import use_case.play.PlayQuizInputBoundary;
+import use_case.play.PlayQuizInteractor;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
-import view.LoginView;
-import view.MainMenuView;
-import view.SignupView;
-import view.ViewManager;
+import use_case.main_menu.MainMenuInputBoundary;
+import use_case.main_menu.MainMenuInteractor;
+import use_case.main_menu.MainMenuOutputBoundary;
+import use_case.view_score.ViewScoreInputBoundary;
+import use_case.view_score.ViewScoreInteractor;
+import use_case.view_score.ViewScoreOutputBoundary;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,6 +65,13 @@ public class AppBuilder {
     private SignupViewModel signupViewModel;
     private LoginView loginView;
     private LoginViewModel loginViewModel;
+    private PlayQuizView playQuizView;
+    private PlayQuizViewModel playQuizViewModel;
+
+    private CustomizeQuizView customizeQuizView;
+    private CustomizeQuizViewModel customizeQuizViewModel;
+    private ViewScoreViewModel viewScoreViewModel;
+    private ViewScoreView viewScoreView;
 
     private SessionManager currentSession = new SessionManager();
 
@@ -53,8 +84,14 @@ public class AppBuilder {
 
     public AppBuilder addMainMenuView() {
         mainMenuViewModel = new MainMenuViewModel();
-        mainMenuView = new MainMenuView(mainMenuViewModel);
+        mainMenuView = new MainMenuView(mainMenuViewModel,viewManagerModel);
         cardPanel.add(mainMenuView, mainMenuView.getViewName());
+
+        MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuViewModel, viewManagerModel);
+        MainMenuInteractor mainMenuInteractor = new MainMenuInteractor(mainMenuPresenter);
+        MainMenuController mainMenuController = new MainMenuController(mainMenuInteractor);
+        mainMenuView.setMainMenuController(mainMenuController);
+
         return this;
     }
 
@@ -63,6 +100,25 @@ public class AppBuilder {
         signupView = new SignupView(signupViewModel);
         cardPanel.add(signupView, signupView.getViewName());
 
+        return this;
+    }
+
+    public AppBuilder addViewScoreComponents() {
+        viewScoreViewModel = new ViewScoreViewModel();
+
+        ViewScoreOutputBoundary viewScoreOutputBoundary =
+                new ViewScorePresenter(viewScoreViewModel, mainMenuViewModel, viewManagerModel);
+
+        ViewScoreInputBoundary viewScoreInputBoundary =
+                new ViewScoreInteractor(userDataReadObject, viewScoreOutputBoundary);
+
+        ViewScoreController viewScoreController =
+                new ViewScoreController(viewScoreInputBoundary);
+
+        viewScoreView = new ViewScoreView(viewScoreViewModel, viewManagerModel);
+        viewScoreView.setViewScoreController(viewScoreController);
+
+        cardPanel.add(viewScoreView, "view Score");
         return this;
     }
 
@@ -85,7 +141,7 @@ public class AppBuilder {
 
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary =
-                new LoginPresenter(viewManagerModel, mainMenuViewModel, loginViewModel);
+                new LoginPresenter(viewManagerModel, mainMenuViewModel, loginViewModel,viewScoreViewModel);
 
         final LoginInputBoundary loginInteractor =
                 new LoginInteractor(userDataReadObject, userDataWriteObject, loginOutputBoundary, currentSession);
@@ -94,6 +150,72 @@ public class AppBuilder {
         loginView.setLoginController(loginController);
         return this;
     }
+    public AppBuilder addMainMenuUseCases() {
+        final MainMenuOutputBoundary mainMenuOutputBoundary = new MainMenuPresenter(mainMenuViewModel,viewManagerModel);
+        final MainMenuInputBoundary mainMenuInteractor = new MainMenuInteractor(mainMenuOutputBoundary);
+
+        MainMenuController mainMenuController = new MainMenuController(mainMenuInteractor);
+        mainMenuView.setMainMenuController(mainMenuController);
+        return this;
+    }
+
+    public AppBuilder addPlayQuizView() {
+        playQuizViewModel = new PlayQuizViewModel();
+        playQuizView = new PlayQuizView(playQuizViewModel.getState(), null); // controller set later
+        cardPanel.add(playQuizView, "playQuiz");
+        return this;
+    }
+
+    public AppBuilder addPlayQuizUseCase() {
+        // presenter
+        PlayQuizPresenter presenter = new PlayQuizPresenter(playQuizViewModel);
+
+        // interactor
+        PlayQuizInputBoundary interactor =
+                new PlayQuizInteractor(
+                        userDataReadObject,   // FileReaderGateway
+                        userDataWriteObject,  // DataStore
+                        presenter,            // OutputBoundary
+                        currentSession        // SessionManager
+                );
+
+        // controller
+        PlayQuizController controller = new PlayQuizController(interactor);
+
+        // connect controller to view
+        playQuizView.setPlayQuizController(controller);
+        return this;
+    }
+      
+    public AppBuilder addCustomizeQuizUseCase() {
+
+        customizeQuizViewModel = new CustomizeQuizViewModel();
+
+        CustomizeQuizOutputBoundary outputBoundary =
+                new CustomizeQuizPresenter(customizeQuizViewModel);
+
+        CustomizeQuizDataAccessInterface customizeQuizDAO =
+                new CustomizeQuizAPIDataAccessObject();
+
+        CustomizeQuizInputBoundary customizeQuizInteractor =
+                new CustomizeQuizInteractor(customizeQuizDAO, outputBoundary);
+
+        CustomizeQuizController customizeQuizController =
+                new CustomizeQuizController(customizeQuizInteractor);
+
+        customizeQuizView =
+                new CustomizeQuizView(customizeQuizController, customizeQuizViewModel);
+
+        cardPanel.add(customizeQuizView, customizeQuizView.getViewName());
+
+        mainMenuView.addPlayAction(() -> {
+            viewManagerModel.setState("customize quiz");
+            viewManagerModel.firePropertyChange();
+        });
+
+        return this;
+    }
+
 
     public JFrame build() {
         final JFrame application = new JFrame();

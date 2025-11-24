@@ -67,7 +67,7 @@ public class JsonFileReaderTest {
     @Test
     void testReadQuizAndQuestionDataFromFile() throws IOException {
         // Arrange – create one quiz and write manually to file
-        Question q1 = new Question("multiple", "easy", "1 + 1 = ?", List.of("1", "2", "3"), "2", false);
+        Question q1 = new Question("multiple", "easy", "1 + 1 = ?", List.of("1", "2", "3"), "2", false, "Science: Mathematics");
         List<UUID> questions = new ArrayList<>();
         UUID questiondId = q1.getQuestionId();
         questions.add(q1.getQuestionId());

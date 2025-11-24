@@ -1,6 +1,7 @@
 package interface_adapter.main_menu;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.view_score.ViewScoreViewModel;
 import use_case.main_menu.MainMenuOutputBoundary;
 
 public class MainMenuPresenter implements MainMenuOutputBoundary {
@@ -15,7 +16,8 @@ public class MainMenuPresenter implements MainMenuOutputBoundary {
 
     @Override
     public void switchToPlayView() {
-        // TODO: Put in code that switches to the play view
+        viewManagerModel.setState("playQuiz");
+        viewManagerModel.firePropertyChange();
     }
 
     @Override
@@ -25,6 +27,7 @@ public class MainMenuPresenter implements MainMenuOutputBoundary {
 
     @Override
     public void switchToPlayerHistoryView() {
-        // TODO: Put in code that switches to the the player history view
+        viewManagerModel.setState("view Score");
+        viewManagerModel.firePropertyChange();
     }
 }

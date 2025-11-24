@@ -1,7 +1,10 @@
 package view;
 
+import interface_adapter.ViewManagerModel;
 import interface_adapter.main_menu.MainMenuController;
 import interface_adapter.main_menu.MainMenuViewModel;
+import interface_adapter.view_score.ViewScoreController;
+import interface_adapter.view_score.ViewScoreViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +18,12 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
     private final String viewName = "Main Menu";
     private final MainMenuViewModel mainMenuViewModel;
     private MainMenuController mainMenuController;
+    private JButton play;
+    private ViewManagerModel viewManagerModel;
 
-    public MainMenuView(MainMenuViewModel mainMenuViewModel) {
+    public MainMenuView(MainMenuViewModel mainMenuViewModel,  ViewManagerModel viewManagerModel) {
         this.mainMenuViewModel = mainMenuViewModel;
+        this.viewManagerModel = viewManagerModel;
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.GRAY);
         mainMenuViewModel.addPropertyChangeListener(this);
@@ -32,7 +38,7 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
         gbc.fill = GridBagConstraints.NORTH;
         this.add(titleCard, gbc);
 
-        JButton play = new JButton(MainMenuViewModel.PLAY_BUTTON_LABEL);
+        play = new JButton(MainMenuViewModel.PLAY_BUTTON_LABEL);
         play.setFont(new Font("Times New Roman", Font.PLAIN, 32));
         play.setPreferredSize(new Dimension(400, 150));
         play.setBackground(Color.GREEN);
@@ -49,6 +55,12 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
         gbc.gridy = 2;
         gbc.weighty = 1;
         this.add(createQuiz, gbc);
+
+        play.addActionListener(e -> {
+            if (mainMenuController != null) {
+                mainMenuController.switchToPlayView();
+            }
+        });
 
         createQuiz.addActionListener (new ActionListener() {
 
@@ -67,6 +79,14 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
         gbc.weighty = 1;
         this.add(viewScores, gbc);
 
+        viewScores.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                if (e.getSource().equals(viewScores)){
+                    mainMenuController.switchToViewScore();
+                }
+            }
+
+        });
     }
 
     @Override
@@ -85,5 +105,9 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
 
     public void setMainMenuController(MainMenuController mainMenuController) {
         this.mainMenuController = mainMenuController;
+    }
+
+    public void addPlayAction(Runnable action) {
+        play.addActionListener(e -> action.run());
     }
 }

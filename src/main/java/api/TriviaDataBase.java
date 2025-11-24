@@ -83,8 +83,10 @@ public class TriviaDataBase implements TriviaFetcher {
                     }
                     choices.add(correctChoice);
                     Boolean isCustom = false;
+                    String category1 = questionJSON.getString("category");
 
-                    quiz[i] = new Question(format, dif, question, choices, correctChoice, isCustom);
+
+                    quiz[i] = new Question(format, dif, question, choices, correctChoice, isCustom, category1);
                 }
                 return quiz;
             } else {
