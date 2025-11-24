@@ -50,6 +50,28 @@ public class Main extends JFrame {
         gbc.weighty = 1;
         background.add(viewScores, gbc);
 
+        JButton instructions = new JButton("INSTRUCTIONS");
+        instructions.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+        instructions.setPreferredSize(new Dimension(300, 60));
+        instructions.setBackground(Color.GREEN);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.weighty = 1;
+        background.add(instructions, gbc);
+
+
+        instructions.addActionListener(e -> {
+            String instructionsText = InstructionsContent.getInstructions();
+
+            JOptionPane.showMessageDialog(
+                    frame,
+                    instructionsText,
+                    "Instructions",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
+
         frame.setVisible(true);
 
     }
