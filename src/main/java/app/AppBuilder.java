@@ -7,6 +7,9 @@ import interface_adapter.login.LoginViewModel;
 import interface_adapter.main_menu.MainMenuController;
 import interface_adapter.main_menu.MainMenuPresenter;
 import interface_adapter.main_menu.MainMenuViewModel;
+import interface_adapter.play.PlayQuizController;
+import interface_adapter.play.PlayQuizPresenter;
+import interface_adapter.play.PlayQuizViewModel;
 import interface_adapter.session.SessionManager;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
@@ -34,12 +37,14 @@ import persistence.JsonFileReader;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
-import use_case.main_menu.MainMenuInputBoundary;
-import use_case.main_menu.MainMenuInteractor;
-import use_case.main_menu.MainMenuOutputBoundary;
+import use_case.play.PlayQuizInputBoundary;
+import use_case.play.PlayQuizInteractor;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.main_menu.MainMenuInputBoundary;
+import use_case.main_menu.MainMenuInteractor;
+import use_case.main_menu.MainMenuOutputBoundary;
 import use_case.view_score.ViewScoreInputBoundary;
 import use_case.view_score.ViewScoreInteractor;
 import use_case.view_score.ViewScoreOutputBoundary;
@@ -60,6 +65,9 @@ public class AppBuilder {
     private SignupViewModel signupViewModel;
     private LoginView loginView;
     private LoginViewModel loginViewModel;
+    private PlayQuizView playQuizView;
+    private PlayQuizViewModel playQuizViewModel;
+
     private CustomizeQuizView customizeQuizView;
     private CustomizeQuizViewModel customizeQuizViewModel;
     private ViewScoreViewModel viewScoreViewModel;
@@ -78,6 +86,12 @@ public class AppBuilder {
         mainMenuViewModel = new MainMenuViewModel();
         mainMenuView = new MainMenuView(mainMenuViewModel,viewManagerModel);
         cardPanel.add(mainMenuView, mainMenuView.getViewName());
+
+        MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuViewModel, viewManagerModel);
+        MainMenuInteractor mainMenuInteractor = new MainMenuInteractor(mainMenuPresenter);
+        MainMenuController mainMenuController = new MainMenuController(mainMenuInteractor);
+        mainMenuView.setMainMenuController(mainMenuController);
+
         return this;
     }
 
@@ -145,6 +159,32 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addPlayQuizView() {
+        playQuizViewModel = new PlayQuizViewModel();
+        playQuizView = new PlayQuizView(playQuizViewModel.getState(), null); // controller set later
+        cardPanel.add(playQuizView, "playQuiz");
+        return this;
+    }
+
+    public AppBuilder addPlayQuizUseCase() {
+        // presenter
+        PlayQuizPresenter presenter = new PlayQuizPresenter(playQuizViewModel);
+
+        // interactor
+        PlayQuizInputBoundary interactor =
+                new PlayQuizInteractor(
+                        userDataReadObject,   // FileReaderGateway
+                        userDataWriteObject,  // DataStore
+                        presenter,            // OutputBoundary
+                        currentSession        // SessionManager
+                );
+
+        // controller
+        PlayQuizController controller = new PlayQuizController(interactor);
+
+        // connect controller to view
+        playQuizView.setPlayQuizController(controller);
+      
     public AppBuilder addCustomizeQuizUseCase() {
 
         customizeQuizViewModel = new CustomizeQuizViewModel();

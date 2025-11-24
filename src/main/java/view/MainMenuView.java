@@ -54,6 +54,12 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
         gbc.weighty = 1;
         this.add(createQuiz, gbc);
 
+        play.addActionListener(e -> {
+            if (mainMenuController != null) {
+                mainMenuController.switchToPlayView();
+            }
+        });
+
         createQuiz.addActionListener (new ActionListener() {
 
             public void actionPerformed (ActionEvent e) {
