@@ -11,9 +11,11 @@ public class Main {
         JFrame application = appBuilder
                 .addSignupView()
                 .addMainMenuView()
+                .addViewScoreComponents()
                 .addLoginView()
                 .addSignupUseCase()
                 .addLoginUseCase()
+                .addMainMenuUseCases()
                 .build();
         application.pack();
         application.setLocationRelativeTo(null);

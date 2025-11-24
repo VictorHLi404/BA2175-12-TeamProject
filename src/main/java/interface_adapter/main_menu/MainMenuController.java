@@ -12,4 +12,9 @@ public class MainMenuController {
     public void switchToPlayView() {
         mainMenuInputBoundary.switchToPlayView();
     }
+
+
+    public void switchToViewScore() {
+        mainMenuInputBoundary.switchToPlayerHistoryView();
+    }
 }
