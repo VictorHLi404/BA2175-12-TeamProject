@@ -15,7 +15,8 @@ public class MainMenuPresenter implements MainMenuOutputBoundary {
 
     @Override
     public void switchToPlayView() {
-        // TODO: Put in code that switches to the play view
+        viewManagerModel.setState("playQuiz");
+        viewManagerModel.firePropertyChange();
     }
 
     @Override
