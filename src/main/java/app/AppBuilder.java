@@ -151,7 +151,7 @@ public class AppBuilder {
         return this;
     }
     public AppBuilder addMainMenuUseCases() {
-        final MainMenuOutputBoundary mainMenuOutputBoundary = new MainMenuPresenter(mainMenuViewModel,viewManagerModel,viewScoreViewModel);
+        final MainMenuOutputBoundary mainMenuOutputBoundary = new MainMenuPresenter(mainMenuViewModel,viewManagerModel);
         final MainMenuInputBoundary mainMenuInteractor = new MainMenuInteractor(mainMenuOutputBoundary);
 
         MainMenuController mainMenuController = new MainMenuController(mainMenuInteractor);
@@ -184,6 +184,8 @@ public class AppBuilder {
 
         // connect controller to view
         playQuizView.setPlayQuizController(controller);
+        return this;
+    }
       
     public AppBuilder addCustomizeQuizUseCase() {
 

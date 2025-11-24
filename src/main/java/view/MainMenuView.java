@@ -3,6 +3,8 @@ package view;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.main_menu.MainMenuController;
 import interface_adapter.main_menu.MainMenuViewModel;
+import interface_adapter.view_score.ViewScoreController;
+import interface_adapter.view_score.ViewScoreViewModel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -8,12 +8,10 @@ public class MainMenuPresenter implements MainMenuOutputBoundary {
 
     private final MainMenuViewModel mainMenuViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final ViewScoreViewModel viewScoreViewModel;
 
-    public MainMenuPresenter (MainMenuViewModel mainMenuViewModel, ViewManagerModel viewManagerModel, ViewScoreViewModel viewScoreViewModel) {
+    public MainMenuPresenter (MainMenuViewModel mainMenuViewModel, ViewManagerModel viewManagerModel) {
         this.mainMenuViewModel = mainMenuViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.viewScoreViewModel = viewScoreViewModel;
     }
 
     @Override
@@ -29,7 +27,7 @@ public class MainMenuPresenter implements MainMenuOutputBoundary {
 
     @Override
     public void switchToPlayerHistoryView() {
-        viewManagerModel.setState(viewScoreViewModel.getViewName());
+        viewManagerModel.setState("view Score");
         viewManagerModel.firePropertyChange();
     }
 }

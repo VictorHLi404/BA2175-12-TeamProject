@@ -46,7 +46,7 @@ public class ViewScorePresenter implements ViewScoreOutputBoundary {
 
     @Override
     public void switchToMainMenuView() {
-        System.out.println("Target View: " + mainMenuViewModel.getViewName());
+        //System.out.println("Target View: " + mainMenuViewModel.getViewName());
         viewManagerModel.setState(mainMenuViewModel.getViewName());
         viewManagerModel.firePropertyChange();
     }

@@ -112,9 +112,9 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(backButton)) {
                             if (viewScoreController == null) {
-                                System.out.println("DEBUG ERROR: ViewScoreController is NULL in View.");
+                                //System.out.println("DEBUG ERROR: ViewScoreController is NULL in View.");
                             } else {
-                                System.out.println("DEBUG SUCCESS: ViewScoreController is NOT NULL. Switching views...");
+                                //System.out.println("DEBUG SUCCESS: ViewScoreController is NOT NULL. Switching views...");
                                 viewScoreController.switchToMainMenuView();
                             }
                         }
@@ -148,4 +148,6 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
     public void setViewScoreController(ViewScoreController viewScoreController) {
         this.viewScoreController = viewScoreController;
     }
+
+
 }
