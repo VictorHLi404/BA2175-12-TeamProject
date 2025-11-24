@@ -33,12 +33,9 @@ public class QuizResultsTest {
         Files.createDirectories(DATA_DIR);
         Files.deleteIfExists(QUESTIONS_FILE);
 
-        Question q1 = new Question("multiple", "easy", "1 + 1 = ?",
-                List.of("1", "2", "3"), "2", false, "Science: Mathemathics");
-        Question q2 = new Question("multiple", "medium", "Capital of France?",
-                List.of("Paris", "London", "Berlin"), "Paris", true, "Geography");
-        Question q3 = new Question("boolean", "hard", "The sun is a star.",
-                List.of("True", "False"), "True", false, "Science");
+        Question q1 = new Question("multiple", "easy", "1 + 1 = ?", List.of("1", "2", "3"), "2", false, "Science: Mathemathics");
+        Question q2 = new Question("multiple", "medium", "Capital of France?", List.of("Paris", "London", "Berlin"), "Paris", true, "Geography");
+        Question q3 = new Question("boolean", "hard", "The sun is a star.", List.of("True", "False"), "True", false, "Science");
 
         writer.saveQuestion(q1);
         writer.saveQuestion(q2);
