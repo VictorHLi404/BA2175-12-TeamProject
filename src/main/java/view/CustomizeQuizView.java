@@ -11,6 +11,8 @@ import java.util.Map;
 public class CustomizeQuizView extends JPanel {
 
     private final String viewName = "customize quiz";
+    private JButton playNow;
+    private JButton playPrevious;
 
     private JComboBox<String> difficulty;
     private JComboBox<String> type;
@@ -65,15 +67,16 @@ public class CustomizeQuizView extends JPanel {
         JButton apply = new JButton("Apply");
         JButton reset = new JButton("Reset to Default");
 
-        // *** ADDED BUTTONS ***
-        JButton playNow = new JButton("Play Now");                    // *** ADDED ***
-        JButton playPrevious = new JButton("Play Previous Quiz");     // *** ADDED ***
+        playNow = new JButton("Play Now");
+        playPrevious = new JButton("Play Previous Quiz");
 
         add(apply);
         add(reset);
 
         add(playNow);
         add(playPrevious);
+
+
 
         // Apply customization
         apply.addActionListener(e -> {
@@ -108,14 +111,14 @@ public class CustomizeQuizView extends JPanel {
             }
         });
 
-        // *** PLACEHOLDER ACTIONS ***
-        playNow.addActionListener(e -> {
-            System.out.println("Play Now clicked ");
-        });
+    }
 
-        playPrevious.addActionListener(e -> {
-            System.out.println("Play Previous clicked .");
-        });
+    public void addPlayNowAction(Runnable action) {
+        playNow.addActionListener(e -> action.run());
+    }
+
+    public void addPlayPreviousAction(Runnable action) {
+        playPrevious.addActionListener(e -> action.run());
     }
 
     public String getViewName() {

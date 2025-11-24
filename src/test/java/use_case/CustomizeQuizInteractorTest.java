@@ -55,11 +55,27 @@ public class CustomizeQuizInteractorTest {
     @BeforeEach
     void setUp() {
         List<Question> sampleQuestions = Arrays.asList(
-                new Question("multiple", "easy", "Q1",
-                        Arrays.asList("A", "B", "C"), "A", false),
-                new Question("boolean", "hard", "Q2",
-                        Arrays.asList("True", "False"), "True", false)
+                new Question(
+                        "multiple",
+                        "easy",
+                        "Q1",
+                        Arrays.asList("A", "B", "C"),
+                        "A",
+                        false,
+                        "General Knowledge"
+                ),
+                new Question(
+                        "boolean",
+                        "hard",
+                        "Q2",
+                        Arrays.asList("True", "False"),
+                        "True",
+                        false,
+                        "Science & Nature"
+                )
         );
+
+
 
         presenter = new TestPresenter();
         fakeDAO = new FakeQuizDAO(sampleQuestions);
