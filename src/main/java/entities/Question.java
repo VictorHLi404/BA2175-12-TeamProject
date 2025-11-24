@@ -11,9 +11,10 @@ public class Question {
     private List<String> choices;
     private String correctChoice;
     private Boolean isCustom;
+    private String category;
 
     public Question(String format, String difficulty, String question, List<String> choices, String correctChoice
-    , Boolean isCustom) {
+    , Boolean isCustom, String category) {
         this.questionId = UUID.randomUUID();
         this.format = format;
         this.difficulty = difficulty;
@@ -21,6 +22,7 @@ public class Question {
         this.choices = choices;
         this.correctChoice = correctChoice;
         this.isCustom = isCustom;
+        this.category = category;
     }
 
     // getters
@@ -31,10 +33,11 @@ public class Question {
     public List<String> getChoices() { return choices; }
     public String getCorrectChoice() { return correctChoice; }
     public Boolean getIsCustom() { return isCustom; }
+    public String getCategory() { return category; }
 
     @Override
     public String toString() {
-        return String.format("Q: %s (%s, %s)", question, difficulty, format);
+        return String.format("Q: %s (%s, %s, %s)", question, difficulty, format, category);
     }
 
     @Override
@@ -49,7 +52,8 @@ public class Question {
                 && question.equals(other.question)
                 && choices.equals(other.choices)
                 && correctChoice.equals(other.correctChoice)
-                && isCustom.equals(other.isCustom);
+                && isCustom.equals(other.isCustom)
+                && category.equals(other.category);
     }
 
     @Override
@@ -60,6 +64,7 @@ public class Question {
         result = 31 * result + choices.hashCode();
         result = 31 * result + correctChoice.hashCode();
         result = 31 * result + isCustom.hashCode();
+        result = 31 * result + category.hashCode();
         return result;
     }
 

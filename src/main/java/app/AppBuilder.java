@@ -16,6 +16,9 @@ import interface_adapter.session.SessionManager;
 import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
+import interface_adapter.view_score.ViewScoreController;
+import interface_adapter.view_score.ViewScorePresenter;
+import interface_adapter.view_score.ViewScoreViewModel;
 import persistence.DataStore;
 import persistence.FileReaderGateway;
 import persistence.JsonFileDataStore;
@@ -23,12 +26,17 @@ import persistence.JsonFileReader;
 import use_case.login.LoginInputBoundary;
 import use_case.login.LoginInteractor;
 import use_case.login.LoginOutputBoundary;
-import use_case.main_menu.MainMenuInteractor;
 import use_case.play.PlayQuizInputBoundary;
 import use_case.play.PlayQuizInteractor;
 import use_case.signup.SignupInputBoundary;
 import use_case.signup.SignupInteractor;
 import use_case.signup.SignupOutputBoundary;
+import use_case.main_menu.MainMenuInputBoundary;
+import use_case.main_menu.MainMenuInteractor;
+import use_case.main_menu.MainMenuOutputBoundary;
+import use_case.view_score.ViewScoreInputBoundary;
+import use_case.view_score.ViewScoreInteractor;
+import use_case.view_score.ViewScoreOutputBoundary;
 import view.*;
 
 import javax.swing.*;
@@ -49,6 +57,8 @@ public class AppBuilder {
     private PlayQuizView playQuizView;
     private PlayQuizViewModel playQuizViewModel;
 
+    private ViewScoreViewModel viewScoreViewModel;
+    private ViewScoreView viewScoreView;
 
     private SessionManager currentSession = new SessionManager();
 
@@ -61,7 +71,7 @@ public class AppBuilder {
 
     public AppBuilder addMainMenuView() {
         mainMenuViewModel = new MainMenuViewModel();
-        mainMenuView = new MainMenuView(mainMenuViewModel);
+        mainMenuView = new MainMenuView(mainMenuViewModel,viewManagerModel);
         cardPanel.add(mainMenuView, mainMenuView.getViewName());
 
         MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuViewModel, viewManagerModel);
@@ -77,6 +87,25 @@ public class AppBuilder {
         signupView = new SignupView(signupViewModel);
         cardPanel.add(signupView, signupView.getViewName());
 
+        return this;
+    }
+
+    public AppBuilder addViewScoreComponents() {
+        viewScoreViewModel = new ViewScoreViewModel();
+
+        ViewScoreOutputBoundary viewScoreOutputBoundary =
+                new ViewScorePresenter(viewScoreViewModel, mainMenuViewModel, viewManagerModel);
+
+        ViewScoreInputBoundary viewScoreInputBoundary =
+                new ViewScoreInteractor(userDataReadObject, viewScoreOutputBoundary);
+
+        ViewScoreController viewScoreController =
+                new ViewScoreController(viewScoreInputBoundary);
+
+        viewScoreView = new ViewScoreView(viewScoreViewModel, viewManagerModel);
+        viewScoreView.setViewScoreController(viewScoreController);
+
+        cardPanel.add(viewScoreView, "view Score");
         return this;
     }
 
@@ -99,13 +128,21 @@ public class AppBuilder {
 
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary =
-                new LoginPresenter(viewManagerModel, mainMenuViewModel, loginViewModel);
+                new LoginPresenter(viewManagerModel, mainMenuViewModel, loginViewModel,viewScoreViewModel);
 
         final LoginInputBoundary loginInteractor =
                 new LoginInteractor(userDataReadObject, userDataWriteObject, loginOutputBoundary, currentSession);
 
         LoginController loginController = new LoginController(loginInteractor);
         loginView.setLoginController(loginController);
+        return this;
+    }
+    public AppBuilder addMainMenuUseCases() {
+        final MainMenuOutputBoundary mainMenuOutputBoundary = new MainMenuPresenter(mainMenuViewModel,viewManagerModel,viewScoreViewModel);
+        final MainMenuInputBoundary mainMenuInteractor = new MainMenuInteractor(mainMenuOutputBoundary);
+
+        MainMenuController mainMenuController = new MainMenuController(mainMenuInteractor);
+        mainMenuView.setMainMenuController(mainMenuController);
         return this;
     }
 
