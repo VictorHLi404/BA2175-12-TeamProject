@@ -36,8 +36,9 @@ public class CompareScoreView extends JPanel implements ActionListener, Property
         title.setAlignmentX(CENTER_ALIGNMENT);
         add(title);
         resultsTable = createResultsTable(compareScoreState);
-        add(resultsTable);
-
+        add(new JScrollPane(resultsTable));
+        revalidate();
+        repaint();
     }
 
     @Override
@@ -47,14 +48,19 @@ public class CompareScoreView extends JPanel implements ActionListener, Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        final CompareScoreState compareScoreState = (CompareScoreState) evt.getSource();
+        final CompareScoreState compareScoreState = compareScoreViewModel.getState();
+        removeAll();
         resultsTable = createResultsTable(compareScoreState);
         title =  new JLabel(compareScoreState.getQuizNameOrDefault());
+        add(title);
+        add(new JScrollPane(resultsTable));
+        revalidate();
+        repaint();
     }
 
     private JTable createResultsTable(CompareScoreState compareScoreState) {
         List<List<String>> normalizedResults = compareScoreState.getNormalizedQuizResults();
-        String[] columnNames = {"User ID", "Score"};
+        String[] columnNames = {"Username", "Score"};
 
         Object[][] data = new Object[normalizedResults.size()][columnNames.length];
 
