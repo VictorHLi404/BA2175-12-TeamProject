@@ -17,9 +17,13 @@ public class CompareScorePresenter implements CompareScoreOutputBoundary {
     }
     @Override
     public void prepareSuccessView(CompareScoreOutputData compareScoreOutputData) {
-        //TODO: Add transition work
-        this.viewManagerModel.setState(compareScoreViewModel.getViewName());
-        this.viewManagerModel.firePropertyChange();
+        viewManagerModel.setState(compareScoreViewModel.getViewName());
+        viewManagerModel.firePropertyChange();
+        CompareScoreState compareScoreState = compareScoreViewModel.getState();
+        compareScoreState.setQuizName(compareScoreOutputData.getQuizName());
+        compareScoreState.setQuizResults(compareScoreOutputData.getQuizResults());
+        compareScoreState.setNormalizedQuizResults(compareScoreOutputData.getNormalizedQuizResults());
+        compareScoreViewModel.firePropertyChange();
     }
 
     @Override

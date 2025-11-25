@@ -25,6 +25,16 @@ public class JsonFileReader implements FileReaderGateway {
         return allUsers.get(username);
     }
 
+    public User loadUser(UUID userId) {
+        Map<String, User> allUsers = loadAllUsers();
+        for  (Map.Entry<String, User> entry : allUsers.entrySet()) {
+            if (entry.getValue().getUserId().equals(userId)) {
+                return entry.getValue();
+            }
+        }
+        return null;
+    }
+
     @Override
     public Map<String, User> loadAllUsers() {
         if (!Files.exists(Paths.get(PathwayConstants.USERS_FILE))) {
