@@ -15,6 +15,13 @@ public class CompareScoreState {
         return quizName;
     }
 
+    public String getQuizNameOrDefault() {
+        if (quizName == null || quizName.isEmpty()) {
+            return "No Quiz Name Found";
+        }
+        return quizName;
+    }
+
     public void setQuizName(String quizName) {
         this.quizName = quizName;
     }
