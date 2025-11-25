@@ -3,6 +3,7 @@ package use_case.compare_score;
 import entities.Question;
 import entities.Quiz;
 import entities.QuizResults;
+import entities.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.DataStore;
@@ -25,6 +26,9 @@ class CompareScoreTest {
 
     private List<UUID> questionsIds;
     private Quiz quiz;
+    private User user1;
+    private User user2;
+    private User user3;
     private DataStore writer;
     private FileReaderGateway reader;
 
@@ -51,23 +55,30 @@ class CompareScoreTest {
         quiz = new Quiz(questionsIds, true, questionsIds.size());
 
         writer.saveQuiz(quiz);
+
+        user1 = new User("test user 1", "12345");
+        user2 = new User("test user 2", "12345");
+        user3 = new User("test user 3", "12345");
+
+        writer.saveUser(user1);
+        writer.saveUser(user2);
+        writer.saveUser(user3);
     }
 
     @Test
     void testSingleQuizResultRetrieval() {
         List<String> answers = List.of("2", "Paris", "True");
-        UUID userId = UUID.randomUUID();
-        QuizResults quizResults = new QuizResults(quiz, userId, answers);
+        QuizResults quizResults = new QuizResults(quiz, user1.getUserId(), answers);
         writer.saveQuizResults(quizResults);
 
-        CompareScoreInputData inputData = new CompareScoreInputData(quiz.getQuizId(), userId);
+        CompareScoreInputData inputData = new CompareScoreInputData(quiz.getQuizId(), user1.getUserId());
 
         CompareScoreOutputBoundary successPresenter = new CompareScoreOutputBoundary() {
             @Override
             public void prepareSuccessView(CompareScoreOutputData compareScoreOutputData) {
                 assertEquals(1, compareScoreOutputData.getQuizResults().size());
                 QuizResults quizResult =  compareScoreOutputData.getQuizResults().get(0);
-                assertEquals(userId, quizResult.getUserId());
+                assertEquals(user1.getUserId(), quizResult.getUserId());
                 assertEquals(quiz.getQuizId(), quizResult.getQuizId());
             }
 
@@ -87,20 +98,17 @@ class CompareScoreTest {
 
     @Test
     void testMultipleQuizResultRetrievalWithSorting() {
-        UUID user1 = UUID.randomUUID();
         List<String> user1Answers = List.of("2", "Paris", "True");
-        QuizResults user1QuizResults = new QuizResults(quiz, user1, user1Answers);
-        UUID user2 = UUID.randomUUID();
+        QuizResults user1QuizResults = new QuizResults(quiz, user1.getUserId(), user1Answers);
         List<String> user2Answers = List.of("1", "Paris", "True");
-        QuizResults user2QuizResults = new QuizResults(quiz, user2, user2Answers);
-        UUID user3 = UUID.randomUUID();
+        QuizResults user2QuizResults = new QuizResults(quiz, user2.getUserId(), user2Answers);
         List<String> user3Answers = List.of("1", "Berlin", "True");
-        QuizResults user3QuizResults = new QuizResults(quiz, user3, user3Answers);
+        QuizResults user3QuizResults = new QuizResults(quiz, user3.getUserId(), user3Answers);
         writer.saveQuizResults(user1QuizResults);
         writer.saveQuizResults(user2QuizResults);
         writer.saveQuizResults(user3QuizResults);
 
-        CompareScoreInputData inputData = new CompareScoreInputData(quiz.getQuizId(), user1);
+        CompareScoreInputData inputData = new CompareScoreInputData(quiz.getQuizId(), user1.getUserId());
 
         CompareScoreOutputBoundary successPresenter = new CompareScoreOutputBoundary() {
             @Override
@@ -108,12 +116,12 @@ class CompareScoreTest {
                 assertEquals(3, compareScoreOutputData.getQuizResults().size());
                 QuizResults user1QuizResult =  compareScoreOutputData.getQuizResults().get(0);
                 assertEquals(3, user1QuizResult.getScore());
-                assertEquals(user1, user1QuizResult.getUserId());
+                assertEquals(user1.getUserId(), user1QuizResult.getUserId());
                 QuizResults user2QuizResult =  compareScoreOutputData.getQuizResults().get(1);
-                assertEquals(user2, user2QuizResult.getUserId());
+                assertEquals(user2.getUserId(), user2QuizResult.getUserId());
                 assertEquals(2, user2QuizResult.getScore());
                 QuizResults user3QuizResult =  compareScoreOutputData.getQuizResults().get(2);
-                assertEquals(user3, user3QuizResult.getUserId());
+                assertEquals(user3.getUserId(), user3QuizResult.getUserId());
                 assertEquals(1, user3QuizResult.getScore());
             }
 

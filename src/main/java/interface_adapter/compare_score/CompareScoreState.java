@@ -10,6 +10,7 @@ public class CompareScoreState {
     private String quizName = "";
     private String compareScoreError;
     private List<QuizResults> quizResults = new ArrayList<>();
+    private List<List<String>> normalizedQuizResults = new ArrayList<>();
 
     public String getQuizName() {
         return quizName;
@@ -40,5 +41,13 @@ public class CompareScoreState {
 
     public void setQuizResults(List<QuizResults> quizResults) {
         this.quizResults = quizResults;
+    }
+
+    public List<List<String>> getNormalizedQuizResults() {
+        return normalizedQuizResults;
+    }
+
+    public void  setNormalizedQuizResults(List<List<String>> normalizedQuizResults) {
+        this.normalizedQuizResults = normalizedQuizResults;
     }
 }

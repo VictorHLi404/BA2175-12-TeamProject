@@ -1,14 +1,13 @@
 package use_case.compare_score;
 
+import entities.Quiz;
 import entities.QuizResults;
+import entities.User;
 import interface_adapter.session.SessionManager;
 import persistence.DataStore;
 import persistence.FileReaderGateway;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class CompareScoreInteractor implements CompareScoreInputBoundary{
 
@@ -38,7 +37,25 @@ public class CompareScoreInteractor implements CompareScoreInputBoundary{
         matchedQuizResults.sort(
                 (results1, results2) -> Integer.compare(results2.getScore(), results1.getScore())
         );
-        final CompareScoreOutputData compareScoreOutputData = new CompareScoreOutputData(matchedQuizResults);
+
+        List<List<String>> normalizedQuizResults = new ArrayList<>();
+        for  (QuizResults results : matchedQuizResults) {
+            UUID userId = results.getUserId();
+            User user = fileReaderGateway.loadUser(userId);
+            int score = results.getScore();
+            int size  = results.getQuizSize();
+            double percentage = (double) score / size * 100;
+            String percentageString = String.format("%.2f%%", percentage);
+            List<String> normalizedQuizResult = new ArrayList<>(Arrays.asList(user.getUsername(), percentageString));
+            normalizedQuizResults.add(normalizedQuizResult);
+        }
+
+        Quiz quiz = fileReaderGateway.loadQuiz(quizId);
+
+        final CompareScoreOutputData compareScoreOutputData = new CompareScoreOutputData(quiz.getQuizName(),
+                matchedQuizResults,
+                normalizedQuizResults);
+
         compareScorePresenter.prepareSuccessView(compareScoreOutputData);
     }
 
