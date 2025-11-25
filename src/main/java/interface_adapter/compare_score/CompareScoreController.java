@@ -6,11 +6,11 @@ import use_case.compare_score.CompareScoreInputData;
 
 import java.util.UUID;
 
-public class ComapreScoreController {
+public class CompareScoreController {
     private final CompareScoreInputBoundary compareScoreInteractor;
     private final SessionManager sessionManager;
 
-    public ComapreScoreController(CompareScoreInputBoundary compareScoreInteractor,
+    public CompareScoreController(CompareScoreInputBoundary compareScoreInteractor,
                                   SessionManager sessionManager) {
         this.compareScoreInteractor = compareScoreInteractor;
         this.sessionManager = sessionManager;

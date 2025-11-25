@@ -35,8 +35,6 @@ public class QuizResults {
         return count;
     }
 
-    public UUID getUserId() { return userId; }
-
     public int getQuizSize() {return questions.size();}
 
     public int getScore() { return score; }

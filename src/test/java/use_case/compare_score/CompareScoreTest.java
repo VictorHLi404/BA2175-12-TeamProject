@@ -36,9 +36,9 @@ class CompareScoreTest {
         Files.createDirectories(DATA_DIR);
         Files.deleteIfExists(QUESTIONS_FILE);
 
-        Question q1 = new Question("multiple", "easy", "1 + 1 = ?", List.of("1", "2", "3"), "2", false);
-        Question q2 = new Question("multiple", "medium", "Capital of France?", List.of("Paris", "London", "Berlin"), "Paris", true);
-        Question q3 = new Question("boolean", "hard", "The sun is a star.", List.of("True", "False"), "True", false);
+        Question q1 = new Question("multiple", "easy", "1 + 1 = ?", List.of("1", "2", "3"), "2", false, "ABC");
+        Question q2 = new Question("multiple", "medium", "Capital of France?", List.of("Paris", "London", "Berlin"), "Paris", true, "ABC");
+        Question q3 = new Question("boolean", "hard", "The sun is a star.", List.of("True", "False"), "True", false, "ABC");
 
         writer.saveQuestion(q1);
         writer.saveQuestion(q2);
