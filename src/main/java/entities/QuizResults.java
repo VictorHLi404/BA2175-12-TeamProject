@@ -2,6 +2,7 @@ package entities;
 
 import persistence.JsonFileReader;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ public class QuizResults {
     private List<UUID> questions;
     private List<String> answers;
     private int score;
+    private final LocalDateTime timestamp;
 
 
     public QuizResults(Quiz quiz, UUID userId, List<String> answers) {
@@ -21,6 +23,7 @@ public class QuizResults {
         this.questions = quiz.getQuestionIds();
         this.answers = answers;
         this.score = calculateScore();
+        this.timestamp = LocalDateTime.now();
     }
 
     private int calculateScore() {
@@ -42,4 +45,6 @@ public class QuizResults {
     public int getScore() { return score; }
 
     public UUID getQuizResultsId() { return quizResultsId; }
+
+    public LocalDateTime getTimestamp() { return timestamp; }
 }
