@@ -45,8 +45,8 @@ public class ViewScoreInteractor implements ViewScoreInputBoundary
             if (quizResults.getUserId().equals(userID)){
                 totalQuestions += quizResults.getQuizSize();
                 totalCorrectAnswers += quizResults.getScore();
-                String timeStamp = quizResults.getTimestamp().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-                perQuizData.add(new PerQuizResultData(timeStamp, quizResults.getScore(), quizResults.getQuizSize()));
+                String timeStamp = quizResults.getTimestamp();
+                perQuizData.add(new PerQuizResultData(timeStamp, quizResults.getScore(), quizResults.getQuizSize(), quizResults.getQuizResultsId()));
             }
         }
         if (perQuizData.isEmpty()){
@@ -63,5 +63,10 @@ public class ViewScoreInteractor implements ViewScoreInputBoundary
     }
     public void switchToMainMenuView() {
         viewScoreOutputBoundary.switchToMainMenuView();
+    }
+
+    @Override
+    public void switchToCompareView(UUID quizResultsId) {
+        viewScoreOutputBoundary.switchToCompareView(quizResultsId);
     }
 }
