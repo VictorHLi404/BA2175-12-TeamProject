@@ -13,7 +13,7 @@ public class QuizResults {
     private List<UUID> questions;
     private List<String> answers;
     private int score;
-    private final LocalDateTime timestamp;
+    private final String timestamp;
     private int quizLength;
 
 
@@ -24,7 +24,7 @@ public class QuizResults {
         this.questions = quiz.getQuestionIds();
         this.answers = answers;
         this.score = calculateScore();
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = LocalDateTime.now().toString();
         this.quizLength = questions.size();
     }
 
@@ -48,7 +48,7 @@ public class QuizResults {
 
     public UUID getQuizResultsId() { return quizResultsId; }
 
-    public LocalDateTime getTimestamp() { return timestamp; }
+    public String getTimestamp() { return timestamp; }
 
     public int getQuizLength() { return quizLength; }
 }

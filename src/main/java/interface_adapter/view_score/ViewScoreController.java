@@ -1,7 +1,10 @@
 package interface_adapter.view_score;
 
+import use_case.view_score.PerQuizResultData;
 import use_case.view_score.ViewScoreInputBoundary;
 import use_case.view_score.ViewScoreInputData;
+
+import java.util.UUID;
 
 public class ViewScoreController {
 
@@ -21,9 +24,14 @@ public class ViewScoreController {
         viewScoreInteractor.execute(viewScoreInputData);
     }
     /**
-     * Executes the "switch to LoginView" Use Case.
+     * Executes the "switch to Main Menue" Use Case.
      */
     public void switchToMainMenuView() {
         viewScoreInteractor.switchToMainMenuView();
     }
+
+    public void switchToCompareView(UUID quizResultsId) {
+        viewScoreInteractor.switchToCompareView(quizResultsId); // Pass to interactor
+    }
+
 }

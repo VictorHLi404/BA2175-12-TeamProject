@@ -4,13 +4,16 @@ import interface_adapter.ViewManagerModel;
 import interface_adapter.view_score.ViewScoreController;
 import interface_adapter.view_score.ViewScoreState;
 import interface_adapter.view_score.ViewScoreViewModel;
+import use_case.view_score.PerQuizResultData;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.UUID;
 
 public class ViewScoreView extends JPanel implements ActionListener, PropertyChangeListener {
 
@@ -24,6 +27,12 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
     private final JLabel scoreDisplayLabel = new JLabel("Score: --");
     private final JLabel messageDisplayLabel = new JLabel("Select a user to view score.");
+
+    private DefaultTableModel historyTableModel;
+    private JTable historyTable;
+    private JPanel tablePanel;
+
+
 
     public ViewScoreView(ViewScoreViewModel viewScoreViewModel, ViewManagerModel viewManagerModel) {
         this.viewScoreViewModel = viewScoreViewModel;
@@ -86,7 +95,35 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
         bottomPanel.add(backButton);
         this.add(bottomPanel, BorderLayout.SOUTH);
+// for score table
+        historyTableModel = new DefaultTableModel(new Object[]{"Quiz #", "Date", "Score", "Compare"}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return column == 3;
+            }
+        };
 
+        historyTable = new JTable(historyTableModel);
+
+        historyTable.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        historyTable.setRowHeight(28);
+
+        historyTable.getColumn("Compare").setCellRenderer(new ButtonRenderer());
+        historyTable.getColumn("Compare").setCellEditor(new ButtonEditor(new JCheckBox()));
+
+        JScrollPane scrollPane = new JScrollPane(historyTable);
+        scrollPane.setPreferredSize(new Dimension(450, 200));
+
+        tablePanel = new JPanel();
+        tablePanel.setVisible(false);
+        tablePanel.setOpaque(false);
+        tablePanel.add(scrollPane);
+        JPanel bottomWrapper = new JPanel(new BorderLayout());
+        bottomWrapper.setOpaque(false);
+
+        bottomWrapper.add(tablePanel, BorderLayout.CENTER);  // table
+
+        // ActionListener
         viewScoreButton.addActionListener(
                 new ActionListener() {
                     @Override
@@ -128,6 +165,16 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
     public void actionPerformed(ActionEvent e) {
 
     }
+    private void handleCompareClick(int row) {
+        PerQuizResultData selectedQuiz = viewScoreViewModel.getState().getPerQuizResultData().get(row);
+        UUID quizResultsId = selectedQuiz.getQuizResultId();
+
+        System.out.println("DEBUG: Selected QuizResultId = " + quizResultsId);
+
+        if (viewScoreController != null) {
+            viewScoreController.switchToCompareView(quizResultsId);
+        }
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
@@ -141,12 +188,75 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
             this.scoreDisplayLabel.setText("");
         }
 
+        historyTableModel.setRowCount(0); // Clear old rows
+
+        int i = 1;
+        for (PerQuizResultData p : state.getPerQuizResultData()) {
+            historyTableModel.addRow(new Object[] {
+                    "Quiz " + i,
+                    p.getDateTime(),
+                    p.getCorrect() + "/" + p.getTotal(),
+                    "Compare"
+            });
+            i++;
+        }
+        if (!state.getPerQuizResultData().isEmpty()) {
+            tablePanel.setVisible(true);
+            viewScoreButton.setVisible(false);
+        }
+
         this.revalidate();
         this.repaint();
     }
 
     public void setViewScoreController(ViewScoreController viewScoreController) {
         this.viewScoreController = viewScoreController;
+    }
+
+    class ButtonEditor extends DefaultCellEditor {
+        protected JButton button;
+        private boolean clicked;
+        private int row;
+
+        public ButtonEditor(JCheckBox checkBox) {
+            super(checkBox);
+            button = new JButton();
+            button.setOpaque(true);
+
+            button.addActionListener(e -> fireEditingStopped());
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value,
+                                                     boolean isSelected, int row, int column) {
+            this.row = row;
+            button.setText("Compare");
+            clicked = true;
+            return button;
+        }
+
+        @Override
+        public Object getCellEditorValue() {
+            if (clicked) {
+                handleCompareClick(row);
+            }
+            clicked = false;
+            return "Compare";
+        }
+    }
+
+    class ButtonRenderer extends JButton implements javax.swing.table.TableCellRenderer {
+        public ButtonRenderer() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable table, Object value, boolean isSelected,
+                boolean hasFocus, int row, int column) {
+            setText("Compare");
+            return this;
+        }
     }
 
 
