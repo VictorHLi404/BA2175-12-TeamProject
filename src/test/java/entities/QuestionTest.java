@@ -14,9 +14,6 @@ public class QuestionTest {
     private List<String> choices;
 
 
-    // public Question(String format, String difficulty, String question, List<String> choices, String correctChoice
-    //            , Boolean isCustom, String category) {
-
     public void setUp() {
         choices = Arrays.asList("A", "B", "C", "D");
         question = new Question("Multiple Choice", "Easy", "What is Canada's capital city?",
@@ -68,6 +65,19 @@ public class QuestionTest {
         Assertions.assertNotEquals(question, q2);
         Assertions.assertNotEquals(question.hashCode(), q2.hashCode());
     }
+
+    @Test
+    public void testIsCorrectReturnsTrue() {
+        Assertions.assertTrue(question.isCorrect("A"));
+    }
+
+    @Test
+    public void testToStringFormat() {
+        Assertions.assertEquals("Q: What is Canada's capital city? (Easy, Multiple Choice, General Knowledge)",
+                                 question.toString());
+    }
+
+
 
 
 
