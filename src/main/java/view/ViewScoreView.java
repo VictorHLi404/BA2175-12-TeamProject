@@ -172,7 +172,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         PerQuizResultData selectedQuiz = viewScoreViewModel.getState().getPerQuizResultData().get(row);
         UUID quizResultsId = selectedQuiz.getQuizResultId();
 
-        System.out.println("DEBUG: Selected QuizResultId = " + quizResultsId);
+        //System.out.println("DEBUG: Selected QuizResultId = " + quizResultsId);
 
         if (viewScoreController != null) {
             viewScoreController.switchToCompareView(quizResultsId);
