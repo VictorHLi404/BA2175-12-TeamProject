@@ -34,5 +34,8 @@ public class CompareScorePresenter implements CompareScoreOutputBoundary {
     @Override
     public void switchToUserScoreView() {
         // TODO: Add transition work to go back to score view
+        compareScoreViewModel.setState(new CompareScoreState());
+        viewManagerModel.setState("view Score");
+        viewManagerModel.firePropertyChange();
     }
 }

@@ -25,4 +25,8 @@ public class CompareScoreController {
     public void executeQuizResultsId(UUID quizResultsId) {
         compareScoreInteractor.switchToCompareScoreView(quizResultsId);
     }
+
+    public void switchToUserScoreView() {
+        compareScoreInteractor.switchToUserScoreView();
+    }
 }
