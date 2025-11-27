@@ -14,120 +14,120 @@ import java.util.UUID;
 
 public class PlayQuizInteractor implements PlayQuizInputBoundary {
 
-    private final FileReaderGateway reader;
-    private final DataStore dataStore;
     private final PlayQuizOutputBoundary presenter;
     private final SessionManager session;
+    private List<Question> questions = new ArrayList<>();
+    private int currentIndex = 0;
+    private final List<String> previousAnswers = new ArrayList<>();
+    private int cumulativeScore = 0;
+    private boolean finished;
 
-    public PlayQuizInteractor(FileReaderGateway reader,
-                              DataStore dataStore,
-                              PlayQuizOutputBoundary presenter,
+    public PlayQuizInteractor(PlayQuizOutputBoundary presenter,
                               SessionManager session) {
-        this.reader = reader;
-        this.dataStore = dataStore;
         this.presenter = presenter;
         this.session = session;
+    }
+
+    /**
+     * Start a quiz with a given set of questions (e.g., from CustomizeQuizViewModel)
+     */
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions != null ? questions : new ArrayList<>();
+        this.currentIndex = 0;
+        this.previousAnswers.clear();
+
+        if (!this.questions.isEmpty()) {
+            Question first = this.questions.get(0);
+            presenter.presentQuestion(first, currentIndex, previousAnswers.size());
+        }
     }
 
     @Override
     public void execute(PlayQuizInputData input) {
 
-        // Load quiz
-        Quiz quiz = reader.loadQuiz(input.getQuizId());
-        if (quiz == null) {
-            presenter.presentError("Quiz not found.");
-            return;
-        }
+        Question current = questions.get(this.currentIndex);
+        String userChoice = input.getSelectedChoice();
 
-        List<UUID> questionIds = quiz.getQuestionIds();
-        int index = input.getQuestionIndex();
+        // Evaluate correctness
+        boolean isCorrect = current.getCorrectChoice().equals(userChoice);
 
-        // Validate question index
-        if (index < 0 || index >= questionIds.size()) {
-            presenter.presentError("Invalid question index.");
-            return;
-        }
+        // Update cumulative score
+        if (isCorrect) cumulativeScore++;
 
-        // Load the current question
-        Question current = reader.loadQuestions(questionIds.get(index));
-        if (current == null) {
-            presenter.presentError("Question not found.");
-            return;
-        }
+        // Save the answer
+        previousAnswers.add(userChoice);
 
-        // Check correctness
-        boolean correct = current.isCorrect(input.getSelectedChoice());
+        // Check if this was the last question
+        boolean finished = this.currentIndex > questions.size() - 1;
 
-        // Combine previous answers with current answer
-        List<String> allAnswers = new ArrayList<>(input.getPreviousAnswers());
-        allAnswers.add(input.getSelectedChoice());
-
-        // Get current user from session
-        User user = session.getCurrentUser();
-        if (user == null) {
-            presenter.presentError("No user logged in.");
-            return;
-        }
-
-        // Compute cumulative score
-        QuizResults tempResults = new QuizResults(quiz, user.getUserId(), allAnswers);
-        int cumulativeScore = tempResults.getScore();
-
-        // Determine if quiz is finished
-        boolean finished = (index + 1) >= questionIds.size();
-
-        // Prepare next question info
-        String nextQuestionText = null;
-        List<String> nextChoices = null;
-        String nextQuestionFormat = null;
-        if (!finished) {
-            Question next = reader.loadQuestions(questionIds.get(index + 1));
-            if (next != null) {
-                nextQuestionText = next.getQuestion();
-                nextChoices = next.getChoices();
-                nextQuestionFormat = next.getFormat();
-            }
-        }
-
-        // Prepare output data
+        // Prepare output for presenter
         PlayQuizOutputData outputData = new PlayQuizOutputData(
-                correct,
+                isCorrect,
+                current.getCorrectChoice(),
                 cumulativeScore,
                 finished,
-                nextQuestionText,
-                nextChoices,
-                nextQuestionFormat
+                current.getQuestion(),
+                current.getChoices(),
+                current.getFormat()
         );
 
-        // Show the question (multiple choice or true/false)
-        if (input.getSelectedChoice() == null || input.getSelectedChoice().isEmpty()) {
-            if ("multiple choice".equalsIgnoreCase(current.getFormat())) {
-                presenter.switchToMultipleChoiceView(outputData);
-            } else if ("true/false".equalsIgnoreCase(current.getFormat())) {
-                presenter.switchToTrueFalseView(outputData);
-            }
-            return; // wait for user to submit answer
-        }
-
-        // Otherwise, process answer and show correct/incorrect or quiz over
+        // Show result
         if (finished) {
             presenter.switchToQuizOverView(outputData);
+        }
+
+        if (isCorrect) {
+            presenter.switchToCorrectAnswerView(outputData);
         } else {
-            if (correct) {
-                presenter.switchToCorrectAnswerView(outputData);
-            } else {
-                presenter.switchToIncorrectAnswerView(outputData);
-            }
+            presenter.switchToIncorrectAnswerView(outputData);
         }
 
-        // Save QuizResults and update user if finished
-        if (finished) {
-            QuizResults finalResults = new QuizResults(quiz, user.getUserId(), allAnswers);
-            dataStore.saveQuizResults(finalResults);
-
-            // Update user's played quizzes
-            user.playQuiz(quiz);
-            dataStore.saveUser(user);
+        if ("multiple".equalsIgnoreCase(current.getFormat())) {
+            presenter.switchToMultipleChoiceView(outputData);
+        } else if ("boolean".equalsIgnoreCase(current.getFormat())) {
+            presenter.switchToTrueFalseView(outputData);
         }
+
+//        this.currentIndex = index;
+        this.currentIndex++;
     }
+
+    public void startCustomizedQuiz(List<Question> questions) {
+        if (questions == null || questions.isEmpty()) return;
+
+        reset();
+        this.questions = questions;
+
+        loadNextQuestion();
+    }
+
+    @Override
+    public void loadNextQuestion() {
+        if (currentIndex >= questions.size()) return;
+
+        Question q = questions.get(currentIndex);
+        PlayQuizOutputData outputData = new PlayQuizOutputData(
+                false,                // isCorrect placeholder (user hasn't answered yet)
+                q.getCorrectChoice(),
+                cumulativeScore,
+                currentIndex == questions.size() - 1,
+                q.getQuestion(),
+                q.getChoices(),
+                q.getFormat()
+        );
+
+        if ("multiple".equalsIgnoreCase(q.getFormat())) {
+            presenter.switchToMultipleChoiceView(outputData);
+        } else if ("boolean".equalsIgnoreCase(q.getFormat())) {
+            presenter.switchToTrueFalseView(outputData);
+        }
+
+    }
+
+    public void reset() {
+        this.currentIndex = 0;
+        this.cumulativeScore = 0;
+        this.previousAnswers.clear();
+    }
+
 }

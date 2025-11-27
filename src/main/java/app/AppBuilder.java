@@ -1,5 +1,6 @@
 package app;
 
+import entities.Question;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
@@ -25,6 +26,7 @@ import use_case.customize_quiz.CustomizeQuizInteractor;
 import use_case.customize_quiz.CustomizeQuizOutputBoundary;
 
 import data_access.CustomizeQuizAPIDataAccessObject;
+import use_case.play.PlayQuizInputData;
 import view.CustomizeQuizView;
 
 import interface_adapter.view_score.ViewScoreController;
@@ -52,6 +54,7 @@ import view.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -159,31 +162,35 @@ public class AppBuilder {
         return this;
     }
 
-    public AppBuilder addPlayQuizView() {
-        playQuizViewModel = new PlayQuizViewModel();
-        playQuizView = new PlayQuizView(playQuizViewModel.getState(), null); // controller set later
-        cardPanel.add(playQuizView, "playQuiz");
-        return this;
-    }
-
     public AppBuilder addPlayQuizUseCase() {
+        PlayQuizViewModel viewModel= new PlayQuizViewModel();
+
         // presenter
-        PlayQuizPresenter presenter = new PlayQuizPresenter(playQuizViewModel);
+        PlayQuizPresenter presenter = new PlayQuizPresenter(viewModel, viewManagerModel);
 
         // interactor
         PlayQuizInputBoundary interactor =
                 new PlayQuizInteractor(
-                        userDataReadObject,   // FileReaderGateway
-                        userDataWriteObject,  // DataStore
                         presenter,            // OutputBoundary
                         currentSession        // SessionManager
                 );
 
-        // controller
         PlayQuizController controller = new PlayQuizController(interactor);
 
-        // connect controller to view
-        playQuizView.setPlayQuizController(controller);
+        playQuizView = new PlayQuizView(controller, viewModel, viewManagerModel);
+        cardPanel.add(playQuizView, "playQuiz");
+
+        customizeQuizView.addPlayNowAction(() -> {
+
+            List<Question> customizedQuestions = customizeQuizViewModel.getQuestions();
+
+            if (customizedQuestions != null && !customizedQuestions.isEmpty()) {
+                controller.startCustomizedQuiz(customizedQuestions);
+            }
+
+            viewManagerModel.setState("playQuiz");
+            viewManagerModel.firePropertyChange();
+        });
         return this;
     }
       

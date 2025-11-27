@@ -22,7 +22,8 @@ public class MainMenuPresenter implements MainMenuOutputBoundary {
 
     @Override
     public void switchToQuizCustomizationView() {
-        // TODO: Put in code that swithces to the quiz customization view
+        viewManagerModel.setState("customize quiz");
+        viewManagerModel.firePropertyChange();
     }
 
     @Override
