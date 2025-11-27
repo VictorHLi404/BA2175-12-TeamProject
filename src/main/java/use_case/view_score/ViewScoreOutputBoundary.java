@@ -1,5 +1,7 @@
 package use_case.view_score;
 
+import java.util.UUID;
+
 /**
  * The output boundary for the View Score Use Case.
  */
@@ -16,4 +18,6 @@ public interface ViewScoreOutputBoundary {
     void prepareFailView(String error);
 
     void switchToMainMenuView();
+
+    void switchToCompareView(UUID quizResultId);
 }
