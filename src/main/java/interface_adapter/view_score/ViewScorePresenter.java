@@ -27,7 +27,7 @@ public class ViewScorePresenter implements ViewScoreOutputBoundary {
         viewScoreState.setScore(outputData.getScore());
         viewScoreState.setUsername(outputData.getUsername());
         viewScoreState.setPerQuizData(outputData.getPerQuizResultData());
-        viewScoreState.setViewMessage("Score: " + outputData.getScore());
+        viewScoreState.setViewMessage("Average Score: " + outputData.getScore() + " %");
         viewScoreViewModel.firePropertyChange();
     }
 
