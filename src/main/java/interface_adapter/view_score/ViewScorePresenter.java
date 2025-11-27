@@ -1,9 +1,12 @@
 package interface_adapter.view_score;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.compare_score.CompareScoreViewModel;
 import interface_adapter.main_menu.MainMenuViewModel;
 import use_case.view_score.ViewScoreOutputBoundary;
 import use_case.view_score.ViewScoreOutputData;
+
+import java.util.UUID;
 
 public class ViewScorePresenter implements ViewScoreOutputBoundary {
 
@@ -13,7 +16,9 @@ public class ViewScorePresenter implements ViewScoreOutputBoundary {
     private final MainMenuViewModel mainMenuViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public ViewScorePresenter(ViewScoreViewModel viewScoreViewModel, MainMenuViewModel mainMenuViewModel, ViewManagerModel viewManagerModel) {
+    public ViewScorePresenter(ViewScoreViewModel viewScoreViewModel,
+                              MainMenuViewModel mainMenuViewModel,
+                              ViewManagerModel viewManagerModel) {
         this.viewScoreViewModel = viewScoreViewModel;
         this.mainMenuViewModel = mainMenuViewModel;
         this.viewManagerModel = viewManagerModel;
@@ -24,7 +29,8 @@ public class ViewScorePresenter implements ViewScoreOutputBoundary {
         final ViewScoreState viewScoreState = viewScoreViewModel.getState();
         viewScoreState.setScore(outputData.getScore());
         viewScoreState.setUsername(outputData.getUsername());
-        viewScoreState.setViewMessage("Score: " + outputData.getScore());
+        viewScoreState.setPerQuizData(outputData.getPerQuizResultData());
+        viewScoreState.setViewMessage("Average Score: " + outputData.getScore() + " %");
         viewScoreViewModel.firePropertyChange();
     }
 

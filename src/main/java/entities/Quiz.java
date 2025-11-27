@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 public class Quiz {
     private UUID quizId;
+    private String quizName;
     private List<UUID> questionIds;
     private boolean isCustom;
     private int length;
@@ -42,6 +43,14 @@ public class Quiz {
     public void removeQuestion(Question question) {
         questionIds.remove(question.getQuestionId());
         length = questionIds.size();
+    }
+
+    public void setQuizName(String quizName) {
+        this.quizName = quizName;
+    }
+
+    public String getQuizName() {
+        return quizName;
     }
 
 }
