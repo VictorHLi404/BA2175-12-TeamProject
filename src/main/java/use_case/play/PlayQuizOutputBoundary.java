@@ -1,6 +1,11 @@
 package use_case.play;
 
+import entities.Question;
+
 public interface PlayQuizOutputBoundary {
+
+    // new method to show the first question immediately
+    void presentQuestion(Question question, int questionIndex, int answeredCount);
 
     // Called when the use case wants to display a multiple choice question
     void switchToMultipleChoiceView(PlayQuizOutputData outputData);

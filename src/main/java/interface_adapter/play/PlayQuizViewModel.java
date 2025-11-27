@@ -7,10 +7,10 @@ import interface_adapter.ViewModel;
  */
 public class PlayQuizViewModel extends ViewModel<PlayQuizState> {
 
-    public static final String TITLE_LABEL = "Play Quiz";
+    public static final String TITLE_LABEL = "playQuiz";
 
     public PlayQuizViewModel() {
-        super("play quiz");
+        super("playQuiz");
         setState(new PlayQuizState());
     }
 }
