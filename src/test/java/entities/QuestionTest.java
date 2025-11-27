@@ -76,9 +76,6 @@ public class QuestionTest {
         Assertions.assertEquals("Q: What is Canada's capital city? (Easy, Multiple Choice, General Knowledge)",
                                  question.toString());
     }
-
-
-
-
+    
 
 }
