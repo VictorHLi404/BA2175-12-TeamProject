@@ -74,15 +74,10 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         viewScoreButton.setBackground(Color.GREEN);
 
 // Add to center panel with spacing
-        centerPanel.add(Box.createVerticalStrut(30));
+        centerPanel.add(Box.createVerticalStrut(20));
         centerPanel.add(messageDisplayLabel);
         centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(scoreDisplayLabel);
-        centerPanel.add(Box.createVerticalStrut(120));
         centerPanel.add(viewScoreButton);
-        centerPanel.add(Box.createVerticalGlue());
-
-        this.add(centerPanel, BorderLayout.CENTER);
 
 // === BOTTOM-LEFT (SOUTH): Back Button ===
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -96,10 +91,10 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         bottomPanel.add(backButton);
         this.add(bottomPanel, BorderLayout.SOUTH);
 // for score table
-        historyTableModel = new DefaultTableModel(new Object[]{"Quiz #", "Date", "Score", "Compare"}, 0) {
+        historyTableModel = new DefaultTableModel(new Object[]{"Quiz #", "Score", "Compare"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 3;
+                return column == 2;
             }
         };
 
@@ -112,7 +107,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         historyTable.getColumn("Compare").setCellEditor(new ButtonEditor(new JCheckBox()));
 
         JScrollPane scrollPane = new JScrollPane(historyTable);
-        scrollPane.setPreferredSize(new Dimension(450, 200));
+        scrollPane.setPreferredSize(new Dimension(2500, 200));
 
         tablePanel = new JPanel();
         tablePanel.setVisible(false);
@@ -122,6 +117,14 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         bottomWrapper.setOpaque(false);
 
         bottomWrapper.add(tablePanel, BorderLayout.CENTER);  // table
+
+        centerPanel.add(Box.createVerticalStrut(10));   // spacing
+        centerPanel.add(bottomWrapper);
+        this.add(centerPanel, BorderLayout.CENTER);
+
+        tablePanel.setBorder(BorderFactory.createTitledBorder("Score History"));
+        bottomWrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
+        scrollPane.setPreferredSize(new Dimension(300, 250));
 
         // ActionListener
         viewScoreButton.addActionListener(
@@ -181,20 +184,12 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         final ViewScoreState state = viewScoreViewModel.getState();
         this.messageDisplayLabel.setText(state.getViewMessage());
 
-        if (state.getScore() > 0 || state.getViewMessage().startsWith("Score:")) {
-            this.scoreDisplayLabel.setText("Total Score: " + state.getScore() + "%");
-            this.scoreDisplayLabel.setVisible(true);
-        } else {
-            this.scoreDisplayLabel.setText("");
-        }
-
         historyTableModel.setRowCount(0); // Clear old rows
 
         int i = 1;
         for (PerQuizResultData p : state.getPerQuizResultData()) {
             historyTableModel.addRow(new Object[] {
                     "Quiz " + i,
-                    p.getDateTime(),
                     p.getCorrect() + "/" + p.getTotal(),
                     "Compare"
             });
