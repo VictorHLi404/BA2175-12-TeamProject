@@ -5,6 +5,8 @@ import interface_adapter.main_menu.MainMenuViewModel;
 import use_case.view_score.ViewScoreOutputBoundary;
 import use_case.view_score.ViewScoreOutputData;
 
+import java.util.UUID;
+
 public class ViewScorePresenter implements ViewScoreOutputBoundary {
 
 
@@ -24,7 +26,8 @@ public class ViewScorePresenter implements ViewScoreOutputBoundary {
         final ViewScoreState viewScoreState = viewScoreViewModel.getState();
         viewScoreState.setScore(outputData.getScore());
         viewScoreState.setUsername(outputData.getUsername());
-        viewScoreState.setViewMessage("Score: " + outputData.getScore());
+        viewScoreState.setPerQuizData(outputData.getPerQuizResultData());
+        viewScoreState.setViewMessage("Average Score: " + outputData.getScore() + " %");
         viewScoreViewModel.firePropertyChange();
     }
 
@@ -49,6 +52,12 @@ public class ViewScorePresenter implements ViewScoreOutputBoundary {
         //System.out.println("Target View: " + mainMenuViewModel.getViewName());
         viewManagerModel.setState(mainMenuViewModel.getViewName());
         viewManagerModel.firePropertyChange();
+    }
+
+    @Override
+    public void switchToCompareView(UUID quizResultId) {
+        // TODO
+
     }
 
 }

@@ -1,4 +1,7 @@
 package use_case.view_score;
+
+import java.util.List;
+
 /**
  * Output Data for the View Score Use Case.
  */
@@ -6,10 +9,12 @@ public class ViewScoreOutputData {
 
     private final String username;
     private final int score;
+    private final List<PerQuizResultData> perQuizResultData;
 
-    public ViewScoreOutputData(String username, int score) {
+    public ViewScoreOutputData(String username, int score, List<PerQuizResultData> perQuizResultData) {
         this.username = username;
         this.score = score;
+        this.perQuizResultData = perQuizResultData;
     }
 
     public String getUsername() {
@@ -18,5 +23,9 @@ public class ViewScoreOutputData {
 
     public int getScore() {
         return score;
+    }
+
+    public List<PerQuizResultData> getPerQuizResultData() {
+        return perQuizResultData;
     }
 }
