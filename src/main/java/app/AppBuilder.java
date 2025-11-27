@@ -1,6 +1,9 @@
 package app;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.compare_score.CompareScoreController;
+import interface_adapter.compare_score.CompareScorePresenter;
+import interface_adapter.compare_score.CompareScoreViewModel;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginPresenter;
 import interface_adapter.login.LoginViewModel;
@@ -19,6 +22,9 @@ import interface_adapter.customize_quiz.CustomizeQuizController;
 import interface_adapter.customize_quiz.CustomizeQuizPresenter;
 import interface_adapter.customize_quiz.CustomizeQuizViewModel;
 
+import use_case.compare_score.CompareScoreInputBoundary;
+import use_case.compare_score.CompareScoreInteractor;
+import use_case.compare_score.CompareScoreOutputBoundary;
 import use_case.customize_quiz.CustomizeQuizDataAccessInterface;
 import use_case.customize_quiz.CustomizeQuizInputBoundary;
 import use_case.customize_quiz.CustomizeQuizInteractor;
@@ -67,11 +73,13 @@ public class AppBuilder {
     private LoginViewModel loginViewModel;
     private PlayQuizView playQuizView;
     private PlayQuizViewModel playQuizViewModel;
+    private CompareScoreViewModel compareScoreViewModel;
 
     private CustomizeQuizView customizeQuizView;
     private CustomizeQuizViewModel customizeQuizViewModel;
     private ViewScoreViewModel viewScoreViewModel;
     private ViewScoreView viewScoreView;
+    private CompareScoreView compareScoreView;
 
     private SessionManager currentSession = new SessionManager();
 
@@ -213,6 +221,22 @@ public class AppBuilder {
             viewManagerModel.firePropertyChange();
         });
 
+        return this;
+    }
+
+    public AppBuilder addCompareScoreView() {
+        compareScoreViewModel = new CompareScoreViewModel();
+        compareScoreView = new CompareScoreView(compareScoreViewModel);
+        cardPanel.add(compareScoreView, "compare score");
+        return this;
+    }
+
+    public AppBuilder addCompareScoreUseCase() {
+        final CompareScoreOutputBoundary compareScoreOutputBoundary = new CompareScorePresenter(viewManagerModel, compareScoreViewModel);
+        final CompareScoreInputBoundary compareScoreInteractor = new CompareScoreInteractor(userDataReadObject, compareScoreOutputBoundary);
+        CompareScoreController compareScoreController = new CompareScoreController(compareScoreInteractor, currentSession);
+        compareScoreView.setCompareScoreController(compareScoreController);
+        viewScoreView.setCompareScoreController(compareScoreController);
         return this;
     }
 

@@ -1,6 +1,7 @@
 package interface_adapter.view_score;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.compare_score.CompareScoreViewModel;
 import interface_adapter.main_menu.MainMenuViewModel;
 import use_case.view_score.ViewScoreOutputBoundary;
 import use_case.view_score.ViewScoreOutputData;
@@ -15,7 +16,9 @@ public class ViewScorePresenter implements ViewScoreOutputBoundary {
     private final MainMenuViewModel mainMenuViewModel;
     private final ViewManagerModel viewManagerModel;
 
-    public ViewScorePresenter(ViewScoreViewModel viewScoreViewModel, MainMenuViewModel mainMenuViewModel, ViewManagerModel viewManagerModel) {
+    public ViewScorePresenter(ViewScoreViewModel viewScoreViewModel,
+                              MainMenuViewModel mainMenuViewModel,
+                              ViewManagerModel viewManagerModel) {
         this.viewScoreViewModel = viewScoreViewModel;
         this.mainMenuViewModel = mainMenuViewModel;
         this.viewManagerModel = viewManagerModel;
@@ -52,12 +55,6 @@ public class ViewScorePresenter implements ViewScoreOutputBoundary {
         //System.out.println("Target View: " + mainMenuViewModel.getViewName());
         viewManagerModel.setState(mainMenuViewModel.getViewName());
         viewManagerModel.firePropertyChange();
-    }
-
-    @Override
-    public void switchToCompareView(UUID quizResultId) {
-        // TODO
-
     }
 
 }

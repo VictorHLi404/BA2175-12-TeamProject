@@ -19,6 +19,8 @@ public class Main {
                 .addPlayQuizUseCase()
                 .addCustomizeQuizUseCase()
                 .addMainMenuUseCases()
+                .addCompareScoreView()
+                .addCompareScoreUseCase()
                 .build();
         application.pack();
         application.setLocationRelativeTo(null);
