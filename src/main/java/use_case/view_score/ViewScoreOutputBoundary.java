@@ -18,6 +18,4 @@ public interface ViewScoreOutputBoundary {
     void prepareFailView(String error);
 
     void switchToMainMenuView();
-
-    void switchToCompareView(UUID quizResultId);
 }

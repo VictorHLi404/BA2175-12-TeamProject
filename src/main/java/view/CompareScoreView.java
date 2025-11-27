@@ -48,6 +48,7 @@ public class CompareScoreView extends JPanel implements ActionListener, Property
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("track property change firing");
         final CompareScoreState compareScoreState = compareScoreViewModel.getState();
         removeAll();
         resultsTable = createResultsTable(compareScoreState);

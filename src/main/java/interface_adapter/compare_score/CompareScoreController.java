@@ -21,4 +21,8 @@ public class CompareScoreController {
                 sessionManager.getCurrentUser().getUserId());
         compareScoreInteractor.execute(inputData);
     }
+
+    public void executeQuizResultsId(UUID quizResultsId) {
+        compareScoreInteractor.switchToCompareScoreView(quizResultsId);
+    }
 }
