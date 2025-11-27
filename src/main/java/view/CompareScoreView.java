@@ -7,6 +7,7 @@ import interface_adapter.compare_score.CompareScoreViewModel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -32,13 +33,7 @@ public class CompareScoreView extends JPanel implements ActionListener, Property
         this.compareScoreViewModel.addPropertyChangeListener(this);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         CompareScoreState  compareScoreState = compareScoreViewModel.getState();
-        title = new JLabel(compareScoreState.getQuizNameOrDefault());
-        title.setAlignmentX(CENTER_ALIGNMENT);
-        add(title);
-        resultsTable = createResultsTable(compareScoreState);
-        add(new JScrollPane(resultsTable));
-        revalidate();
-        repaint();
+        rebuildView(compareScoreState);
     }
 
     @Override
@@ -46,17 +41,21 @@ public class CompareScoreView extends JPanel implements ActionListener, Property
 
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        System.out.println("track property change firing");
-        final CompareScoreState compareScoreState = compareScoreViewModel.getState();
+    private void rebuildView(CompareScoreState compareScoreState) {
         removeAll();
         resultsTable = createResultsTable(compareScoreState);
         title =  new JLabel(compareScoreState.getQuizNameOrDefault());
         add(title);
         add(new JScrollPane(resultsTable));
+        add(createBackButton());
         revalidate();
         repaint();
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        final CompareScoreState compareScoreState = compareScoreViewModel.getState();
+        rebuildView(compareScoreState);
     }
 
     private JTable createResultsTable(CompareScoreState compareScoreState) {
@@ -87,5 +86,25 @@ public class CompareScoreView extends JPanel implements ActionListener, Property
 
     public void setCompareScoreController(CompareScoreController compareScoreController) {
         this.compareScoreController = compareScoreController;
+    }
+
+    private JButton createBackButton() {
+
+        JButton backButton = new JButton("Back");
+        backButton.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+        backButton.setPreferredSize(new Dimension(180, 60));
+        backButton.setBackground(Color.GREEN);
+
+        backButton.addActionListener(
+                new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (e.getSource().equals(backButton)) {
+                            compareScoreController.switchToUserScoreView();
+                        }
+                    }
+                }
+        );
+        return backButton;
     }
 }
