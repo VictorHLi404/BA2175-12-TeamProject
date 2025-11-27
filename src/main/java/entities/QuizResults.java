@@ -40,8 +40,6 @@ public class QuizResults {
         return count;
     }
 
-    public UUID getUserId() { return userId; }
-
     public int getQuizSize() {return questions.size();}
 
     public int getScore() { return score; }
@@ -51,4 +49,8 @@ public class QuizResults {
     public String getTimestamp() { return timestamp; }
 
     public int getQuizLength() { return quizLength; }
+
+    public UUID getQuizId() { return quizId; }
+
+    public UUID getUserId() { return userId; }
 }
