@@ -60,6 +60,13 @@ public class CompareScoreInteractor implements CompareScoreInputBoundary{
     }
 
     @Override
+    public void switchToCompareScoreView(UUID quizResultsId) {
+        QuizResults quizresults = fileReaderGateway.loadQuizResults(quizResultsId);
+        CompareScoreInputData compareScoreInputData = new CompareScoreInputData(quizresults.getQuizId(), UUID.randomUUID());
+        execute(compareScoreInputData);
+    }
+
+    @Override
     public void switchToUserScoreView() {
         compareScorePresenter.switchToUserScoreView();
     }

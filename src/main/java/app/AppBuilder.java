@@ -236,6 +236,7 @@ public class AppBuilder {
         final CompareScoreInputBoundary compareScoreInteractor = new CompareScoreInteractor(userDataReadObject, compareScoreOutputBoundary);
         CompareScoreController compareScoreController = new CompareScoreController(compareScoreInteractor, currentSession);
         compareScoreView.setCompareScoreController(compareScoreController);
+        viewScoreView.setCompareScoreController(compareScoreController);
         return this;
     }
 

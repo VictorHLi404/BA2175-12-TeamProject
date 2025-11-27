@@ -64,9 +64,4 @@ public class ViewScoreInteractor implements ViewScoreInputBoundary
     public void switchToMainMenuView() {
         viewScoreOutputBoundary.switchToMainMenuView();
     }
-
-    @Override
-    public void switchToCompareView(UUID quizResultsId) {
-        viewScoreOutputBoundary.switchToCompareView(quizResultsId);
-    }
 }

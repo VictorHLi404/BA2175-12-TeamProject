@@ -58,7 +58,6 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
 
         play.addActionListener(e -> {
             if (mainMenuController != null) {
-                System.out.println("check here");
                 mainMenuController.switchToPlayView();
             }
         });

@@ -30,8 +30,4 @@ public class ViewScoreController {
         viewScoreInteractor.switchToMainMenuView();
     }
 
-    public void switchToCompareView(UUID quizResultsId) {
-        viewScoreInteractor.switchToCompareView(quizResultsId); // Pass to interactor
-    }
-
 }

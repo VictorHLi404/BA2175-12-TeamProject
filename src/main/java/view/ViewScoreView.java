@@ -1,6 +1,7 @@
 package view;
 
 import interface_adapter.ViewManagerModel;
+import interface_adapter.compare_score.CompareScoreController;
 import interface_adapter.view_score.ViewScoreController;
 import interface_adapter.view_score.ViewScoreState;
 import interface_adapter.view_score.ViewScoreViewModel;
@@ -21,6 +22,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
     private final ViewScoreViewModel viewScoreViewModel;
     private final ViewManagerModel viewManagerModel;
     private ViewScoreController viewScoreController;
+    private CompareScoreController compareScoreController;
 
     private final JButton viewScoreButton;
     private final JButton backButton;
@@ -173,9 +175,12 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         UUID quizResultsId = selectedQuiz.getQuizResultId();
 
         //System.out.println("DEBUG: Selected QuizResultId = " + quizResultsId);
-
-        if (viewScoreController != null) {
-            viewScoreController.switchToCompareView(quizResultsId);
+//
+//        if (viewScoreController != null) {
+//            viewScoreController.switchToCompareView(quizResultsId);
+//        }
+        if (compareScoreController != null) {
+            compareScoreController.executeQuizResultsId(quizResultsId);
         }
     }
 
@@ -206,6 +211,10 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
     public void setViewScoreController(ViewScoreController viewScoreController) {
         this.viewScoreController = viewScoreController;
+    }
+
+    public void setCompareScoreController(CompareScoreController compareScoreController) {
+        this.compareScoreController = compareScoreController;
     }
 
     class ButtonEditor extends DefaultCellEditor {
