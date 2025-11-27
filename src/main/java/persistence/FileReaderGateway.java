@@ -12,6 +12,8 @@ public interface FileReaderGateway {
 
     User loadUser(String username);
 
+    User loadUser(UUID userId);
+
     Map<String, User> loadAllUsers();
 
     Quiz loadQuiz(UUID quizId);

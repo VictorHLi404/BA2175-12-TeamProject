@@ -1,5 +1,7 @@
 package use_case.view_score;
 
+import java.util.UUID;
+
 /**
  * The output boundary for the View Score Use Case.
  */
