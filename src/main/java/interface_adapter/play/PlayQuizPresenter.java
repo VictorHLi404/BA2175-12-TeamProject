@@ -27,6 +27,8 @@ public class PlayQuizPresenter implements PlayQuizOutputBoundary {
             state.setLastAnswerCorrect(outputData.isCorrect());
         }
         state.setCurrentIndex(state.getCurrentIndex() + 1);
+        state.setCategory(outputData.getCategory());
+        state.setAnswer(outputData.getCorrectAnswer());
         state.setErrorMessage(null);
         playQuizViewModel.firePropertyChange();
     }

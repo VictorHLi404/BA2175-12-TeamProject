@@ -68,7 +68,8 @@ public class PlayQuizInteractor implements PlayQuizInputBoundary {
                 finished,
                 current.getQuestion(),
                 current.getChoices(),
-                current.getFormat()
+                current.getFormat(),
+                current.getCategory()
         );
 
         // Show result
@@ -113,7 +114,8 @@ public class PlayQuizInteractor implements PlayQuizInputBoundary {
                 currentIndex == questions.size() - 1,
                 q.getQuestion(),
                 q.getChoices(),
-                q.getFormat()
+                q.getFormat(),
+                q.getCategory()
         );
 
         if ("multiple".equalsIgnoreCase(q.getFormat())) {
