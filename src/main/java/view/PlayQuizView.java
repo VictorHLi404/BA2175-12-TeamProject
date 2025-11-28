@@ -22,7 +22,9 @@ public class PlayQuizView extends JPanel {
     // Labels
     private final JLabel questionLabel = new JLabel("", SwingConstants.CENTER);
     private final JLabel scoreLabel = new JLabel("", SwingConstants.CENTER);
+    private final JLabel categoryLabel = new JLabel("", SwingConstants.CENTER);
     private final JLabel resultLabel = new JLabel("", SwingConstants.CENTER);
+    private final JLabel answerLabel = new JLabel("", SwingConstants.CENTER);
 
     // Panels for dynamic content
     private final JPanel multipleChoicePanel = new JPanel();
@@ -49,19 +51,25 @@ public class PlayQuizView extends JPanel {
 
         questionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        categoryLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         resultLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        answerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         nextButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         instructionsButton.setAlignmentX(Component.CENTER_ALIGNMENT); // move under options
 
         nextButton.setVisible(false); // hidden until answer is submitted
 
+        centerPanel.add(Box.createVerticalStrut(10));
+        centerPanel.add(categoryLabel);
         centerPanel.add(Box.createVerticalStrut(20));
         centerPanel.add(questionLabel);
         centerPanel.add(Box.createVerticalStrut(10));
         centerPanel.add(scoreLabel);
         centerPanel.add(Box.createVerticalStrut(10));
         centerPanel.add(resultLabel);
+        centerPanel.add(Box.createVerticalStrut(10));
+        centerPanel.add(answerLabel);
         centerPanel.add(Box.createVerticalStrut(10));
 
 // Add dynamic panels (choices) first
@@ -90,6 +98,8 @@ public class PlayQuizView extends JPanel {
     }
 
     private void onNext() {
+        answerLabel.setVisible(false);
+        answerLabel.setText("");
         resultLabel.setVisible(false);
         resultLabel.setText("");
         viewModel.getState().setLastAnswerCorrect(null);
@@ -177,11 +187,14 @@ public class PlayQuizView extends JPanel {
         nextButton.setVisible(false);
         nextButton.setEnabled(true);
 
+        answerLabel.setVisible(false);
+        answerLabel.setText("");
         resultLabel.setVisible(false);
         resultLabel.setText("");
 
         questionLabel.setText("<html><h3>" + state.getQuestionText() + "</h3></html>");
         scoreLabel.setText("Score: " + state.getCumulativeScore());
+        categoryLabel.setText("Category: " + state.getCategory());
 
         if (state.getQuestionText() != null && !state.getQuestionText().isEmpty()) {
             Boolean correct = state.isLastAnswerCorrect();
@@ -191,6 +204,8 @@ public class PlayQuizView extends JPanel {
                     resultLabel.setText("Correct!");
                     resultLabel.setForeground(Color.GREEN.darker());
                 } else {
+                    answerLabel.setVisible(true);
+                    answerLabel.setText("Answer: " + state.getAnswer());
                     resultLabel.setText("Incorrect!");
                     resultLabel.setForeground(Color.RED);
                 }

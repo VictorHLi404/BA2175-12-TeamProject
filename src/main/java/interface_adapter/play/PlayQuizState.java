@@ -18,6 +18,7 @@ public class PlayQuizState {
     private boolean finished = false;
     private Boolean lastAnswerCorrect = null;
     private String questionFormat; // "multiple" or "boolean"
+    private String category;
     private String errorMessage;
 
     // Add listener support
@@ -37,15 +38,18 @@ public class PlayQuizState {
     public boolean isFinished() { return finished; }
     public Boolean isLastAnswerCorrect() { return lastAnswerCorrect; }
     public String getQuestionFormat() { return questionFormat; }
+    public String getCategory() { return category; }
     public String getErrorMessage() { return errorMessage; }
 
     public void setQuestionText(String questionText) { this.questionText = questionText; }
     public void setChoices(List<String> choices) { this.choices = choices; }
+    public void setAnswer(String correctAnswer) { this.correctAnswer = correctAnswer; }
     public void setCumulativeScore(int cumulativeScore) { this.cumulativeScore = cumulativeScore; }
     public void setCurrentIndex(int currentIndex) { this.currentIndex = currentIndex; }
     public void setFinished(boolean finished) { this.finished = finished; }
     public void setLastAnswerCorrect(Boolean lastAnswerCorrect) { this.lastAnswerCorrect = lastAnswerCorrect; }
     public void setQuestionFormat(String questionFormat) { this.questionFormat = questionFormat; }
+    public void setCategory(String category) { this.category = category; }
     public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
 
     @Override

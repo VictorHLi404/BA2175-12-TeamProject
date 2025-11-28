@@ -12,13 +12,14 @@ public class PlayQuizOutputData {
     private final String nextQuestionText;
     private final List<String> nextChoices;
     private final String questionFormat;     // "multiple" or "boolean"
+    private final String category;
 
     public PlayQuizOutputData(boolean correct, String correctAnswer,
                               int cumulativeScore,
                               boolean finished,
                               String nextQuestionText,
                               List<String> nextChoices,
-                              String questionFormat) {
+                              String questionFormat, String category) {
         this.correct = correct;
         this.correctAnswer = correctAnswer;
         this.cumulativeScore = cumulativeScore;
@@ -26,6 +27,7 @@ public class PlayQuizOutputData {
         this.nextQuestionText = nextQuestionText;
         this.nextChoices = nextChoices;
         this.questionFormat = questionFormat;
+        this.category = category;
     }
 
     public boolean isCorrect() { return correct; }
@@ -35,6 +37,7 @@ public class PlayQuizOutputData {
     public String getNextQuestionText() { return nextQuestionText; }
     public List<String> getNextChoices() { return nextChoices; }
     public String getQuestionFormat() { return questionFormat; }
+    public String getCategory() { return category; }
 
 
 }
