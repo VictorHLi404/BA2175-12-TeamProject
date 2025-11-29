@@ -256,6 +256,11 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
         }
     }
 
+    // The controller was originally set to null, but now we pass in a real Controller
+    public void setController(CreateQuizController controller) {
+        this.controller = controller;
+    }
+
     private void clearQuestionForm() {
         questionArea.setText("");
         optionAField.setText("");
