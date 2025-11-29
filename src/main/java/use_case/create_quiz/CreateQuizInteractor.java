@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CreateQuizInteractor implements CreateQuizInputBoundary {
 
@@ -25,16 +26,16 @@ public class CreateQuizInteractor implements CreateQuizInputBoundary {
         }
 
         // List to store the questions that are approved
-        List<Question> validatedQuestions = getQuestions(inputData);
+        List<UUID> validatedQuestionIDs = getQuestions(inputData);
 
         // Check if there's at least one question in the quiz
-        if (validatedQuestions.isEmpty()) {
+        if (validatedQuestionIDs.isEmpty()) {
             presenter.prepareFailView("A quiz must have at least 1 question!");
             return;
         }
 
             // Creating the Quiz object
-            Quiz quiz = new Quiz(validatedQuestions, true, validatedQuestions.size());
+            Quiz quiz = new Quiz(validatedQuestionIDs, true, validatedQuestionIDs.size());
 
             // Saving the quiz in the DAO
             DAO.saveQuiz(quiz);
@@ -45,8 +46,10 @@ public class CreateQuizInteractor implements CreateQuizInputBoundary {
         }
 
     @NotNull
-    private static List<Question> getQuestions(CreateQuizInputData inputData) {
-        List<Question> validatedQuestions = new ArrayList<>();
+    private static List<UUID> getQuestions(CreateQuizInputData inputData) {
+
+        // Store the IDs of the questions that are approved
+        List<UUID> validatedQuestionIDs = new ArrayList<>();
 
         // Iterate through each question in the quiz
         for (QuestionInputData questionInput : inputData.getQuestions()) {
@@ -61,14 +64,15 @@ public class CreateQuizInteractor implements CreateQuizInputBoundary {
                     questionInput.getQuestion(),
                     questionInput.getChoices(),
                     questionInput.getCorrectChoice(),
-                    true
+                    true,
+                    questionInput.getCategory()
             );
 
-            // Add q to the existing list of questions
-            validatedQuestions.add(q);
+            // Store the question's ID
+            validatedQuestionIDs.add(q.getQuestionId());
 
         }
-        return validatedQuestions;
+        return validatedQuestionIDs;
     }
 
 }

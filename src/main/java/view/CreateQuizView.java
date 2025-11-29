@@ -1,4 +1,4 @@
-package interface_adapter.UI;
+package view;
 
 import interface_adapter.create_quiz.CreateQuizController;
 import interface_adapter.create_quiz.CreateQuizState;
@@ -12,7 +12,7 @@ import java.beans.PropertyChangeEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateQuizScreen extends JPanel implements PropertyChangeListener {
+public class CreateQuizView extends JPanel implements PropertyChangeListener {
 
     private CreateQuizController controller;
     private final CreateQuizViewModel viewModel;
@@ -57,7 +57,7 @@ public class CreateQuizScreen extends JPanel implements PropertyChangeListener {
     private final JButton addQuestionButton = new JButton("Add Question");
     private final JButton saveQuizButton = new JButton("Save Quiz");
 
-    public CreateQuizScreen(CreateQuizController controller, CreateQuizViewModel viewModel) {
+    public CreateQuizView(CreateQuizController controller, CreateQuizViewModel viewModel) {
 
         // Initialize the controller and question list
         this.controller = controller;
