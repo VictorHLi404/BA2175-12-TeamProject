@@ -3,7 +3,7 @@
 
 package interface_adapter.UI;
 
-import use_case.QuestionInputData;
+import use_case.create_quiz.QuestionInputData;
 
 import javax.swing.*;
 import java.awt.*;

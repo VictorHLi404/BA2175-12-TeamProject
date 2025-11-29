@@ -1,9 +1,9 @@
 package interface_adapter.UI;
 
-import interface_adapter.CreateQuizController;
-import interface_adapter.CreateQuizState;
-import interface_adapter.CreateQuizViewModel;
-import use_case.QuestionInputData;
+import interface_adapter.create_quiz.CreateQuizController;
+import interface_adapter.create_quiz.CreateQuizState;
+import interface_adapter.create_quiz.CreateQuizViewModel;
+import use_case.create_quiz.QuestionInputData;
 
 import javax.swing.*;
 import java.awt.*;

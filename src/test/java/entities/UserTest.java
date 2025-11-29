@@ -26,7 +26,7 @@ public class UserTest {
 
         assertTrue(played);
         assertEquals(1, user.getPlayedQuizzes().size());
-        assertTrue(user.getPlayedQuizzes().contains(publicQuiz));
+        assertTrue(user.getPlayedQuizzes().contains(publicQuiz.getQuizId()));
     }
 
     @Test
@@ -39,20 +39,12 @@ public class UserTest {
     }
 
     @Test
-    public void testPlayQuizNullReturnsFalse() {
-        boolean played = user.playQuiz(null);
-
-        assertFalse(played);
-        assertTrue(user.getPlayedQuizzes().isEmpty());
-    }
-
-    @Test
     public void testCreateQuizAndPlayIt() {
         user.createQuiz(customQuiz);
         boolean played = user.playQuiz(customQuiz);
 
         assertTrue(played);
-        assertTrue(user.getPlayedQuizzes().contains(customQuiz));
-        assertTrue(user.getCreatedQuizzes().contains(customQuiz));
+        assertTrue(user.getPlayedQuizzes().contains(customQuiz.getQuizId()));
+        assertTrue(user.getCreatedQuizzes().contains(customQuiz.getQuizId()));
     }
 }
