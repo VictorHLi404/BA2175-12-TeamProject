@@ -88,6 +88,15 @@ public class PlayQuizView extends JPanel {
         // Listen to ViewModel changes
         viewModel.addPropertyChangeListener(evt -> refreshView());
 
+        instructionsButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(
+                    this,
+                    InstructionsContent.getInstructions(),
+                    "Instructions",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
         // Submit button action
         submitButton.addActionListener(e -> onSubmit());
 
