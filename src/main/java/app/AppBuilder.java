@@ -266,7 +266,6 @@ public class AppBuilder {
 
     public AppBuilder addCreateQuizUseCase() {
 
-
         CreateQuizUserDataAccessInterface createQuizDAO = new CreateQuizDAO();
 
         CreateQuizOutputBoundary presenter = new CreateQuizPresenter(viewManagerModel, createQuizViewModel);
