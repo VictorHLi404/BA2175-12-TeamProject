@@ -13,6 +13,8 @@ public class MainMenuController {
         mainMenuInputBoundary.switchToPlayView();
     }
 
+    public void switchToQuizCustomizationView() { mainMenuInputBoundary.switchToQuizCustomizationView(); }
+
 
     public void switchToViewScore() {
         mainMenuInputBoundary.switchToPlayerHistoryView();

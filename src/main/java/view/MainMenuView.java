@@ -3,6 +3,8 @@ package view;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.main_menu.MainMenuController;
 import interface_adapter.main_menu.MainMenuViewModel;
+import interface_adapter.view_score.ViewScoreController;
+import interface_adapter.view_score.ViewScoreViewModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,6 +55,12 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
         gbc.gridy = 2;
         gbc.weighty = 1;
         this.add(createQuiz, gbc);
+
+        play.addActionListener(e -> {
+            if (mainMenuController != null) {
+                mainMenuController.switchToQuizCustomizationView();
+            }
+        });
 
         createQuiz.addActionListener (new ActionListener() {
 

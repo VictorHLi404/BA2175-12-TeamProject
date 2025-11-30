@@ -8,27 +8,27 @@ public class MainMenuPresenter implements MainMenuOutputBoundary {
 
     private final MainMenuViewModel mainMenuViewModel;
     private final ViewManagerModel viewManagerModel;
-    private final ViewScoreViewModel viewScoreViewModel;
 
-    public MainMenuPresenter (MainMenuViewModel mainMenuViewModel, ViewManagerModel viewManagerModel, ViewScoreViewModel viewScoreViewModel) {
+    public MainMenuPresenter (MainMenuViewModel mainMenuViewModel, ViewManagerModel viewManagerModel) {
         this.mainMenuViewModel = mainMenuViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.viewScoreViewModel = viewScoreViewModel;
     }
 
     @Override
     public void switchToPlayView() {
-        // TODO: Put in code that switches to the play view
+        viewManagerModel.setState("playQuiz");
+        viewManagerModel.firePropertyChange();
     }
 
     @Override
     public void switchToQuizCustomizationView() {
-        // TODO: Put in code that swithces to the quiz customization view
+        viewManagerModel.setState("customize quiz");
+        viewManagerModel.firePropertyChange();
     }
 
     @Override
     public void switchToPlayerHistoryView() {
-        viewManagerModel.setState(viewScoreViewModel.getViewName());
+        viewManagerModel.setState("view Score");
         viewManagerModel.firePropertyChange();
     }
 }

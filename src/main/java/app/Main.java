@@ -16,7 +16,10 @@ public class Main {
                 .addSignupUseCase()
                 .addLoginUseCase()
                 .addCustomizeQuizUseCase()
+                .addPlayQuizUseCase()
                 .addMainMenuUseCases()
+                .addCompareScoreView()
+                .addCompareScoreUseCase()
                 .build();
         application.pack();
         application.setLocationRelativeTo(null);
