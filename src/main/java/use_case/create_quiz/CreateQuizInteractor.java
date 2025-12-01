@@ -36,7 +36,7 @@ public class CreateQuizInteractor implements CreateQuizInputBoundary {
 
             // Creating the Quiz object
             Quiz quiz = new Quiz(validatedQuestionIDs, true, validatedQuestionIDs.size());
-
+            quiz.setQuizName(inputData.getQuizName());
             // Saving the quiz in the DAO
             DAO.saveQuiz(quiz);
 

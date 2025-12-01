@@ -213,7 +213,7 @@ public class AppBuilder {
                         .toList();
 
                 Quiz customQuiz = new Quiz(ids, true, ids.size());
-                customQuiz.setQuizName("Customized Quiz");
+                customQuiz.setQuizName("Generated Quiz " + customQuiz.getQuizId().toString().substring(0, 8));
 
                 controller.startCustomizedQuiz(customizedQuestions, customQuiz);
             }
