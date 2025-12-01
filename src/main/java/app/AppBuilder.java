@@ -106,7 +106,7 @@ public class AppBuilder {
 
     public AppBuilder addMainMenuView() {
         mainMenuViewModel = new MainMenuViewModel();
-        mainMenuView = new MainMenuView(mainMenuViewModel,viewManagerModel);
+        mainMenuView = new MainMenuView(mainMenuViewModel);
         cardPanel.add(mainMenuView, mainMenuView.getViewName());
 
         MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuViewModel, viewManagerModel);

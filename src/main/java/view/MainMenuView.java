@@ -18,80 +18,68 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
     private final String viewName = "Main Menu";
     private final MainMenuViewModel mainMenuViewModel;
     private MainMenuController mainMenuController;
-    private JButton play;
-    private ViewManagerModel viewManagerModel;
+    private JButton playButton;
+    private JButton createQuizButton;
+    private JButton viewScoresButton;
     private JButton instructionsButton;
 
 
-    public MainMenuView(MainMenuViewModel mainMenuViewModel,  ViewManagerModel viewManagerModel) {
+    public MainMenuView(MainMenuViewModel mainMenuViewModel) {
         this.mainMenuViewModel = mainMenuViewModel;
-        this.viewManagerModel = viewManagerModel;
-        this.setLayout(new GridBagLayout());
-        this.setBackground(Color.GRAY);
         mainMenuViewModel.addPropertyChangeListener(this);
-        GridBagConstraints gbc = new GridBagConstraints();
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50)); // padding
 
-        JLabel titleCard = new JLabel(MainMenuViewModel.TITLE_LABEL);
-        titleCard.setFont(new Font("Algerian", Font.BOLD, 64));
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0.5;
-        gbc.weighty = 0.5;
-        gbc.fill = GridBagConstraints.NORTH;
-        this.add(titleCard, gbc);
+        // -------- TITLE --------
+        JLabel title = new JLabel(MainMenuViewModel.TITLE_LABEL, SwingConstants.CENTER);
+        title.setFont(new Font("Algerian", Font.BOLD, 64));
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        titlePanel.add(title);
+        add(titlePanel, BorderLayout.NORTH);
 
-        play = new JButton(MainMenuViewModel.PLAY_BUTTON_LABEL);
-        play.setFont(new Font("Times New Roman", Font.PLAIN, 32));
-        play.setPreferredSize(new Dimension(400, 150));
-        play.setBackground(Color.GREEN);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weighty = 1;
-        this.add(play, gbc);
+        // -------- BUTTON PANEL --------
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
+        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
-        JButton createQuiz = new JButton("CREATE QUIZ");
-        createQuiz.setFont(new Font("Times New Roman", Font.PLAIN, 32));
-        createQuiz.setPreferredSize(new Dimension(400, 150));
-        createQuiz.setBackground(Color.GREEN);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weighty = 1;
-        this.add(createQuiz, gbc);
+        playButton = new JButton(MainMenuViewModel.PLAY_BUTTON_LABEL);
+        createQuizButton = new JButton("CREATE QUIZ");
+        viewScoresButton = new JButton("VIEW MY SCORES");
+        instructionsButton = new JButton("INSTRUCTIONS");
 
-        play.addActionListener(e -> {
+        styleButton(playButton, 400, 80);
+        styleButton(createQuizButton, 400, 80);
+        styleButton(viewScoresButton, 400, 80);
+        styleButton(instructionsButton, 300, 60);
+
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(playButton);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(createQuizButton);
+        buttonPanel.add(Box.createVerticalStrut(20));
+        buttonPanel.add(viewScoresButton);
+        buttonPanel.add(Box.createVerticalStrut(40));
+        buttonPanel.add(instructionsButton);
+
+        add(buttonPanel, BorderLayout.CENTER);
+
+        playButton.addActionListener(e -> {
             if (mainMenuController != null) {
                 mainMenuController.switchToQuizCustomizationView();
             }
         });
 
-        createQuiz.addActionListener (new ActionListener() {
+        createQuizButton.addActionListener (new ActionListener() {
 
             public void actionPerformed (ActionEvent e) {
-                if (e.getSource().equals(createQuiz)) {
+                if (e.getSource().equals(createQuizButton)) {
                     mainMenuController.switchToCreateQuizView();
                 }
                 
             }
 
         });
-
-        JButton viewScores = new JButton("VIEW MY SCORES");
-        viewScores.setFont(new Font("Times New Roman", Font.PLAIN, 32));
-        viewScores.setPreferredSize(new Dimension(400, 150));
-        viewScores.setBackground(Color.GREEN);
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.weighty = 1;
-        this.add(viewScores, gbc);
-
-        instructionsButton = new JButton("INSTRUCTIONS");
-        instructionsButton.setFont(new Font("Times New Roman", Font.PLAIN, 24));
-        instructionsButton.setPreferredSize(new Dimension(300, 80));
-        instructionsButton.setBackground(Color.GREEN);
-        gbc.gridx = 0;
-        gbc.gridy = 4;          // 放在最下面一行
-        gbc.weighty = 1;
-        this.add(instructionsButton, gbc);
 
 // 给 instructions 按钮加监听
         instructionsButton.addActionListener(e -> {
@@ -103,14 +91,23 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
             );
         });
 
-        viewScores.addActionListener(new ActionListener() {
+        viewScoresButton.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e) {
-                if (e.getSource().equals(viewScores)){
+                if (e.getSource().equals(viewScoresButton)){
                     mainMenuController.switchToViewScore();
                 }
             }
 
         });
+    }
+
+
+    private void styleButton(JButton button, int width, int height) {
+        button.setFocusPainted(false);
+        button.setFont(new Font("SansSerif", Font.PLAIN, 24));
+        button.setBackground(new Color(230, 230, 230));
+        button.setMaximumSize(new Dimension(width, height));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
     }
 
     @Override
@@ -132,6 +129,6 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
     }
 
     public void addPlayAction(Runnable action) {
-        play.addActionListener(e -> action.run());
+        playButton.addActionListener(e -> action.run());
     }
 }
