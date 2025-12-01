@@ -57,10 +57,9 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
     private final JButton addQuestionButton = new JButton("Add Question");
     private final JButton saveQuizButton = new JButton("Save Quiz");
 
-    public CreateQuizView(CreateQuizController controller, CreateQuizViewModel viewModel) {
+    public CreateQuizView(CreateQuizViewModel viewModel) {
 
-        // Initialize the controller and question list
-        this.controller = controller;
+        // Initialize question list
         this.viewModel = viewModel;
 
         viewModel.addPropertyChangeListener(this);

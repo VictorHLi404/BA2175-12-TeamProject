@@ -272,7 +272,7 @@ public class AppBuilder {
     public AppBuilder addCreateQuizView() {
         createQuizViewModel = new CreateQuizViewModel();
         // CreateQuizView requires a controller and viewModel, but we set the controller to null for now
-        createQuizView = new CreateQuizView(null, createQuizViewModel);
+        createQuizView = new CreateQuizView(createQuizViewModel);
         cardPanel.add(createQuizView, "Create Quiz");
         return this;
     }

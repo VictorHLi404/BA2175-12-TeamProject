@@ -33,6 +33,12 @@ public class CreateQuizDAO implements CreateQuizUserDataAccessInterface{
         Map<UUID, Quiz> allQuizzes = fileReader.loadAllQuizzes();
 
         for (Quiz quiz : allQuizzes.values()) {
+
+            // Hard coding to prevent quiz.getQuizName() from being null
+            if (quiz.getQuizName() == null) {
+                return false;
+            }
+
             if (quiz.getQuizName().strip().equals(quizName)) {
                 return true;
             }

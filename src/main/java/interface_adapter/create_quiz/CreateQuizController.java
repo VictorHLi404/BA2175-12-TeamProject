@@ -19,5 +19,9 @@ public class CreateQuizController {
         createQuizInteractor.execute(createQuizInputData);
     }
 
+    public void switchToUserScoreView() {
+        createQuizInteractor.switchToUserScoreView();
+    }
+
 
 }

@@ -47,4 +47,12 @@ public class CreateQuizPresenter implements CreateQuizOutputBoundary {
 
     }
 
+    @Override
+    public void switchToUserScoreView() {
+        // TODO: Add transition work to go back to score view
+        createQuizViewModel.setState(new CreateQuizState());
+        viewManagerModel.setState("view Score");
+        viewManagerModel.firePropertyChange();
+    }
+
 }

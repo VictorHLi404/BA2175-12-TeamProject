@@ -33,6 +33,10 @@ public class CreateQuizInteractorTest {
                 Assertions.fail(error);
             }
 
+            public void switchToUserScoreView() {
+
+            }
+
         };
 
         failurePresenter = new CreateQuizOutputBoundary() {
@@ -46,6 +50,8 @@ public class CreateQuizInteractorTest {
             public void prepareFailView(String error) {
                 Assertions.assertNotNull(error);
             }
+
+            public void switchToUserScoreView() {}
 
         };
 

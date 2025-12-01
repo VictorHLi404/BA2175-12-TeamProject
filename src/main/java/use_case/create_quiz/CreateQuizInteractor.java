@@ -45,6 +45,11 @@ public class CreateQuizInteractor implements CreateQuizInputBoundary {
 
         }
 
+    @Override
+    public void switchToUserScoreView() {
+        presenter.switchToUserScoreView();
+    }
+
     @NotNull
     private static List<UUID> getQuestions(CreateQuizInputData inputData) {
 
