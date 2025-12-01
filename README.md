@@ -1,4 +1,4 @@
-# CSC236-B2175-12: Trivia Quiz Software
+# CSC207-B2175-12: Trivia Quiz Software
 
 This project is a full-stack application that allows users to play, create, and compare their scores against other people on trivia quizzes. It uses a JSwing front-end UI and a Java backend, pulling trivia questions from the Open Trivia Database (opentdb.com) to fill out quizzes for people to try.
 
