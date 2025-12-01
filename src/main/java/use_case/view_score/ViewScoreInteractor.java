@@ -58,7 +58,7 @@ public class ViewScoreInteractor implements ViewScoreInputBoundary
             perQuizData.sort(Comparator.comparing(PerQuizResultData::getDateTime));
             double rawScore = (double) totalCorrectAnswers / totalQuestions;
             int scorePercentage = (int) (rawScore * 100);
-            ViewScoreOutputData outputData = new ViewScoreOutputData(username, scorePercentage,perQuizData);
+            ViewScoreOutputData outputData = new ViewScoreOutputData(username, scorePercentage, perQuizData);
             viewScoreOutputBoundary.prepareSuccessView(outputData);
         }
 

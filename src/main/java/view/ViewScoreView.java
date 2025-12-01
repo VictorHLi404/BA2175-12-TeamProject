@@ -131,13 +131,13 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(viewScoreButton) && viewScoreController != null){
                             final ViewScoreState currentState = viewScoreViewModel.getState();
-
-                            if (viewScoreController != null) {
-                                String targetUsername = viewScoreViewModel.getState().getUsername();
-                                //System.out.println("DEBUG: Viewing score for: " + targetUsername);
+                            final String targetUsername = currentState.getUsername();
+                            // System.out.println(targetUsername);
+                            if (targetUsername != null && !targetUsername.isEmpty()) {
                                 viewScoreController.execute(targetUsername);
                             } else {
                                 //System.out.println("Username is empty");
+                                messageLabel.setText("Unable to load scores: no user is logged in.");
                             }
                         }
                     }
@@ -149,6 +149,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(backButton)) {
+                            resetView();
                             if (viewScoreController == null) {
                                 //System.out.println("DEBUG ERROR: ViewScoreController is NULL in View.");
                             } else {
@@ -215,6 +216,13 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
         this.revalidate();
         this.repaint();
+    }
+
+    private void resetView() {
+        historyTableModel.setRowCount(0);
+        tablePanel.setVisible(false);
+        viewScoreButton.setVisible(true);
+        messageLabel.setText("Select a user to view score.");
     }
 
     public void setViewScoreController(ViewScoreController viewScoreController) {

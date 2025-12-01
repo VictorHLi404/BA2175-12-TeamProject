@@ -1,9 +1,8 @@
-package use_case;
+package use_case.customize_quiz;
 
 import entities.Question;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import use_case.customize_quiz.*;
 
 import java.io.IOException;
 import java.util.Arrays;

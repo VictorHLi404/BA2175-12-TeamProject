@@ -6,21 +6,25 @@ import persistence.JsonFileDataStore;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class CustomizeQuizView extends JPanel {
 
     private final String viewName = "customize quiz";
     private JButton playNow;
-    private JButton playPrevious;
+    private final JButton confirmPrevious;
     private JButton instructionsButton;
     private JButton applyButton;
     private JButton resetButton;
 
-
+    private final DefaultComboBoxModel<String> previousQuizModel = new DefaultComboBoxModel<>();
     private JComboBox<String> difficulty;
     private JComboBox<String> type;
     private JComboBox<String> category;
+    private JComboBox<String> previousQuizzes;
 
     public CustomizeQuizView(CustomizeQuizController controller, CustomizeQuizViewModel viewModel) {
 
@@ -71,7 +75,7 @@ public class CustomizeQuizView extends JPanel {
         applyButton = createStyledButton("Apply", 200, 40);
         resetButton = createStyledButton("Reset to Default", 200, 40);
         playNow = createStyledButton("Play Now", 200, 40);
-        playPrevious = createStyledButton("Play Previous Quiz", 200, 40);
+        confirmPrevious = createStyledButton("Play Previous Quiz", 200, 40);
         instructionsButton = createStyledButton("Instructions", 200, 40);
 
         // Stack buttons vertically and center
@@ -81,7 +85,7 @@ public class CustomizeQuizView extends JPanel {
         add(Box.createVerticalStrut(20));
         add(createCenteredPanel(null, playNow));
         add(Box.createVerticalStrut(20));
-        add(createCenteredPanel(null, playPrevious));
+        add(createCenteredPanel(null, confirmPrevious));
         add(Box.createVerticalStrut(20));
         add(createCenteredPanel(null, instructionsButton));
 
@@ -168,8 +172,18 @@ public class CustomizeQuizView extends JPanel {
         playNow.addActionListener(e -> action.run());
     }
 
-    public void addPlayPreviousAction(Runnable action) {
-        playPrevious.addActionListener(e -> action.run());
+    public void setPreviousQuizzes(List<String> quizzes) {
+        previousQuizModel.removeAllElements();
+        for (String quiz : quizzes != null ? quizzes : new ArrayList<String>()) {
+            previousQuizModel.addElement(quiz);
+        }
+    }
+
+    public void addPlayPreviousAction(Consumer<String> action) {
+        confirmPrevious.addActionListener(e -> {
+            Object selection = previousQuizzes.getSelectedItem();
+            action.accept(selection == null ? null : selection.toString());
+        });
     }
 
     public String getViewName() {
