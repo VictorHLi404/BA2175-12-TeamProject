@@ -6,4 +6,6 @@ public interface MainMenuInputBoundary {
     void switchToQuizCustomizationView();
 
     void switchToPlayerHistoryView();
+
+    void switchToCreateQuizView();
 }

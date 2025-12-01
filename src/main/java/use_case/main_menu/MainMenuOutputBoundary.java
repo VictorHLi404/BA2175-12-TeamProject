@@ -7,4 +7,6 @@ public interface MainMenuOutputBoundary {
     void switchToQuizCustomizationView();
 
     void switchToPlayerHistoryView();
+
+    void switchToCreateQuizView();
 }

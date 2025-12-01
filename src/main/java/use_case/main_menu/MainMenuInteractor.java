@@ -21,4 +21,7 @@ public class MainMenuInteractor implements MainMenuInputBoundary {
     public void switchToPlayerHistoryView() {
         mainMenuOutputBoundary.switchToPlayerHistoryView();
     }
+
+    @Override
+    public void switchToCreateQuizView() {mainMenuOutputBoundary.switchToCreateQuizView();}
 }

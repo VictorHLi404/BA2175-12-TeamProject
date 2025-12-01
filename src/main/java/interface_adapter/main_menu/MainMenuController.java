@@ -19,4 +19,6 @@ public class MainMenuController {
     public void switchToViewScore() {
         mainMenuInputBoundary.switchToPlayerHistoryView();
     }
+
+    public void switchToCreateQuizView() {mainMenuInputBoundary.switchToCreateQuizView();}
 }
