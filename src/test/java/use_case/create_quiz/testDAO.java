@@ -2,6 +2,7 @@ package use_case.create_quiz;
 
 import entities.Question;
 import entities.Quiz;
+import usecase.create_quiz.CreateQuizUserDataAccessInterface;
 
 import java.util.ArrayList;
 import java.util.List;

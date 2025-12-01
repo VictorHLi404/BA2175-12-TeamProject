@@ -10,9 +10,9 @@ import persistence.DataStore;
 import persistence.FileReaderGateway;
 import persistence.JsonFileDataStore;
 import persistence.JsonFileReader;
+import usecase.view_score.*;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.*;

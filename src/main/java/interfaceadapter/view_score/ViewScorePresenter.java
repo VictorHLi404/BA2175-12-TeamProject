@@ -1,0 +1,57 @@
+package interfaceadapter.view_score;
+
+import interfaceadapter.ViewManagerModel;
+import interfaceadapter.main_menu.MainMenuViewModel;
+import usecase.view_score.ViewScoreOutputBoundary;
+import usecase.view_score.ViewScoreOutputData;
+
+public class ViewScorePresenter extends ViewScoreViewModel implements ViewScoreOutputBoundary {
+
+
+
+    private final ViewScoreViewModel viewScoreViewModel;
+    private final MainMenuViewModel mainMenuViewModel;
+    private final ViewManagerModel viewManagerModel;
+
+    public ViewScorePresenter(ViewScoreViewModel viewScoreViewModel,
+                              MainMenuViewModel mainMenuViewModel,
+                              ViewManagerModel viewManagerModel) {
+        this.viewScoreViewModel = viewScoreViewModel;
+        this.mainMenuViewModel = mainMenuViewModel;
+        this.viewManagerModel = viewManagerModel;
+    }
+
+    @Override
+    public void prepareSuccessView(ViewScoreOutputData outputData) {
+        final ViewScoreState viewScoreState = viewScoreViewModel.getState();
+        viewScoreState.setScore(outputData.getScore());
+        viewScoreState.setUsername(outputData.getUsername());
+        viewScoreState.setPerQuizData(outputData.getPerQuizResultData());
+        viewScoreState.setViewMessage("Average Score: " + outputData.getScore() + " %");
+        viewScoreViewModel.firePropertyChange();
+    }
+
+    @Override
+    public void prepareNoResultsView(String username) {
+        final ViewScoreState viewScoreState = viewScoreViewModel.getState();
+        viewScoreState.setUsername(username);
+        viewScoreState.setViewMessage(username + " has not played any quiz yet.");
+        viewScoreViewModel.firePropertyChange();
+    }
+
+    @Override
+    public void prepareFailView(String error) {
+        final ViewScoreState viewScoreState = viewScoreViewModel.getState();
+        viewScoreState.setScore(0);
+        viewScoreState.setViewMessage("Error: " + error);
+        viewScoreViewModel.firePropertyChange();
+    }
+
+    @Override
+    public void switchToMainMenuView() {
+        //System.out.println("Target View: " + mainMenuViewModel.getViewName());
+        viewManagerModel.setState(mainMenuViewModel.getViewName());
+        viewManagerModel.firePropertyChange();
+    }
+
+}
