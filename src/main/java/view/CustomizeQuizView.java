@@ -85,6 +85,14 @@ public class CustomizeQuizView extends JPanel {
         add(Box.createVerticalStrut(20));
         add(createCenteredPanel(null, playNow));
         add(Box.createVerticalStrut(20));
+
+        previousQuizzes = new JComboBox<>(previousQuizModel);
+        previousQuizzes.setMaximumSize(new Dimension(400, 30));
+        previousQuizzes.setFont(new Font("Algerian", Font.PLAIN, 14));
+        add(createCenteredPanel(new JLabel("Previous Quizzes:"), previousQuizzes));
+
+        add(createCenteredPanel(null, previousQuizzes));
+        add(Box.createVerticalStrut(20));
         add(createCenteredPanel(null, confirmPrevious));
         add(Box.createVerticalStrut(20));
         add(createCenteredPanel(null, instructionsButton));
