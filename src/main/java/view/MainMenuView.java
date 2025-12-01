@@ -65,7 +65,10 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
         createQuiz.addActionListener (new ActionListener() {
 
             public void actionPerformed (ActionEvent e) {
-                System.out.println("CreateQuiz button is clicked"); // This will be changed.
+                if (e.getSource().equals(createQuiz)) {
+                    mainMenuController.switchToCreateQuizView();
+                }
+                
             }
 
         });
