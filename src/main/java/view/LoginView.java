@@ -3,6 +3,7 @@ package view;
 import interface_adapter.login.LoginController;
 import interface_adapter.login.LoginState;
 import interface_adapter.login.LoginViewModel;
+import interface_adapter.signup.SignupViewModel;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -33,24 +34,63 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
     private LoginController loginController = null;
 
     public LoginView(LoginViewModel loginViewModel) {
-
         this.loginViewModel = loginViewModel;
         this.loginViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel("Login Screen");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30)); // padding
 
-        final LabelTextPanel usernameInfo = new LabelTextPanel(
-                new JLabel("Username"), usernameInputField);
-        final LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel("Password"), passwordInputField);
+        // -------- TITLE --------
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel title = new JLabel("Trivia Quiz App");
+        title.setFont(new Font("SansSerif", Font.BOLD, 22));
+        titlePanel.add(title);
+        add(titlePanel, BorderLayout.NORTH);
 
-        final JPanel buttons = new JPanel();
-        logIn = new JButton("log in");
-        buttons.add(logIn);
-        cancel = new JButton("cancel");
-        buttons.add(cancel);
-        buttons.add(instructionsButton);
+        // -------- FORM PANEL --------
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.anchor = GridBagConstraints.WEST;
+
+
+        JLabel subtitle = new JLabel(LoginViewModel.SUBTITLE_LABEL);
+        subtitle.setFont(new Font("SansSerif", Font.BOLD, 16));
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        formPanel.add(subtitle, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.NONE;
+
+        addFormRow(formPanel, gbc, 1, "Username:", usernameInputField);
+        addFormRow(formPanel, gbc, 2, "Password:", passwordInputField);
+
+        add(formPanel, BorderLayout.CENTER);
+
+        // -------- BUTTON ROW --------
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        logIn = new JButton("Log In");
+        cancel = new JButton("Go To Sign Up");
+
+        styleButton(logIn);
+        styleButton(cancel);
+        styleButton(instructionsButton);
+
+        buttonPanel.add(logIn);
+        buttonPanel.add(cancel);
+        buttonPanel.add(instructionsButton);
+
+        add(buttonPanel, BorderLayout.SOUTH);
 
         logIn.addActionListener(
                 new ActionListener() {
@@ -67,7 +107,10 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 }
         );
 
-        cancel.addActionListener(this);
+        cancel.addActionListener(e -> {
+           loginController.switchToSignupView();
+        });
+
         instructionsButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(
                     this,
@@ -126,12 +169,6 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
                 documentListenerHelper();
             }
         });
-
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(usernameErrorField);
-        this.add(passwordInfo);
-        this.add(buttons);
     }
 
     /**
@@ -148,6 +185,27 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         setFields(state);
         usernameErrorField.setText(state.getLoginError());
     }
+
+    private void addFormRow(JPanel panel, GridBagConstraints gbc, int row,
+                            String labelText, JComponent field) {
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        panel.add(new JLabel(labelText), gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(field, gbc);
+    }
+
+    private void styleButton(JButton b) {
+        b.setFocusPainted(false);
+        b.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        b.setBackground(new Color(230, 230, 230));
+        b.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
+    }
+
 
     private void setFields(LoginState state) {
         usernameInputField.setText(state.getUsername());

@@ -163,7 +163,7 @@ public class AppBuilder {
 
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary =
-                new LoginPresenter(viewManagerModel, mainMenuViewModel, loginViewModel,viewScoreViewModel);
+                new LoginPresenter(viewManagerModel, mainMenuViewModel, loginViewModel, viewScoreViewModel);
 
         final LoginInputBoundary loginInteractor =
                 new LoginInteractor(userDataReadObject, userDataWriteObject, loginOutputBoundary, currentSession);
@@ -294,12 +294,17 @@ public class AppBuilder {
     }
 
     public JFrame build() {
-        final JFrame application = new JFrame();
+        JFrame application = new JFrame();
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         JPanel background = new JPanel(new GridBagLayout());
         background.setBackground(Color.GRAY);
+
+        // Add cardPanel inside the background panel
+        background.add(cardPanel);
+
         application.setContentPane(background);
-        application.add(cardPanel);
+        application.pack();
 
         viewManagerModel.firePropertyChange();
         return application;

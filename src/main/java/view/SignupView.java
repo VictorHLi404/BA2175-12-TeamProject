@@ -26,7 +26,6 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private SignupController signupController = null;
 
     private final JButton signUp;
-    private final JButton cancel;
     private final JButton toLogin;
     private final JButton instructionsButton = new JButton("Instructions");
 
@@ -34,24 +33,65 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         this.signupViewModel = signupViewModel;
         signupViewModel.addPropertyChangeListener(this);
 
-        final JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30)); // padding
 
-        final LabelTextPanel usernameInfo = new LabelTextPanel(
-                new JLabel(SignupViewModel.USERNAME_LABEL), usernameInputField);
-        final LabelTextPanel passwordInfo = new LabelTextPanel(
-                new JLabel(SignupViewModel.PASSWORD_LABEL), passwordInputField);
-        final LabelTextPanel repeatPasswordInfo = new LabelTextPanel(
-                new JLabel(SignupViewModel.REPEAT_PASSWORD_LABEL), repeatPasswordInputField);
+        // -------- TITLE --------
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
 
-        final JPanel buttons = new JPanel();
+        title.setFont(new Font("SansSerif", Font.BOLD, 22));
+        titlePanel.add(title);
+
+        // force the panel to appear at the top
+        add(titlePanel, BorderLayout.NORTH);
+
+        // -------- FORM PANEL --------
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.anchor = GridBagConstraints.WEST;
+
+        JLabel subtitle = new JLabel(SignupViewModel.SUBTITLE_LABEL);
+        subtitle.setFont(new Font("SansSerif", Font.BOLD, 16));
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        formPanel.add(subtitle, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.NONE;
+
+        addFormRow(formPanel, gbc, 1, SignupViewModel.USERNAME_LABEL, usernameInputField);
+        addFormRow(formPanel, gbc, 2, SignupViewModel.PASSWORD_LABEL, passwordInputField);
+        addFormRow(formPanel, gbc, 3, SignupViewModel.REPEAT_PASSWORD_LABEL, repeatPasswordInputField);
+
+        add(formPanel, BorderLayout.CENTER);
+
+        // -------- BUTTON ROW --------
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+
         toLogin = new JButton(SignupViewModel.TO_LOGIN_BUTTON_LABEL);
-        buttons.add(toLogin);
         signUp = new JButton(SignupViewModel.SIGNUP_BUTTON_LABEL);
-        buttons.add(signUp);
-        cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
-        buttons.add(cancel);
-        buttons.add(instructionsButton);   // 新增
+
+        styleButton(toLogin);
+        styleButton(signUp);
+        styleButton(instructionsButton);
+
+        buttonPanel.add(toLogin);
+        buttonPanel.add(signUp);
+        buttonPanel.add(instructionsButton);
+
+        add(buttonPanel, BorderLayout.SOUTH);
 
 
         signUp.addActionListener(
@@ -79,8 +119,6 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
                 }
         );
 
-        cancel.addActionListener(this);
-
         instructionsButton.addActionListener(e -> {
             JOptionPane.showMessageDialog(
                     this,
@@ -94,14 +132,27 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         addUsernameListener();
         addPasswordListener();
         addRepeatPasswordListener();
+    }
 
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    private void addFormRow(JPanel panel, GridBagConstraints gbc, int row,
+                            String labelText, JComponent field) {
 
-        this.add(title);
-        this.add(usernameInfo);
-        this.add(passwordInfo);
-        this.add(repeatPasswordInfo);
-        this.add(buttons);
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        panel.add(new JLabel(labelText), gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(field, gbc);
+    }
+
+    private void styleButton(JButton b) {
+        b.setFocusPainted(false);
+        b.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        b.setBackground(new Color(230, 230, 230));
+        b.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
     }
 
     private void addUsernameListener() {
