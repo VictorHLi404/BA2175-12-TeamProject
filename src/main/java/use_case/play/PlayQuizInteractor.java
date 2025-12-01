@@ -105,18 +105,22 @@ public class PlayQuizInteractor implements PlayQuizInputBoundary {
 
     @Override
     public void loadNextQuestion() {
+        if (questions.isEmpty()) {
+            presenter.presentError("No questions available for this quiz.");
+            return;
+        }
+
         if (currentIndex >= questions.size()) {
             // Generate QuizResults
             User currentUser = session.getCurrentUser();
             if (currentUser != null && currentQuiz != null) {
                 QuizResults results = new QuizResults(currentQuiz, currentUser.getUserId(), previousAnswers, questions);
-                userDataWriteObject.saveQuizResults(results); // persist results
-
-                // TEMP: confirm in console
-                System.out.println("QuizResults generated!");
-                System.out.println("Quiz ID: " + results.getQuizId());
-                System.out.println("User ID: " + results.getUserId());
-                System.out.println("Timestamp: " + results.getTimestamp());
+                try {
+                    userDataWriteObject.saveQuizResults(results);
+                } catch (Exception e) {
+                    presenter.presentError("Failed to save quiz results: " + e.getMessage());
+                    return;
+                }
             }
 
             // No questions left, quiz is finished
