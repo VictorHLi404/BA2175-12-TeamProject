@@ -31,4 +31,11 @@ public class MainMenuPresenter implements MainMenuOutputBoundary {
         viewManagerModel.setState("view Score");
         viewManagerModel.firePropertyChange();
     }
+
+    @Override 
+    public void switchToCreateQuizView() {
+        viewManagerModel.setState("Create Quiz");
+        viewManagerModel.firePropertyChange();
+    }
+        
 }
