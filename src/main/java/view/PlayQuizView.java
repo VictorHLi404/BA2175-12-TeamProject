@@ -1,9 +1,9 @@
 package view;
 
-import interface_adapter.ViewManagerModel;
-import interface_adapter.play.PlayQuizController;
-import interface_adapter.play.PlayQuizState;
-import interface_adapter.play.PlayQuizViewModel;
+import interfaceadapter.ViewManagerModel;
+import interfaceadapter.play.PlayQuizController;
+import interfaceadapter.play.PlayQuizState;
+import interfaceadapter.play.PlayQuizViewModel;
 
 import javax.swing.*;
 import java.awt.*;

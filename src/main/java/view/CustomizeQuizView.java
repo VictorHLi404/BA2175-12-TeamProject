@@ -1,7 +1,7 @@
 package view;
 
-import interface_adapter.customize_quiz.CustomizeQuizController;
-import interface_adapter.customize_quiz.CustomizeQuizViewModel;
+import interfaceadapter.customize_quiz.CustomizeQuizController;
+import interfaceadapter.customize_quiz.CustomizeQuizViewModel;
 import persistence.JsonFileDataStore;
 
 import javax.swing.*;

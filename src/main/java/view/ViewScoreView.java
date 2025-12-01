@@ -1,11 +1,11 @@
 package view;
 
-import interface_adapter.ViewManagerModel;
-import interface_adapter.compare_score.CompareScoreController;
-import interface_adapter.view_score.ViewScoreController;
-import interface_adapter.view_score.ViewScoreState;
-import interface_adapter.view_score.ViewScoreViewModel;
-import use_case.view_score.PerQuizResultData;
+import interfaceadapter.ViewManagerModel;
+import interfaceadapter.compare_score.CompareScoreController;
+import interfaceadapter.view_score.ViewScoreController;
+import interfaceadapter.view_score.ViewScoreState;
+import interfaceadapter.view_score.ViewScoreViewModel;
+import usecase.view_score.PerQuizResultData;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

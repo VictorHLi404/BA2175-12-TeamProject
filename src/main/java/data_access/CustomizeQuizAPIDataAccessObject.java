@@ -2,7 +2,7 @@ package data_access;
 
 import api.TriviaDataBase;
 import entities.Question;
-import use_case.customize_quiz.CustomizeQuizDataAccessInterface;
+import usecase.customize_quiz.CustomizeQuizDataAccessInterface;
 
 import java.io.IOException;
 import java.util.Arrays;
