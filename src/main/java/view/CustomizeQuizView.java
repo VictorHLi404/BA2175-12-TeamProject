@@ -6,19 +6,23 @@ import persistence.JsonFileDataStore;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 public class CustomizeQuizView extends JPanel {
 
     private final String viewName = "customize quiz";
-    private JButton playNow;
-    private JButton playPrevious;
-    private JButton instructionsButton;
+    private final JButton playNow;
+    private final JButton confirmPrevious;
+    private final JButton instructionsButton;
 
-
+    private final DefaultComboBoxModel<String> previousQuizModel = new DefaultComboBoxModel<>();
     private JComboBox<String> difficulty;
     private JComboBox<String> type;
     private JComboBox<String> category;
+    private JComboBox<String> previousQuizzes;
 
     public CustomizeQuizView(CustomizeQuizController controller, CustomizeQuizViewModel viewModel) {
 
@@ -70,13 +74,17 @@ public class CustomizeQuizView extends JPanel {
         JButton reset = new JButton("Reset to Default");
 
         playNow = new JButton("Play Now");
-        playPrevious = new JButton("Play Previous Quiz");
+        confirmPrevious = new JButton("Play Previous Quiz");
+
 
         add(apply);
         add(reset);
 
         add(playNow);
-        add(playPrevious);
+        add(new JLabel("Previous Quizzes:"));
+        previousQuizzes = new JComboBox<>(previousQuizModel);
+        add(previousQuizzes);
+        add(confirmPrevious);
 
         instructionsButton = new JButton("Instructions");
         add(instructionsButton);
@@ -131,8 +139,18 @@ public class CustomizeQuizView extends JPanel {
         playNow.addActionListener(e -> action.run());
     }
 
-    public void addPlayPreviousAction(Runnable action) {
-        playPrevious.addActionListener(e -> action.run());
+    public void setPreviousQuizzes(List<String> quizzes) {
+        previousQuizModel.removeAllElements();
+        for (String quiz : quizzes != null ? quizzes : new ArrayList<String>()) {
+            previousQuizModel.addElement(quiz);
+        }
+    }
+
+    public void addPlayPreviousAction(Consumer<String> action) {
+        confirmPrevious.addActionListener(e -> {
+            Object selection = previousQuizzes.getSelectedItem();
+            action.accept(selection == null ? null : selection.toString());
+        });
     }
 
     public String getViewName() {
