@@ -25,6 +25,7 @@ class CompareScoreTest {
     private static final Path QUESTIONS_FILE = DATA_DIR.resolve("questions.json");
 
     private List<UUID> questionsIds;
+    private List<Question> questions;
     private Quiz quiz;
     private User user1;
     private User user2;
@@ -52,6 +53,8 @@ class CompareScoreTest {
         questionsIds.add(q1.getQuestionId());
         questionsIds.add(q2.getQuestionId());
         questionsIds.add(q3.getQuestionId());
+
+        questions = List.of(q1, q2, q3);
         quiz = new Quiz(questionsIds, true, questionsIds.size());
 
         writer.saveQuiz(quiz);
@@ -68,7 +71,7 @@ class CompareScoreTest {
     @Test
     void testSingleQuizResultRetrieval() {
         List<String> answers = List.of("2", "Paris", "True");
-        QuizResults quizResults = new QuizResults(quiz, user1.getUserId(), answers);
+        QuizResults quizResults = new QuizResults(quiz, user1.getUserId(), answers, questions);
         writer.saveQuizResults(quizResults);
 
         CompareScoreInputData inputData = new CompareScoreInputData(quiz.getQuizId(), user1.getUserId());
@@ -99,11 +102,11 @@ class CompareScoreTest {
     @Test
     void testMultipleQuizResultRetrievalWithSorting() {
         List<String> user1Answers = List.of("2", "Paris", "True");
-        QuizResults user1QuizResults = new QuizResults(quiz, user1.getUserId(), user1Answers);
+        QuizResults user1QuizResults = new QuizResults(quiz, user1.getUserId(), user1Answers, questions);
         List<String> user2Answers = List.of("1", "Paris", "True");
-        QuizResults user2QuizResults = new QuizResults(quiz, user2.getUserId(), user2Answers);
+        QuizResults user2QuizResults = new QuizResults(quiz, user2.getUserId(), user2Answers, questions);
         List<String> user3Answers = List.of("1", "Berlin", "True");
-        QuizResults user3QuizResults = new QuizResults(quiz, user3.getUserId(), user3Answers);
+        QuizResults user3QuizResults = new QuizResults(quiz, user3.getUserId(), user3Answers, questions);
         writer.saveQuizResults(user1QuizResults);
         writer.saveQuizResults(user2QuizResults);
         writer.saveQuizResults(user3QuizResults);

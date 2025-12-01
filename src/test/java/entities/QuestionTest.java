@@ -3,6 +3,7 @@ package entities;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
@@ -13,7 +14,7 @@ public class QuestionTest {
     private Question question;
     private List<String> choices;
 
-
+    @BeforeEach
     public void setUp() {
         choices = Arrays.asList("A", "B", "C", "D");
         question = new Question("Multiple Choice", "Easy", "What is Canada's capital city?",

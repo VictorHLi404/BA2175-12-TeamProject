@@ -1,5 +1,7 @@
 package interface_adapter.create_quiz;
 
+import interface_adapter.ViewModel;
+
 public class CreateQuizViewModel extends ViewModel<CreateQuizState> {
 
     public static final String message_property = "message";

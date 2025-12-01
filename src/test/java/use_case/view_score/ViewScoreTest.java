@@ -28,6 +28,7 @@ class ViewScoreTest {
     private FileReaderGateway reader;
 
     private List<UUID> questionsIds;
+    private List<Question> questions;
     private Quiz quiz;
     private User user1;
     private User user2;
@@ -52,6 +53,8 @@ class ViewScoreTest {
         quiz = new Quiz(questionsIds, true, questionsIds.size());
         writer.saveQuiz(quiz);
 
+        questions = List.of(q1, q2, q3);
+
         user1 = new User("alice", "12345");
         user2 = new User("bob", "12345");
         writer.saveUser(user1);
@@ -61,7 +64,7 @@ class ViewScoreTest {
     @Test
     void testSingleQuizResultSuccess() {
         // Alice takes quiz, all correct
-        QuizResults results = new QuizResults(quiz, user1.getUserId(), List.of("2", "Paris", "True"));
+        QuizResults results = new QuizResults(quiz, user1.getUserId(), List.of("2", "Paris", "True"), questions);
         writer.saveQuizResults(results);
 
         ViewScoreInputData inputData = new ViewScoreInputData("alice");
@@ -89,8 +92,8 @@ class ViewScoreTest {
 
     @Test
     void testMultipleResultsSortingAndScore() {
-        QuizResults res1 = new QuizResults(quiz, user1.getUserId(), List.of("2", "Paris", "True")); // 3/3
-        QuizResults res2 = new QuizResults(quiz, user1.getUserId(), List.of("1", "Paris", "True")); // 2/3
+        QuizResults res1 = new QuizResults(quiz, user1.getUserId(), List.of("2", "Paris", "True"), questions); // 3/3
+        QuizResults res2 = new QuizResults(quiz, user1.getUserId(), List.of("1", "Paris", "True"), questions); // 2/3
         writer.saveQuizResults(res1);
         writer.saveQuizResults(res2);
 

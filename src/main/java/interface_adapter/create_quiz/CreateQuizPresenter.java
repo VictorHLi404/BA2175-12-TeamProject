@@ -1,5 +1,6 @@
 package interface_adapter.create_quiz;
 
+import interface_adapter.ViewManagerModel;
 import use_case.create_quiz.CreateQuizOutputBoundary;
 import use_case.create_quiz.CreateQuizOutputData;
 
