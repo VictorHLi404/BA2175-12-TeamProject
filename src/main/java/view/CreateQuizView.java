@@ -199,11 +199,16 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
                     }
 
                     // Check if the user left any boxes empty
-                    if (question.trim().isEmpty()) {
+                    if (quizNameField.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Please enter a quiz name!");
+                        return;
+                    }
+                    else if (question.trim().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "The question can't be empty!");
                         return;
                     } else if (optionA.trim().isEmpty() || optionB.trim().isEmpty() || optionC.trim().isEmpty()
-                                || optionD.trim().isEmpty()) {
+                                || optionD.trim().isEmpty() && (!format.trim().equals("True/False"))) {
+
                         JOptionPane.showMessageDialog(null, "Please fill in all four options!");
                         return;
                     } else if (optionButtons.getSelection() == null) {
@@ -224,6 +229,11 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
 
                     // Add each saved question to questionList
                     questionList.add(questionData);
+
+
+                    if (!questionList.isEmpty()) {
+                        quizNameField.setEditable(false);
+                    }
 
                     // Clear the question & options' text box
                     clearQuestionForm();
@@ -273,11 +283,6 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
         C_Button.setSelected(false);
         D_Button.setSelected(false);
     }
-
-
-
-
-
 
 
 
