@@ -1,6 +1,7 @@
 package interface_adapter.play;
 
 import entities.Question;
+import entities.Quiz;
 import use_case.play.PlayQuizInputBoundary;
 import use_case.play.PlayQuizInputData;
 import use_case.play.PlayQuizInteractor;
@@ -21,11 +22,11 @@ public class PlayQuizController {
         interactor.execute(inputData);
     }
 
-    public void startCustomizedQuiz(List<Question> questions) {
+    public void startCustomizedQuiz(List<Question> questions, Quiz quiz) {
         if (questions == null || questions.isEmpty()) return;
 
         if (interactor instanceof PlayQuizInteractor) {
-            ((PlayQuizInteractor) interactor).startCustomizedQuiz(questions);
+            ((PlayQuizInteractor) interactor).startCustomizedQuiz(questions, quiz);
         }
     }
 

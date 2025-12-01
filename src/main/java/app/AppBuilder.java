@@ -1,6 +1,7 @@
 package app;
 
 import entities.Question;
+import entities.Quiz;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.compare_score.CompareScoreController;
 import interface_adapter.compare_score.CompareScorePresenter;
@@ -19,6 +20,11 @@ import interface_adapter.signup.SignupController;
 import interface_adapter.signup.SignupPresenter;
 import interface_adapter.signup.SignupViewModel;
 
+import interface_adapter.create_quiz.CreateQuizPresenter;
+import interface_adapter.create_quiz.CreateQuizViewModel;
+import interface_adapter.create_quiz.CreateQuizController;
+import use_case.create_quiz.*;
+
 import interface_adapter.customize_quiz.CustomizeQuizController;
 import interface_adapter.customize_quiz.CustomizeQuizPresenter;
 import interface_adapter.customize_quiz.CustomizeQuizViewModel;
@@ -26,6 +32,7 @@ import interface_adapter.customize_quiz.CustomizeQuizViewModel;
 import use_case.compare_score.CompareScoreInputBoundary;
 import use_case.compare_score.CompareScoreInteractor;
 import use_case.compare_score.CompareScoreOutputBoundary;
+import use_case.create_quiz.CreateQuizUserDataAccessInterface;
 import use_case.customize_quiz.CustomizeQuizDataAccessInterface;
 import use_case.customize_quiz.CustomizeQuizInputBoundary;
 import use_case.customize_quiz.CustomizeQuizInteractor;
@@ -61,6 +68,7 @@ import view.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.UUID;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -77,6 +85,9 @@ public class AppBuilder {
     private PlayQuizView playQuizView;
     private PlayQuizViewModel playQuizViewModel;
     private CompareScoreViewModel compareScoreViewModel;
+
+    private CreateQuizView createQuizView;
+    private CreateQuizViewModel createQuizViewModel;
 
     private CustomizeQuizView customizeQuizView;
     private CustomizeQuizViewModel customizeQuizViewModel;
@@ -180,7 +191,9 @@ public class AppBuilder {
         PlayQuizInputBoundary interactor =
                 new PlayQuizInteractor(
                         presenter,            // OutputBoundary
-                        currentSession        // SessionManager
+                        currentSession,        // SessionManager
+                        userDataWriteObject,
+                        userDataReadObject
                 );
 
         PlayQuizController controller = new PlayQuizController(interactor);
@@ -193,7 +206,16 @@ public class AppBuilder {
             List<Question> customizedQuestions = customizeQuizViewModel.getQuestions();
 
             if (customizedQuestions != null && !customizedQuestions.isEmpty()) {
-                controller.startCustomizedQuiz(customizedQuestions);
+
+                // Convert questions → list of IDs
+                List<UUID> ids = customizedQuestions.stream()
+                        .map(Question::getQuestionId)
+                        .toList();
+
+                Quiz customQuiz = new Quiz(ids, true, ids.size());
+                customQuiz.setQuizName("Customized Quiz");
+
+                controller.startCustomizedQuiz(customizedQuestions, customQuiz);
             }
 
             viewManagerModel.setState("playQuiz");
@@ -247,6 +269,29 @@ public class AppBuilder {
         return this;
     }
 
+    public AppBuilder addCreateQuizView() {
+        createQuizViewModel = new CreateQuizViewModel();
+        // CreateQuizView requires a controller and viewModel, but we set the controller to null for now
+        createQuizView = new CreateQuizView(null, createQuizViewModel);
+        cardPanel.add(createQuizView, "Create Quiz");
+        return this;
+    }
+
+    public AppBuilder addCreateQuizUseCase() {
+
+        CreateQuizUserDataAccessInterface createQuizDAO = new CreateQuizDAO();
+
+        CreateQuizOutputBoundary presenter = new CreateQuizPresenter(viewManagerModel, createQuizViewModel);
+        CreateQuizInputBoundary interactor = new CreateQuizInteractor(createQuizDAO, presenter);
+
+        CreateQuizController controller = new CreateQuizController(interactor);
+
+        createQuizView.setController(controller);
+
+        return this;
+
+
+    }
 
     public JFrame build() {
         final JFrame application = new JFrame();

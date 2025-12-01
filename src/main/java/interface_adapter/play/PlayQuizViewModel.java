@@ -13,4 +13,14 @@ public class PlayQuizViewModel extends ViewModel<PlayQuizState> {
         super("playQuiz");
         setState(new PlayQuizState());
     }
+    public enum PlayQuizMode {
+        START, MULTIPLE_CHOICE, TRUE_FALSE, CORRECT, INCORRECT, QUIZ_OVER
+    }
+
+    private PlayQuizMode mode;
+    public PlayQuizMode getMode() { return mode; }
+    public void setMode(PlayQuizMode mode) {
+        this.mode = mode;
+        firePropertyChange(); // notify the view
+    }
 }

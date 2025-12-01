@@ -20,6 +20,7 @@ public class PlayQuizState {
     private String questionFormat; // "multiple" or "boolean"
     private String category;
     private String errorMessage;
+    private PlayQuizViewModel.PlayQuizMode mode = PlayQuizViewModel.PlayQuizMode.START;;
 
     // Add listener support
     public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -51,6 +52,9 @@ public class PlayQuizState {
     public void setQuestionFormat(String questionFormat) { this.questionFormat = questionFormat; }
     public void setCategory(String category) { this.category = category; }
     public void setErrorMessage(String errorMessage) { this.errorMessage = errorMessage; }
+
+    public PlayQuizViewModel.PlayQuizMode getMode() { return mode; }
+    public void setMode(PlayQuizViewModel.PlayQuizMode mode) { this.mode = mode; }
 
     @Override
     public String toString() {

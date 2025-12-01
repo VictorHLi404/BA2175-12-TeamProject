@@ -20,6 +20,8 @@ public class Main {
                 .addMainMenuUseCases()
                 .addCompareScoreView()
                 .addCompareScoreUseCase()
+                .addCreateQuizView()
+                .addCreateQuizUseCase()
                 .build();
         application.pack();
         application.setLocationRelativeTo(null);
