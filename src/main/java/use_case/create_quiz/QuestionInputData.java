@@ -1,5 +1,7 @@
 package use_case.create_quiz;
 
+import use_case.play.PlayQuizOutputData;
+
 import java.util.List;
 
 public class QuestionInputData {

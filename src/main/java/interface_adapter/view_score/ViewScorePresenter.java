@@ -8,7 +8,7 @@ import use_case.view_score.ViewScoreOutputData;
 
 import java.util.UUID;
 
-public class ViewScorePresenter implements ViewScoreOutputBoundary {
+public class ViewScorePresenter extends ViewScoreViewModel implements ViewScoreOutputBoundary {
 
 
 
@@ -53,6 +53,7 @@ public class ViewScorePresenter implements ViewScoreOutputBoundary {
     @Override
     public void switchToMainMenuView() {
         //System.out.println("Target View: " + mainMenuViewModel.getViewName());
+        viewScoreViewModel.setState(new ViewScoreState());  // Reset to brand new empty state
         viewManagerModel.setState(mainMenuViewModel.getViewName());
         viewManagerModel.firePropertyChange();
     }
