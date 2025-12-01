@@ -1,6 +1,7 @@
 package app;
 
 import entities.Question;
+import entities.Quiz;
 import interface_adapter.ViewManagerModel;
 import interface_adapter.compare_score.CompareScoreController;
 import interface_adapter.compare_score.CompareScorePresenter;
@@ -67,6 +68,7 @@ import view.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.UUID;
 
 public class AppBuilder {
     private final JPanel cardPanel = new JPanel();
@@ -189,7 +191,9 @@ public class AppBuilder {
         PlayQuizInputBoundary interactor =
                 new PlayQuizInteractor(
                         presenter,            // OutputBoundary
-                        currentSession        // SessionManager
+                        currentSession,        // SessionManager
+                        userDataWriteObject,
+                        userDataReadObject
                 );
 
         PlayQuizController controller = new PlayQuizController(interactor);
@@ -202,7 +206,16 @@ public class AppBuilder {
             List<Question> customizedQuestions = customizeQuizViewModel.getQuestions();
 
             if (customizedQuestions != null && !customizedQuestions.isEmpty()) {
-                controller.startCustomizedQuiz(customizedQuestions);
+
+                // Convert questions → list of IDs
+                List<UUID> ids = customizedQuestions.stream()
+                        .map(Question::getQuestionId)
+                        .toList();
+
+                Quiz customQuiz = new Quiz(ids, true, ids.size());
+                customQuiz.setQuizName("Customized Quiz");
+
+                controller.startCustomizedQuiz(customizedQuestions, customQuiz);
             }
 
             viewManagerModel.setState("playQuiz");

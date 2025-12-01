@@ -182,8 +182,9 @@ public class PlayQuizView extends JPanel {
         submitButton.setVisible(true);
         submitButton.setEnabled(true);
 
-        multipleChoicePanel.setVisible(true);
-        trueFalsePanel.setVisible(true);
+        multipleChoicePanel.setVisible(false);
+        trueFalsePanel.setVisible(false);
+        quizFinishedPanel.setVisible(false);
         nextButton.setVisible(false);
         nextButton.setEnabled(true);
 
@@ -196,55 +197,58 @@ public class PlayQuizView extends JPanel {
         scoreLabel.setText("Score: " + state.getCumulativeScore());
         categoryLabel.setText("Category: " + state.getCategory());
 
-        if (state.getQuestionText() != null && !state.getQuestionText().isEmpty()) {
-            Boolean correct = state.isLastAnswerCorrect();
-            if (correct != null) {
-                resultLabel.setVisible(true);
-                if (correct) {
-                    resultLabel.setText("Correct!");
-                    resultLabel.setForeground(Color.GREEN.darker());
-                } else {
-                    answerLabel.setVisible(true);
-                    answerLabel.setText("Answer: " + state.getAnswer());
-                    resultLabel.setText("Incorrect!");
-                    resultLabel.setForeground(Color.RED);
-                }
-            } else {
-                resultLabel.setText(""); // no answer submitted yet
+        PlayQuizViewModel.PlayQuizMode mode = state.getMode(); // mode set by presenter
+
+        switch (mode) {
+            case MULTIPLE_CHOICE -> {
+                questionLabel.setVisible(true);
+                scoreLabel.setVisible(true);
+                categoryLabel.setVisible(true);
+                submitButton.setVisible(true);
+
+                buildMultipleChoicePanel(state.getChoices());
+                multipleChoicePanel.setVisible(true);
             }
-        } else {
-            resultLabel.setText("");
-        }
+            case TRUE_FALSE -> {
+                questionLabel.setVisible(true);
+                scoreLabel.setVisible(true);
+                categoryLabel.setVisible(true);
+                submitButton.setVisible(true);
 
-        // Remove previous dynamic panels
-        remove(multipleChoicePanel);
-        remove(trueFalsePanel);
-        remove(quizFinishedPanel);
+                buildTrueFalsePanel(state.getChoices());
+                trueFalsePanel.setVisible(true);
+            }
+            case CORRECT -> {
+                resultLabel.setVisible(true);
+                resultLabel.setText("Correct!");
+                resultLabel.setForeground(Color.GREEN.darker());
+                nextButton.setVisible(true);
 
-        // Add panel based on state
-        if (state.isFinished()) {
-            buildQuizFinishedPanel(state.getCumulativeScore());
+                questionLabel.setVisible(true);
+                scoreLabel.setVisible(true);
+                categoryLabel.setVisible(true);
+            }
+            case INCORRECT -> {
+                resultLabel.setVisible(true);
+                resultLabel.setText("Incorrect!");
+                resultLabel.setForeground(Color.RED);
+                answerLabel.setVisible(true);
+                answerLabel.setText("Answer: " + state.getAnswer());
+                nextButton.setVisible(true);
 
-            // Hide all other components
-            questionLabel.setVisible(false);
-            scoreLabel.setVisible(false);
-            resultLabel.setVisible(false);
-            multipleChoicePanel.setVisible(false);
-            trueFalsePanel.setVisible(false);
-
-            add(quizFinishedPanel);
-            submitButton.setEnabled(false);
-            submitButton.setVisible(false);
-            nextButton.setEnabled(false);
-            nextButton.setVisible(false);
-        } else if ("multiple".equalsIgnoreCase(state.getQuestionFormat())) {
-            buildMultipleChoicePanel(state.getChoices());
-            add(multipleChoicePanel);
-            submitButton.setEnabled(true);
-        } else if ("boolean".equalsIgnoreCase(state.getQuestionFormat())) {
-            buildTrueFalsePanel(state.getChoices());
-            add(trueFalsePanel);
-            submitButton.setEnabled(true);
+                questionLabel.setVisible(true);
+                scoreLabel.setVisible(true);
+                categoryLabel.setVisible(true);
+            }
+            case QUIZ_OVER -> {
+                buildQuizFinishedPanel(state.getCumulativeScore());
+                add(quizFinishedPanel);
+                quizFinishedPanel.setVisible(true);
+                submitButton.setVisible(false);
+                submitButton.setEnabled(false);
+                scoreLabel.setVisible(false);
+                categoryLabel.setVisible(false);
+            }
         }
 
         revalidate();

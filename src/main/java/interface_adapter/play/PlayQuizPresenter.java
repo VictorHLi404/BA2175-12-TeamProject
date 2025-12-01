@@ -20,15 +20,15 @@ public class PlayQuizPresenter implements PlayQuizOutputBoundary {
         state.setQuestionText(outputData.getNextQuestionText());
         state.setChoices(outputData.getNextChoices());
         state.setCumulativeScore(outputData.getCumulativeScore());
-        state.setFinished(outputData.isFinished());
         state.setQuestionFormat(outputData.getQuestionFormat());
         // Only update lastAnswerCorrect if this is a result of an answer submission
         if (!preserveLastAnswer) {
             state.setLastAnswerCorrect(outputData.isCorrect());
         }
-        state.setCurrentIndex(state.getCurrentIndex() + 1);
+        state.setCurrentIndex(state.getCurrentIndex());
         state.setCategory(outputData.getCategory());
         state.setAnswer(outputData.getCorrectAnswer());
+        state.setFinished(outputData.isFinished());
         state.setErrorMessage(null);
         playQuizViewModel.firePropertyChange();
     }
@@ -41,29 +41,32 @@ public class PlayQuizPresenter implements PlayQuizOutputBoundary {
 
     @Override
     public void switchToMultipleChoiceView(PlayQuizOutputData outputData) {
+        playQuizViewModel.getState().setMode(PlayQuizViewModel.PlayQuizMode.MULTIPLE_CHOICE);
         updateViewModel(outputData, true);
     }
 
     @Override
     public void switchToTrueFalseView(PlayQuizOutputData outputData) {
+        playQuizViewModel.getState().setMode(PlayQuizViewModel.PlayQuizMode.TRUE_FALSE);
         updateViewModel(outputData, true);
     }
 
     @Override
     public void switchToCorrectAnswerView(PlayQuizOutputData outputData) {
+        playQuizViewModel.getState().setMode(PlayQuizViewModel.PlayQuizMode.CORRECT);
         updateViewModel(outputData, false);
     }
 
     @Override
     public void switchToIncorrectAnswerView(PlayQuizOutputData outputData) {
+        playQuizViewModel.getState().setMode(PlayQuizViewModel.PlayQuizMode.INCORRECT);
         updateViewModel(outputData, false);
     }
 
     @Override
     public void switchToQuizOverView(PlayQuizOutputData outputData) {
+        playQuizViewModel.getState().setMode(PlayQuizViewModel.PlayQuizMode.QUIZ_OVER);
         updateViewModel(outputData, true);
-//        viewManagerModel.setState("Main Menu");
-//        viewManagerModel.firePropertyChange();
     }
 
     @Override
