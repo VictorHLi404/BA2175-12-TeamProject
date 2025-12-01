@@ -28,11 +28,9 @@ public class QuizResultsTest {
     private JsonFileReader reader;
 
     @BeforeEach
-    public void setUp() throws IOException {
+    public void setUp() {
 
-        writer = new JsonFileDataStore();
-        Files.createDirectories(DATA_DIR);
-        Files.deleteIfExists(QUESTIONS_FILE);
+        writer = new JsonFileDataStore(true);
 
         Question q1 = new Question("multiple", "easy", "1 + 1 = ?", List.of("1", "2", "3"), "2", false, "Science: Mathemathics");
         Question q2 = new Question("multiple", "medium", "Capital of France?", List.of("Paris", "London", "Berlin"), "Paris", true, "Geography");

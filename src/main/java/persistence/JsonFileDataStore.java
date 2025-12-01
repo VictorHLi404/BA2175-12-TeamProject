@@ -18,12 +18,26 @@ import java.util.UUID;
 public class JsonFileDataStore implements DataStore {
 
     private final Gson gson = new Gson();
+    private boolean isTestDatabase = false;
 
     public JsonFileDataStore() {
         // 确保 data 目录存在，不然写文件会报错
         File dir = new File(PathwayConstants.DATA_DIR);
         if (!dir.exists()) {
             dir.mkdir();
+        }
+    }
+
+    public JsonFileDataStore(boolean isTestDatabase) {
+        this.isTestDatabase = isTestDatabase;
+    }
+
+    public String getPathway(String pathway) {
+        if (isTestDatabase) {
+            return PathwayConstants.TEST_DATA_DIR + pathway;
+        }
+        else {
+            return PathwayConstants.DATA_DIR + pathway;
         }
     }
     // ================= 用户 =================
@@ -61,7 +75,7 @@ public class JsonFileDataStore implements DataStore {
     public void saveUser(User user) {
         Map<String, User> allUsers = loadAllUsers();
         allUsers.put(user.getUsername(), user);
-        writeJsonToFile(PathwayConstants.USERS_FILE, allUsers);
+        writeJsonToFile(getPathway(PathwayConstants.USERS_FILE), allUsers);
     }
 
     @Override
@@ -71,10 +85,10 @@ public class JsonFileDataStore implements DataStore {
     }
 
     private Map<String, User> loadAllUsers() {
-        if (!Files.exists(Paths.get(PathwayConstants.USERS_FILE))) {
+        if (!Files.exists(Paths.get(getPathway(PathwayConstants.USERS_FILE)))) {
             return new HashMap<>();
         }
-        try (Reader reader = new FileReader(PathwayConstants.USERS_FILE)) {
+        try (Reader reader = new FileReader(getPathway(PathwayConstants.USERS_FILE))) {
             Type type = new TypeToken<Map<String, User>>() {}.getType();
             Map<String, User> users = gson.fromJson(reader, type);
             return users != null ? users : new HashMap<>();
@@ -87,27 +101,27 @@ public class JsonFileDataStore implements DataStore {
 
     @Override
     public void saveQuiz(Quiz quiz) {
-        JsonFileReader reader = new JsonFileReader();
+        JsonFileReader reader = new JsonFileReader(isTestDatabase);
         Map<UUID, Quiz> allQuizzes = reader.loadAllQuizzes();
         allQuizzes.put(quiz.getQuizId(), quiz);
-        writeJsonToFile(PathwayConstants.QUIZZES_FILE, allQuizzes);
+        writeJsonToFile(getPathway(PathwayConstants.QUIZZES_FILE), allQuizzes);
     }
 
     // ================= 测验 =================
     @Override
     public void saveQuestion(Question question) {
-        JsonFileReader reader = new JsonFileReader();
+        JsonFileReader reader = new JsonFileReader(isTestDatabase);
         Map<UUID, Question> allQuestions = reader.loadAllQuestions();
         allQuestions.put(question.getQuestionId(), question);
-        writeJsonToFile(PathwayConstants.QUESTIONS_FILE, allQuestions);
+        writeJsonToFile(getPathway(PathwayConstants.QUESTIONS_FILE), allQuestions);
     }
 
     @Override
     public void saveQuizResults(QuizResults quizResults) {
-        JsonFileReader reader = new JsonFileReader();
+        JsonFileReader reader = new JsonFileReader(isTestDatabase);
         Map<UUID, QuizResults> allQuizResults = reader.loadAllQuizResults();
         allQuizResults.put(quizResults.getQuizResultsId(),  quizResults);
-        writeJsonToFile(PathwayConstants.QUIZ_RESULTS_FILE, allQuizResults);
+        writeJsonToFile(getPathway(PathwayConstants.QUIZ_RESULTS_FILE), allQuizResults);
     }
 
     // ================= 通用写文件方法 =================

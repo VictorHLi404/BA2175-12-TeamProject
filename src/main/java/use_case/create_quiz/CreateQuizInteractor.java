@@ -26,7 +26,8 @@ public class CreateQuizInteractor implements CreateQuizInputBoundary {
         }
 
         // List to store the questions that are approved
-        List<UUID> validatedQuestionIDs = getQuestions(inputData);
+        List<Question> questions = getQuestions(inputData);
+        List<UUID> validatedQuestionIDs = getQuestionIds(questions);
 
         // Check if there's at least one question in the quiz
         if (validatedQuestionIDs.isEmpty()) {
@@ -36,20 +37,29 @@ public class CreateQuizInteractor implements CreateQuizInputBoundary {
 
             // Creating the Quiz object
             Quiz quiz = new Quiz(validatedQuestionIDs, true, validatedQuestionIDs.size());
-
+            quiz.setQuizName(inputData.getQuizName());
             // Saving the quiz in the DAO
             DAO.saveQuiz(quiz);
+
+            for (Question question : questions) {
+                DAO.saveQuestion(question);
+            }
 
             // Prepare success view
             presenter.prepareSuccessView(new CreateQuizOutputData(inputData.getQuizName()));
 
         }
 
+    @Override
+    public void switchToUserScoreView() {
+        presenter.switchToUserScoreView();
+    }
+
     @NotNull
-    private static List<UUID> getQuestions(CreateQuizInputData inputData) {
+    private static List<Question> getQuestions(CreateQuizInputData inputData) {
 
         // Store the IDs of the questions that are approved
-        List<UUID> validatedQuestionIDs = new ArrayList<>();
+        List<Question> questions = new ArrayList<>();
 
         // Iterate through each question in the quiz
         for (QuestionInputData questionInput : inputData.getQuestions()) {
@@ -69,10 +79,18 @@ public class CreateQuizInteractor implements CreateQuizInputBoundary {
             );
 
             // Store the question's ID
-            validatedQuestionIDs.add(q.getQuestionId());
+            questions.add(q);
 
         }
-        return validatedQuestionIDs;
+        return questions;
+    }
+
+    private static List<UUID> getQuestionIds(List<Question> questions) {
+        List<UUID> ids = new ArrayList<>();
+        for (Question q : questions) {
+            ids.add(q.getQuestionId());
+        }
+        return ids;
     }
 
 }

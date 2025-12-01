@@ -18,6 +18,24 @@ import java.util.UUID;
 public class JsonFileReader implements FileReaderGateway {
 
     private final Gson gson = new Gson();
+    private boolean isTestDatabase = false;
+
+    public JsonFileReader() {
+
+    }
+
+    public JsonFileReader(boolean isTestDatabase) {
+        this.isTestDatabase = isTestDatabase;
+    }
+
+    public String getPathway(String pathway) {
+        if (isTestDatabase) {
+            return PathwayConstants.TEST_DATA_DIR + pathway;
+        }
+        else {
+            return PathwayConstants.DATA_DIR + pathway;
+        }
+    }
 
     @Override
     public User loadUser(String username) {
@@ -37,10 +55,10 @@ public class JsonFileReader implements FileReaderGateway {
 
     @Override
     public Map<String, User> loadAllUsers() {
-        if (!Files.exists(Paths.get(PathwayConstants.USERS_FILE))) {
+        if (!Files.exists(Paths.get(getPathway(PathwayConstants.USERS_FILE)))) {
             return new HashMap<>();
         }
-        try (Reader reader = new FileReader(PathwayConstants.USERS_FILE)) {
+        try (Reader reader = new FileReader(getPathway(PathwayConstants.USERS_FILE))) {
             Type type = new TypeToken<Map<String, User>>() {}.getType();
             Map<String, User> users = gson.fromJson(reader, type);
             return users != null ? users : new HashMap<>();
@@ -58,10 +76,10 @@ public class JsonFileReader implements FileReaderGateway {
 
     @Override
     public Map<UUID, Quiz> loadAllQuizzes() {
-        if (!Files.exists(Paths.get(PathwayConstants.QUIZZES_FILE))) {
+        if (!Files.exists(Paths.get(getPathway(PathwayConstants.QUIZZES_FILE)))) {
             return new HashMap<>();
         }
-        try (Reader reader = new FileReader(PathwayConstants.QUIZZES_FILE)) {
+        try (Reader reader = new FileReader(getPathway(PathwayConstants.QUIZZES_FILE))) {
             Type type = new TypeToken<Map<UUID, Quiz>>() {}.getType();
             Map<UUID, Quiz> quizzes = gson.fromJson(reader, type);
             return quizzes != null ? quizzes : new HashMap<>();
@@ -78,10 +96,10 @@ public class JsonFileReader implements FileReaderGateway {
 
     @Override
     public Map<UUID, QuizResults> loadAllQuizResults() {
-        if (!Files.exists(Paths.get(PathwayConstants.QUIZ_RESULTS_FILE))) {
+        if (!Files.exists(Paths.get(getPathway(PathwayConstants.QUIZ_RESULTS_FILE)))) {
             return new HashMap<>();
         }
-        try (Reader reader = new FileReader(PathwayConstants.QUIZ_RESULTS_FILE)) {
+        try (Reader reader = new FileReader(getPathway(PathwayConstants.QUIZ_RESULTS_FILE))) {
             Type type = new TypeToken<Map<UUID, QuizResults>>() {}.getType();
             Map<UUID, QuizResults> questions = gson.fromJson(reader, type);
             return questions != null ? questions : new HashMap<>();
@@ -98,10 +116,10 @@ public class JsonFileReader implements FileReaderGateway {
 
     @Override
     public Map<UUID, Question> loadAllQuestions() {
-        if (!Files.exists(Paths.get(PathwayConstants.QUESTIONS_FILE))) {
+        if (!Files.exists(Paths.get(getPathway(PathwayConstants.QUESTIONS_FILE)))) {
             return new HashMap<>();
         }
-        try (Reader reader = new FileReader(PathwayConstants.QUESTIONS_FILE)) {
+        try (Reader reader = new FileReader(getPathway(PathwayConstants.QUESTIONS_FILE))) {
             Type type = new TypeToken<Map<UUID, Question>>() {}.getType();
             Map<UUID, Question> questions = gson.fromJson(reader, type);
             return questions != null ? questions : new HashMap<>();

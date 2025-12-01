@@ -7,4 +7,6 @@ public interface CreateQuizOutputBoundary {
 
     void prepareFailView (String errorMessage);
 
+    void switchToUserScoreView();
+
 }

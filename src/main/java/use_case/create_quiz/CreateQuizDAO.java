@@ -1,5 +1,6 @@
 package use_case.create_quiz;
 
+import entities.Question;
 import entities.Quiz;
 import persistence.JsonFileDataStore;
 import persistence.JsonFileReader;
@@ -25,6 +26,10 @@ public class CreateQuizDAO implements CreateQuizUserDataAccessInterface{
         dataStore.saveQuiz(quiz);
     }
 
+    public void saveQuestion(Question question) {
+        dataStore.saveQuestion(question);
+    }
+
     @Override
     public boolean quizExists(String quizName) {
         // Need something to check if a quiz with the same name already exists
@@ -33,6 +38,12 @@ public class CreateQuizDAO implements CreateQuizUserDataAccessInterface{
         Map<UUID, Quiz> allQuizzes = fileReader.loadAllQuizzes();
 
         for (Quiz quiz : allQuizzes.values()) {
+
+            // Hard coding to prevent quiz.getQuizName() from being null
+            if (quiz.getQuizName() == null) {
+                return false;
+            }
+
             if (quiz.getQuizName().strip().equals(quizName)) {
                 return true;
             }

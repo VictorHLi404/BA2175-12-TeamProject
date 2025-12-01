@@ -62,10 +62,9 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
     private final JButton addQuestionButton = new JButton("Add Question");
     private final JButton saveQuizButton = new JButton("Save Quiz");
 
-    public CreateQuizView(CreateQuizController controller, CreateQuizViewModel viewModel) {
+    public CreateQuizView(CreateQuizViewModel viewModel) {
 
-        // Initialize the controller and question list
-        this.controller = controller;
+        // Initialize question list
         this.viewModel = viewModel;
 
         viewModel.addPropertyChangeListener(this);
@@ -187,34 +186,59 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
                     String format = questionTypeMenu.getSelectedItem().toString();
                     String question = questionArea.getText();
 
-                    List<String> options = new ArrayList<>();
-                    String optionA = optionAField.getText();
-                    options.add(optionA);
-                    String optionB = optionAField.getText();
-                    options.add(optionB);
-                    String optionC = optionAField.getText();
-                    options.add(optionC);
-                    String optionD = optionAField.getText();
-                    options.add(optionD);
-
-                    if (format.trim().equals("True/False")) {
-                        options = new ArrayList<>();            // Initialize options to be an empty list if the question is T/F
-                    }
+//                    List<String> options = new ArrayList<>();
+//                    String optionA = optionAField.getText();
+//                    options.add(optionA);
+//                    String optionB = optionBField.getText();
+//                    options.add(optionB);
+//                    String optionC = optionCField.getText();
+//                    options.add(optionC);
+//                    String optionD = optionDField.getText();
+//                    options.add(optionD);
 
                     // Check if the user left any boxes empty
+                    if (quizNameField.getText().isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Please enter a quiz name!");
+                        return;
+                    }
                     if (question.trim().isEmpty()) {
                         JOptionPane.showMessageDialog(null, "The question can't be empty!");
                         return;
-                    } else if (optionA.trim().isEmpty() || optionB.trim().isEmpty() || optionC.trim().isEmpty()
-                                || optionD.trim().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Please fill in all four options!");
-                        return;
-                    } else if (optionButtons.getSelection() == null) {
+                    }
+                    else if (optionButtons.getSelection() == null) {
                         JOptionPane.showMessageDialog(null, "Please select the correct answer!");
                         return;
                     }
 
-                    String correctOption = optionButtons.getSelection().getActionCommand();
+                    List<String> options = new ArrayList<>();
+                    if (format.equals("True/False")) {
+                        options.add("True");
+                        options.add("False");
+                    } else {
+                        String optionA = optionAField.getText().trim();
+                        String optionB = optionBField.getText().trim();
+                        String optionC = optionCField.getText().trim();
+                        String optionD = optionDField.getText().trim();
+
+                        if (optionA.isEmpty() || optionB.isEmpty() || optionC.isEmpty() || optionD.isEmpty()) {
+                            JOptionPane.showMessageDialog(null, "Please fill in all four options!");
+                            return;
+                        }
+
+                        options.add(optionA);
+                        options.add(optionB);
+                        options.add(optionC);
+                        options.add(optionD);
+                    }
+
+                    // Map radio button to the actual option text
+                    String correctOption = null;
+                    if (A_Button.isSelected()) correctOption = options.get(0);
+                    else if (B_Button.isSelected()) correctOption = options.get(1);
+                    else if (!format.equals("True/False")) { // only for MC
+                        if (C_Button.isSelected()) correctOption = options.get(2);
+                        if (D_Button.isSelected()) correctOption = options.get(3);
+                    }
 
                     QuestionInputData questionData = new QuestionInputData (
                             category,
@@ -227,6 +251,11 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
 
                     // Add each saved question to questionList
                     questionList.add(questionData);
+
+
+                    if (!questionList.isEmpty()) {
+                        quizNameField.setEditable(false);
+                    }
 
                     // Clear the question & options' text box
                     clearQuestionForm();
@@ -288,4 +317,7 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
         C_Button.setSelected(false);
         D_Button.setSelected(false);
     }
+
+
+
 }

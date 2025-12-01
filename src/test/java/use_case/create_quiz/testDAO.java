@@ -1,5 +1,6 @@
 package use_case.create_quiz;
 
+import entities.Question;
 import entities.Quiz;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class testDAO implements CreateQuizUserDataAccessInterface {
 
     // Temporarily stores Quiz objects and quiz names in memory
     List<Quiz> quizzes = new ArrayList<>();
+    List<Question> questions = new ArrayList<>();
     List<String> quizNames = new ArrayList<>();
 
     @Override
@@ -20,6 +22,11 @@ public class testDAO implements CreateQuizUserDataAccessInterface {
     @Override
     public void saveQuiz(Quiz quiz) {
         quizzes.add(quiz);
+    }
+
+    @Override
+    public void saveQuestion(Question question) {
+        questions.add(question);
     }
 
 }
