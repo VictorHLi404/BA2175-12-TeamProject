@@ -12,16 +12,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonFileDataStoreTest {
 
-    private static final String USERS_FILE = "data/users.json";
-
-    @AfterEach
-    void cleanup() throws Exception {
-        Files.deleteIfExists(Paths.get(USERS_FILE));
-    }
-
     @Test
     void testSaveAndLoadUser() {
-        DataStore store = new JsonFileDataStore();
+        DataStore store = new JsonFileDataStore(true);
 
         User u = new User("alice", "123456");
 

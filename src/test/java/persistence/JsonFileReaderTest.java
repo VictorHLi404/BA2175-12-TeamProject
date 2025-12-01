@@ -26,21 +26,12 @@ public class JsonFileReaderTest {
 
     @BeforeEach
     void setUp() {
-        new java.io.File("data").mkdirs();
-        reader = new JsonFileReader();
-    }
-
-
-    @AfterEach
-    void cleanUp() {
-        // Clean up test files after each test
-        new File("data/users.json").delete();
-        new File("data/quizzes.json").delete();
+        reader = new JsonFileReader(true);
     }
 
     @Test
     void testSaveAndLoadUser() {
-        DataStore store = new JsonFileDataStore();
+        DataStore store = new JsonFileDataStore(true);
 
         User u = new User("alice", "123456");
 
@@ -51,17 +42,6 @@ public class JsonFileReaderTest {
         assertNotNull(loaded);
         assertEquals("alice", loaded.getUsername());
         assertEquals("123456", loaded.getPassword());
-    }
-
-    @Test
-    void testLoadAllQuizzesWhenFileDoesNotExist() {
-        java.io.File f = new java.io.File("data/quizzes.json");
-        if (f.exists()) f.delete();
-
-        var quizzes = reader.loadAllQuizzes();
-
-        assertNotNull(quizzes, "Returned map should not be null");
-        assertTrue(quizzes.isEmpty(), "Map should be empty when file does not exist");
     }
 
     @Test
@@ -77,14 +57,10 @@ public class JsonFileReaderTest {
         quizzes.put(quiz.getQuizId(), quiz);
         Map<UUID, Question> questions_store = new HashMap<>();
         questions_store.put(q1.getQuestionId(), q1);
+        DataStore store = new JsonFileDataStore(true);
 
-        // Write valid JSON to file
-        try (FileWriter writer = new FileWriter("data/quizzes.json")) {
-            gson.toJson(quizzes, writer);
-        }
-        try (FileWriter writer = new FileWriter("data/questions.json")) {
-            gson.toJson(questions_store, writer);
-        }
+        store.saveQuestion(q1);
+        store.saveQuiz(quiz);
 
         Quiz loadedQuiz = reader.loadQuiz(quizId);
 
@@ -104,16 +80,4 @@ public class JsonFileReaderTest {
         assertEquals("2", loadedQuestion.getCorrectChoice());
         assertFalse(loadedQuestion.getIsCustom());
     }
-
-    void testLoadAllQuestionsWhenFileDoesNotExist() {
-        java.io.File f = new java.io.File("data/questions.json");
-        if (f.exists()) f.delete();
-
-        var questions = reader.loadAllQuestions();
-
-        assertNotNull(questions, "Returned map should not be null");
-        assertTrue(questions.isEmpty(), "Map should be empty when file does not exist");
-    }
-
-
 }

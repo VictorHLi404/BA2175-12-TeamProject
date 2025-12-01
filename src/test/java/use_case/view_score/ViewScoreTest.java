@@ -35,11 +35,8 @@ class ViewScoreTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        writer = new JsonFileDataStore();
-        reader = new JsonFileReader();
-
-        Files.createDirectories(DATA_DIR);
-        Files.deleteIfExists(QUESTIONS_FILE);
+        writer = new JsonFileDataStore(true);
+        reader = new JsonFileReader(true);
 
         Question q1 = new Question("multiple", "easy", "1 + 1 = ?", List.of("1", "2", "3"), "2", false, "ABC");
         Question q2 = new Question("multiple", "medium", "Capital of France?", List.of("Paris", "London", "Berlin"), "Paris", true, "ABC");
