@@ -7,6 +7,7 @@ import entities.User;
 import persistence.DataStore;
 import persistence.FileReaderGateway;
 import interface_adapter.session.SessionManager;
+import persistence.JsonFileDataStore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,16 @@ public class PlayQuizInteractor implements PlayQuizInputBoundary {
     private final List<String> previousAnswers = new ArrayList<>();
     private int cumulativeScore = 0;
     private boolean finished;
+    private Quiz currentQuiz;
+    private final DataStore userDataWriteObject;
+    private final FileReaderGateway userDataReadObject;
 
     public PlayQuizInteractor(PlayQuizOutputBoundary presenter,
-                              SessionManager session) {
+                              SessionManager session, DataStore userDataWriteObject, FileReaderGateway userDataReadObject) {
         this.presenter = presenter;
         this.session = session;
+        this.userDataWriteObject = userDataWriteObject;
+        this.userDataReadObject = userDataReadObject;
     }
 
     /**
@@ -57,24 +63,23 @@ public class PlayQuizInteractor implements PlayQuizInputBoundary {
         // Save the answer
         previousAnswers.add(userChoice);
 
-        // Check if this was the last question
-        boolean finished = this.currentIndex > questions.size() - 1;
-
         // Prepare output for presenter
         PlayQuizOutputData outputData = new PlayQuizOutputData(
                 isCorrect,
                 current.getCorrectChoice(),
                 cumulativeScore,
-                finished,
+                false,
                 current.getQuestion(),
                 current.getChoices(),
                 current.getFormat(),
                 current.getCategory()
         );
 
-        // Show result
-        if (finished) {
-            presenter.switchToQuizOverView(outputData);
+
+        if ("multiple".equalsIgnoreCase(current.getFormat())) {
+            presenter.switchToMultipleChoiceView(outputData);
+        } else if ("boolean".equalsIgnoreCase(current.getFormat())) {
+            presenter.switchToTrueFalseView(outputData);
         }
 
         if (isCorrect) {
@@ -83,28 +88,52 @@ public class PlayQuizInteractor implements PlayQuizInputBoundary {
             presenter.switchToIncorrectAnswerView(outputData);
         }
 
-        if ("multiple".equalsIgnoreCase(current.getFormat())) {
-            presenter.switchToMultipleChoiceView(outputData);
-        } else if ("boolean".equalsIgnoreCase(current.getFormat())) {
-            presenter.switchToTrueFalseView(outputData);
-        }
-
 //        this.currentIndex = index;
         this.currentIndex++;
     }
 
-    public void startCustomizedQuiz(List<Question> questions) {
+    public void startCustomizedQuiz(List<Question> questions, Quiz quiz) {
         if (questions == null || questions.isEmpty()) return;
 
         reset();
         this.questions = questions;
+        this.currentQuiz = quiz;
+        userDataWriteObject.saveQuiz(quiz);
 
         loadNextQuestion();
     }
 
     @Override
     public void loadNextQuestion() {
-        if (currentIndex >= questions.size()) return;
+        if (currentIndex >= questions.size()) {
+            // Generate QuizResults
+            User currentUser = session.getCurrentUser();
+            if (currentUser != null && currentQuiz != null) {
+                QuizResults results = new QuizResults(currentQuiz, currentUser.getUserId(), previousAnswers, questions);
+                userDataWriteObject.saveQuizResults(results); // persist results
+
+                // TEMP: confirm in console
+                System.out.println("QuizResults generated!");
+                System.out.println("Quiz ID: " + results.getQuizId());
+                System.out.println("User ID: " + results.getUserId());
+                System.out.println("Timestamp: " + results.getTimestamp());
+            }
+
+            // No questions left, quiz is finished
+            Question last = questions.get(questions.size() - 1); // last question reference
+            PlayQuizOutputData outputData = new PlayQuizOutputData(
+                    false, // last question already answered, correctness irrelevant here
+                    last.getCorrectChoice(),
+                    cumulativeScore,
+                    true, // finished = true now
+                    "",   // no new question text
+                    List.of(), // no choices
+                    "",
+                    ""
+            );
+            presenter.switchToQuizOverView(outputData);
+            return;
+        }
 
         Question q = questions.get(currentIndex);
         PlayQuizOutputData outputData = new PlayQuizOutputData(

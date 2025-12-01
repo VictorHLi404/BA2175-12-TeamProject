@@ -4,6 +4,7 @@ import persistence.JsonFileReader;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class QuizResults {
@@ -15,25 +16,25 @@ public class QuizResults {
     private int score;
     private final String timestamp;
     private int quizLength;
+    private List<Question> questionObjects;
 
 
-    public QuizResults(Quiz quiz, UUID userId, List<String> answers) {
+    public QuizResults(Quiz quiz, UUID userId, List<String> answers, List<Question> questionObjects) {
         this.quizResultsId = UUID.randomUUID();
         this.quizId = quiz.getQuizId();
         this.userId = userId;
         this.questions = quiz.getQuestionIds();
         this.answers = answers;
+        this.questionObjects = questionObjects;
         this.score = calculateScore();
         this.timestamp = LocalDateTime.now().toString();
         this.quizLength = questions.size();
     }
 
     private int calculateScore() {
-        JsonFileReader reader = new JsonFileReader();
         int count = 0;
-        for (int i = 0; i < Math.min(questions.size(), answers.size()); i++) {
-            Question question = reader.loadQuestions(questions.get(i));
-            if (question.isCorrect(answers.get(i))) {
+        for (int i = 0; i < Math.min(questionObjects.size(), answers.size()); i++) {
+            if (questionObjects.get(i).isCorrect(answers.get(i))) {
                 count++;
             }
         }
