@@ -53,7 +53,6 @@ public class ViewScorePresenter extends ViewScoreViewModel implements ViewScoreO
     @Override
     public void switchToMainMenuView() {
         //System.out.println("Target View: " + mainMenuViewModel.getViewName());
-        viewScoreViewModel.setState(new ViewScoreState());  // Reset to brand new empty state
         viewManagerModel.setState(mainMenuViewModel.getViewName());
         viewManagerModel.firePropertyChange();
     }
