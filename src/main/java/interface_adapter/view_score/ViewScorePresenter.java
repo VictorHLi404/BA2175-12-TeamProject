@@ -8,7 +8,7 @@ import use_case.view_score.ViewScoreOutputData;
 
 import java.util.UUID;
 
-public class ViewScorePresenter implements ViewScoreOutputBoundary {
+public class ViewScorePresenter extends ViewScoreViewModel implements ViewScoreOutputBoundary {
 
 
 

@@ -1,5 +1,6 @@
 package use_case.create_quiz;
 
+import entities.Question;
 import entities.Quiz;
 import persistence.JsonFileDataStore;
 import persistence.JsonFileReader;
@@ -23,6 +24,10 @@ public class CreateQuizDAO implements CreateQuizUserDataAccessInterface{
 
         // saveQuiz() is already implemented as a method in JsonFIleDataStore so we call that
         dataStore.saveQuiz(quiz);
+    }
+
+    public void saveQuestion(Question question) {
+        dataStore.saveQuestion(question);
     }
 
     @Override

@@ -44,10 +44,24 @@ public class PlayQuizView extends JPanel {
         this.viewManagerModel = viewManagerModel;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
-        // Center panel for question, choices, and submit/next buttons
+        // Style labels
+        styleLabel(questionLabel, 20, true);
+        styleLabel(scoreLabel, 18, false);
+        styleLabel(categoryLabel, 18, false);
+        styleLabel(resultLabel, 18, true);
+        styleLabel(answerLabel, 18, false);
+
+        // Style buttons
+        styleButton(submitButton, 200, 50);
+        styleButton(nextButton, 200, 50);
+        styleButton(instructionsButton, 200, 50);
+
+        // Center panel
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        centerPanel.setOpaque(false);
 
         questionLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -77,11 +91,11 @@ public class PlayQuizView extends JPanel {
         centerPanel.add(trueFalsePanel);
         centerPanel.add(Box.createVerticalStrut(10));
 
-        centerPanel.add(submitButton);
+        centerPanel.add(createCenteredPanel(submitButton));
         centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(nextButton);
+        centerPanel.add(createCenteredPanel(nextButton));
         centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(instructionsButton); // instructions below submit/next
+        centerPanel.add(createCenteredPanel(instructionsButton));
 
         add(centerPanel, BorderLayout.CENTER);
 
@@ -167,7 +181,9 @@ public class PlayQuizView extends JPanel {
         quizFinishedPanel.setLayout(new BoxLayout(quizFinishedPanel, BoxLayout.Y_AXIS));
 
         JLabel finishedLabel = new JLabel("Quiz Over! Final score: " + score, SwingConstants.CENTER);
+        styleLabel(finishedLabel, 20, true);
         JButton mainMenuBtn = new JButton("Back to Main Menu");
+        styleButton(mainMenuBtn, 200, 50);
         mainMenuBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainMenuBtn.addActionListener(e -> {
             viewManagerModel.setState("Main Menu");
@@ -262,6 +278,35 @@ public class PlayQuizView extends JPanel {
 
         revalidate();
         repaint();
+    }
+
+    private void styleLabel(JLabel label, int size, boolean bold) {
+        label.setFont(new Font("Algerian", bold ? Font.BOLD : Font.PLAIN, size));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    private void styleButton(JButton button, int width, int height) {
+        button.setFocusPainted(false);
+        button.setFont(new Font("Algerian", Font.PLAIN, 18));
+        button.setBackground(new Color(230, 230, 230));
+        button.setMaximumSize(new Dimension(width, height));
+        button.setMinimumSize(new Dimension(width, height));
+        button.setPreferredSize(new Dimension(width, height));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    private void styleRadioButton(JRadioButton radioButton) {
+        radioButton.setFont(new Font("Algerian", Font.PLAIN, 18));
+        radioButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
+    private JPanel createCenteredPanel(JComponent component) {
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        component.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(component);
+        return panel;
     }
 
     public String getViewName() {

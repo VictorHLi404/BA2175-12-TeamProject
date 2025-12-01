@@ -98,6 +98,10 @@ public class PlayQuizInteractor implements PlayQuizInputBoundary {
         reset();
         this.questions = questions;
         this.currentQuiz = quiz;
+
+        for (Question question : questions) {
+            userDataWriteObject.saveQuestion(question);
+        }
         userDataWriteObject.saveQuiz(quiz);
 
         loadNextQuestion();

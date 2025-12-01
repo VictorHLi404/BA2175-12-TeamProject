@@ -67,7 +67,11 @@ import view.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 public class AppBuilder {
@@ -100,13 +104,15 @@ public class AppBuilder {
     private final DataStore userDataWriteObject = new JsonFileDataStore();
     private final FileReaderGateway userDataReadObject = new JsonFileReader();
 
+    private final Map<String, UUID> previousQuizLookup = new HashMap<>();
+
     public AppBuilder() {
         cardPanel.setLayout(cardLayout);
     }
 
     public AppBuilder addMainMenuView() {
         mainMenuViewModel = new MainMenuViewModel();
-        mainMenuView = new MainMenuView(mainMenuViewModel,viewManagerModel);
+        mainMenuView = new MainMenuView(mainMenuViewModel);
         cardPanel.add(mainMenuView, mainMenuView.getViewName());
 
         MainMenuPresenter mainMenuPresenter = new MainMenuPresenter(mainMenuViewModel, viewManagerModel);
@@ -124,6 +130,8 @@ public class AppBuilder {
 
         return this;
     }
+
+
 
     public AppBuilder addViewScoreComponents() {
         viewScoreViewModel = new ViewScoreViewModel();
@@ -163,7 +171,7 @@ public class AppBuilder {
 
     public AppBuilder addLoginUseCase() {
         final LoginOutputBoundary loginOutputBoundary =
-                new LoginPresenter(viewManagerModel, mainMenuViewModel, loginViewModel,viewScoreViewModel);
+                new LoginPresenter(viewManagerModel, mainMenuViewModel, loginViewModel, viewScoreViewModel);
 
         final LoginInputBoundary loginInteractor =
                 new LoginInteractor(userDataReadObject, userDataWriteObject, loginOutputBoundary, currentSession);
@@ -221,9 +229,39 @@ public class AppBuilder {
             viewManagerModel.setState("playQuiz");
             viewManagerModel.firePropertyChange();
         });
+
+        customizeQuizView.addPlayPreviousAction(selectedLabel -> {
+            if (selectedLabel == null || !previousQuizLookup.containsKey(selectedLabel)) {
+                JOptionPane.showMessageDialog(cardPanel, "Please select a previous quiz to play.");
+                return;
+            }
+
+            UUID quizId = previousQuizLookup.get(selectedLabel);
+            entities.Quiz quiz = userDataReadObject.loadQuiz(quizId);
+
+            if (quiz == null) {
+                JOptionPane.showMessageDialog(cardPanel, "Unable to load the selected quiz.");
+                return;
+            }
+
+            Map<UUID, entities.Question> allQuestions = userDataReadObject.loadAllQuestions();
+            List<entities.Question> questions = quiz.getQuestionIds().stream()
+                    .map(allQuestions::get)
+                    .filter(Objects::nonNull)
+                    .toList();
+
+            if (questions.isEmpty()) {
+                JOptionPane.showMessageDialog(cardPanel, "No questions found for this quiz.");
+                return;
+            }
+
+            controller.startCustomizedQuiz(questions, quiz);
+            viewManagerModel.setState("playQuiz");
+            viewManagerModel.firePropertyChange();
+        });
         return this;
     }
-      
+
     public AppBuilder addCustomizeQuizUseCase() {
 
         customizeQuizViewModel = new CustomizeQuizViewModel();
@@ -246,6 +284,7 @@ public class AppBuilder {
         cardPanel.add(customizeQuizView, customizeQuizView.getViewName());
 
         mainMenuView.addPlayAction(() -> {
+            refreshPreviousQuizOptions();
             viewManagerModel.setState("customize quiz");
             viewManagerModel.firePropertyChange();
         });
@@ -294,15 +333,54 @@ public class AppBuilder {
     }
 
     public JFrame build() {
-        final JFrame application = new JFrame();
+        JFrame application = new JFrame();
         application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         JPanel background = new JPanel(new GridBagLayout());
         background.setBackground(Color.GRAY);
+
+        // Add cardPanel inside the background panel
+        background.add(cardPanel);
+
         application.setContentPane(background);
-        application.add(cardPanel);
+        application.pack();
 
         viewManagerModel.firePropertyChange();
         return application;
+    }
+    /**
+     * Refresh the list of previous quizzes for the current user and update the customize view combo box.
+     */
+    private void refreshPreviousQuizOptions() {
+        previousQuizLookup.clear();
+
+        if (!currentSession.isLoggedIn()) {
+            customizeQuizView.setPreviousQuizzes(List.of("Please log in to see past quizzes"));
+            return;
+        }
+
+        Map<UUID, entities.QuizResults> allQuizResults = userDataReadObject.loadAllQuizResults();
+        UUID userId = currentSession.getCurrentUser().getUserId();
+
+        List<String> labels = new ArrayList<>();
+
+        for (entities.QuizResults results : allQuizResults.values()) {
+            if (Objects.equals(results.getUserId(), userId)) {
+                entities.Quiz quiz = userDataReadObject.loadQuiz(results.getQuizId());
+                String quizName = quiz != null && quiz.getQuizName() != null
+                        ? quiz.getQuizName()
+                        : "Quiz " + results.getQuizId().toString().substring(0, 8);
+                String label = quizName + " (" + results.getTimestamp() + ")";
+                previousQuizLookup.put(label, results.getQuizId());
+                labels.add(label);
+            }
+        }
+
+        if (labels.isEmpty()) {
+            labels.add("No previous quizzes available");
+        }
+
+        customizeQuizView.setPreviousQuizzes(labels);
     }
 
 }

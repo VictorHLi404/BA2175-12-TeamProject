@@ -8,6 +8,7 @@ import interface_adapter.view_score.ViewScoreViewModel;
 import use_case.view_score.PerQuizResultData;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -28,8 +29,8 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
     private final JButton backButton;
     private JButton instructionsButton;
 
-    private final JLabel scoreDisplayLabel = new JLabel("Score: --");
-    private final JLabel messageDisplayLabel = new JLabel("Select a user to view score.");
+    private final JLabel scoreLabel;
+    private final JLabel messageLabel;
 
     private DefaultTableModel historyTableModel;
     private JTable historyTable;
@@ -40,63 +41,43 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
     public ViewScoreView(ViewScoreViewModel viewScoreViewModel, ViewManagerModel viewManagerModel) {
         this.viewScoreViewModel = viewScoreViewModel;
         this.viewManagerModel = viewManagerModel;
-        this.setLayout(new GridBagLayout());
-        this.setBackground(Color.GRAY);
         this.viewScoreViewModel.addPropertyChangeListener(this);
-        this.setLayout(new BorderLayout());
-        this.setBackground(Color.GRAY);
 
-// === TOP (NORTH): Title ===
-        JLabel titleCard = new JLabel("View Score", SwingConstants.CENTER);
-        titleCard.setFont(new Font("Algerian", Font.BOLD, 48));
-        titleCard.setBorder(BorderFactory.createEmptyBorder(20, 10, 10, 10));
-        this.add(titleCard, BorderLayout.NORTH);
+        // ===== MAIN PANEL =====
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
-// === CENTER AREA ===
-        JPanel centerPanel = new JPanel();
-        centerPanel.setOpaque(false);
-        centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.Y_AXIS));
+        // ===== TITLE =====
+        JLabel titleLabel = new JLabel("View Score", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Algerian", Font.BOLD, 48));
+        titleLabel.setAlignmentX(CENTER_ALIGNMENT);
+        add(titleLabel);
+        add(Box.createVerticalStrut(30));
 
-// Message label
-        messageDisplayLabel.setFont(new Font("Times New Roman", Font.BOLD, 28));
-        messageDisplayLabel.setForeground(new Color(255, 255, 200));
-        messageDisplayLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // ===== SCORE LABEL =====
+        scoreLabel = new JLabel("Score: --");
+        scoreLabel.setFont(new Font("Algerian", Font.BOLD, 36));
+        scoreLabel.setForeground(Color.WHITE);
+        scoreLabel.setAlignmentX(CENTER_ALIGNMENT);
+        scoreLabel.setVisible(false); // hidden initially
+        add(scoreLabel);
+        add(Box.createVerticalStrut(20));
+        // ===== MESSAGE =====
+        messageLabel = new JLabel("Select a user to view score.");
+        messageLabel.setFont(new Font("Algerian", Font.BOLD, 28));
+        messageLabel.setForeground(Color.BLACK);
+        messageLabel.setAlignmentX(CENTER_ALIGNMENT);
+        add(messageLabel);
+        add(Box.createVerticalStrut(20));
 
-// Score label (hidden initially)
-        scoreDisplayLabel.setFont(new Font("Times New Roman", Font.BOLD, 36));
-        scoreDisplayLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        scoreDisplayLabel.setVisible(false);
-
-// View Score Button
+        // ===== VIEW SCORE BUTTON =====
         viewScoreButton = new JButton("View Score");
-        viewScoreButton.setFont(new Font("Times New Roman", Font.PLAIN, 28));
-        viewScoreButton.setPreferredSize(new Dimension(240, 80));
-        viewScoreButton.setMaximumSize(new Dimension(240, 80));
-        viewScoreButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        viewScoreButton.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-        viewScoreButton.setBackground(Color.GREEN);
+        styleButton(viewScoreButton, 250, 80);
+        add(viewScoreButton);
+        add(Box.createVerticalStrut(20));
 
-// Add to center panel with spacing
-        centerPanel.add(Box.createVerticalStrut(20));
-        centerPanel.add(messageDisplayLabel);
-        centerPanel.add(Box.createVerticalStrut(10));
-        centerPanel.add(viewScoreButton);
-
-// === BOTTOM-LEFT (SOUTH): Back Button ===
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        bottomPanel.setOpaque(false);
-
-        backButton = new JButton("Back");
-        backButton.setFont(new Font("Times New Roman", Font.PLAIN, 24));
-        backButton.setPreferredSize(new Dimension(180, 60));
-        backButton.setBackground(Color.GREEN);
-
-        bottomPanel.add(backButton);
-        this.add(bottomPanel, BorderLayout.SOUTH);
-        instructionsButton = new JButton("Instructions");
-        bottomPanel.add(instructionsButton);
-// for score table
-        historyTableModel = new DefaultTableModel(new Object[]{"Quiz #", "Score", "Compare"}, 0) {
+        // ===== TABLE PANEL =====
+        historyTableModel = new DefaultTableModel(new Object[]{"Quiz Name", "Score", "Compare"}, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return column == 2;
@@ -104,32 +85,44 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         };
 
         historyTable = new JTable(historyTableModel);
-
-        historyTable.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        historyTable.setFont(new Font("Algerian", Font.PLAIN, 10));
         historyTable.setRowHeight(28);
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        centerRenderer.setFont(new Font("Algerian", Font.PLAIN, 10));
+        historyTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+        historyTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 
         historyTable.getColumn("Compare").setCellRenderer(new ButtonRenderer());
         historyTable.getColumn("Compare").setCellEditor(new ButtonEditor(new JCheckBox()));
 
         JScrollPane scrollPane = new JScrollPane(historyTable);
-        scrollPane.setPreferredSize(new Dimension(2500, 200));
+        scrollPane.setPreferredSize(new Dimension(500, 500));
 
         tablePanel = new JPanel();
-        tablePanel.setVisible(false);
         tablePanel.setOpaque(false);
+        tablePanel.setVisible(false);
+        tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
         tablePanel.add(scrollPane);
-        JPanel bottomWrapper = new JPanel(new BorderLayout());
-        bottomWrapper.setOpaque(false);
-
-        bottomWrapper.add(tablePanel, BorderLayout.CENTER);  // table
-
-        centerPanel.add(Box.createVerticalStrut(10));   // spacing
-        centerPanel.add(bottomWrapper);
-        this.add(centerPanel, BorderLayout.CENTER);
-
         tablePanel.setBorder(BorderFactory.createTitledBorder("Score History"));
-        bottomWrapper.setAlignmentX(Component.CENTER_ALIGNMENT);
-        scrollPane.setPreferredSize(new Dimension(300, 250));
+        add(tablePanel);
+        add(Box.createVerticalStrut(20));
+
+        // ===== BOTTOM BUTTONS =====
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+
+        backButton = new JButton("Back");
+        styleButton(backButton, 180, 60);
+        buttonPanel.add(backButton);
+
+        instructionsButton = new JButton("Instructions");
+        styleButton(instructionsButton, 200, 60);
+        buttonPanel.add(instructionsButton);
+
+        add(buttonPanel);
 
         // ActionListener
         viewScoreButton.addActionListener(
@@ -138,13 +131,13 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(viewScoreButton) && viewScoreController != null){
                             final ViewScoreState currentState = viewScoreViewModel.getState();
-
-                            if (viewScoreController != null) {
-                                String targetUsername = viewScoreViewModel.getState().getUsername();
-                                //System.out.println("DEBUG: Viewing score for: " + targetUsername);
+                            final String targetUsername = currentState.getUsername();
+                            // System.out.println(targetUsername);
+                            if (targetUsername != null && !targetUsername.isEmpty()) {
                                 viewScoreController.execute(targetUsername);
                             } else {
                                 //System.out.println("Username is empty");
+                                messageLabel.setText("Unable to load scores: no user is logged in.");
                             }
                         }
                     }
@@ -156,6 +149,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         if (e.getSource().equals(backButton)) {
+                            resetView();
                             if (viewScoreController == null) {
                                 //System.out.println("DEBUG ERROR: ViewScoreController is NULL in View.");
                             } else {
@@ -178,6 +172,14 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
     }
 
+    private void styleButton(JButton button, int width, int height) {
+        button.setFocusPainted(false);
+        button.setFont(new Font("Algerian", Font.PLAIN, 24));
+        button.setBackground(new Color(230, 230, 230));
+        button.setMaximumSize(new Dimension(width, height));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -194,14 +196,14 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         final ViewScoreState state = viewScoreViewModel.getState();
-        this.messageDisplayLabel.setText(state.getViewMessage());
+        this.messageLabel.setText(state.getViewMessage());
 
         historyTableModel.setRowCount(0); // Clear old rows
 
         int i = 1;
         for (PerQuizResultData p : state.getPerQuizResultData()) {
             historyTableModel.addRow(new Object[] {
-                    "Quiz " + i,
+                    p.getQuizName(),
                     p.getCorrect() + "/" + p.getTotal(),
                     "Compare"
             });
@@ -214,6 +216,13 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
         this.revalidate();
         this.repaint();
+    }
+
+    private void resetView() {
+        historyTableModel.setRowCount(0);
+        tablePanel.setVisible(false);
+        viewScoreButton.setVisible(true);
+        messageLabel.setText("Select a user to view score.");
     }
 
     public void setViewScoreController(ViewScoreController viewScoreController) {
@@ -233,7 +242,9 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
             super(checkBox);
             button = new JButton();
             button.setOpaque(true);
-
+            button.setFocusPainted(false);
+            button.setFont(new Font("Algerian", Font.PLAIN, 18));
+            button.setBackground(new Color(230, 230, 230));
             button.addActionListener(e -> fireEditingStopped());
         }
 
@@ -259,6 +270,9 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
     class ButtonRenderer extends JButton implements javax.swing.table.TableCellRenderer {
         public ButtonRenderer() {
             setOpaque(true);
+            setFont(new Font("Algerian", Font.PLAIN, 18));
+            setBackground(new Color(230, 230, 230));
+            setFocusPainted(false);
         }
 
         @Override

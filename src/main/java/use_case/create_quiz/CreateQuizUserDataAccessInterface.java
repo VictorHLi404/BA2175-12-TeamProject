@@ -11,4 +11,6 @@ public interface CreateQuizUserDataAccessInterface {
     // Saves the quiz object
     void saveQuiz(Quiz quiz);
 
+    void saveQuestion(Question question);
+
 }
