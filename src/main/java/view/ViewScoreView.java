@@ -85,11 +85,12 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         };
 
         historyTable = new JTable(historyTableModel);
-        historyTable.setFont(new Font("Algerian", Font.PLAIN, 18));
+        historyTable.setFont(new Font("Algerian", Font.PLAIN, 10));
         historyTable.setRowHeight(28);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        centerRenderer.setFont(new Font("Algerian", Font.PLAIN, 10));
         historyTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
         historyTable.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 
@@ -201,7 +202,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         int i = 1;
         for (PerQuizResultData p : state.getPerQuizResultData()) {
             historyTableModel.addRow(new Object[] {
-                    "Quiz " + i,
+                    p.getQuizName(),
                     p.getCorrect() + "/" + p.getTotal(),
                     "Compare"
             });

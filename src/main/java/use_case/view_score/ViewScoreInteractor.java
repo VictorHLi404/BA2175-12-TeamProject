@@ -1,5 +1,6 @@
 package use_case.view_score;
 
+import entities.Quiz;
 import entities.QuizResults;
 import entities.User;
 import persistence.FileReaderGateway;
@@ -42,11 +43,12 @@ public class ViewScoreInteractor implements ViewScoreInputBoundary
         int totalQuestions = 0;
         int totalCorrectAnswers = 0;
         for (QuizResults quizResults : allQuizResults.values()){
+            Quiz quiz = userDataReadObject.loadQuiz(quizResults.getQuizId());
             if (quizResults.getUserId().equals(userID)){
                 totalQuestions += quizResults.getQuizSize();
                 totalCorrectAnswers += quizResults.getScore();
                 String timeStamp = quizResults.getTimestamp();
-                perQuizData.add(new PerQuizResultData(timeStamp, quizResults.getScore(), quizResults.getQuizSize(), quizResults.getQuizResultsId()));
+                perQuizData.add(new PerQuizResultData(timeStamp, quizResults.getScore(), quizResults.getQuizSize(), quizResults.getQuizResultsId(), quiz.getQuizName()));
             }
         }
         if (perQuizData.isEmpty()){
