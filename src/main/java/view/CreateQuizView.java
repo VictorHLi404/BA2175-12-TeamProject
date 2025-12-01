@@ -49,6 +49,11 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
     private final JTextField optionCField = new JTextField(20);
     private final JTextField optionDField = new JTextField(20);
 
+    private final JLabel optionALabel = new JLabel("Option A:");
+    private final JLabel optionBLabel = new JLabel("Option B:");
+    private final JLabel optionCLabel = new JLabel("Option C:");
+    private final JLabel optionDLabel = new JLabel("Option D:");
+
     private JRadioButton A_Button = new JRadioButton("A");
     private JRadioButton B_Button = new JRadioButton("B");
     private JRadioButton C_Button = new JRadioButton("C");
@@ -66,69 +71,67 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
         viewModel.addPropertyChangeListener(this);
         this.questionList = new ArrayList<>();
 
-        setLayout(new BorderLayout());
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBorder(BorderFactory.createEmptyBorder(30, 50, 30, 50));
 
-        JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+// Center everything
+        quizNameField.setMaximumSize(new Dimension(400, 30));
+        categoryMenu.setMaximumSize(new Dimension(400, 30));
+        difficultyMenu.setMaximumSize(new Dimension(400, 30));
+        questionTypeMenu.setMaximumSize(new Dimension(400, 30));
+        questionArea.setMaximumSize(new Dimension(400, 80));
+        optionAField.setMaximumSize(new Dimension(400, 30));
+        optionBField.setMaximumSize(new Dimension(400, 30));
+        optionCField.setMaximumSize(new Dimension(400, 30));
+        optionDField.setMaximumSize(new Dimension(400, 30));
 
-        mainPanel.add(messageLabel);
-
-        mainPanel.add(new JLabel("Quiz Name:"));
-        mainPanel.add(quizNameField);
-
-        mainPanel.add(new JLabel("Category:"));
-        mainPanel.add(categoryMenu, BorderLayout.CENTER);
-
-        mainPanel.add(new JLabel("Difficulty:"));
-        mainPanel.add(difficultyMenu);
-
-        mainPanel.add(new JLabel("Type:"));
-        mainPanel.add(questionTypeMenu);
-
-        mainPanel.add(new JLabel("Question:"));
-        mainPanel.add(new JScrollPane(questionArea));
-
-        JLabel optionALabel = new JLabel("Option A:");
-        mainPanel.add(optionALabel);
-        mainPanel.add(optionAField);
-
-        JLabel optionBLabel = new JLabel("Option B:");
-        mainPanel.add(optionBLabel);
-        mainPanel.add(optionBField);
-
-        JLabel optionCLabel = new JLabel("Option C:");
-        mainPanel.add(optionCLabel);
-        mainPanel.add(optionCField);
-
-        JLabel optionDLabel = new JLabel("Option D:");
-        mainPanel.add(optionDLabel);
-        mainPanel.add(optionDField);
-
-        // Ensures that only one of the following options can be selected
-        mainPanel.add(new JLabel("Correct Answer:"));
         ButtonGroup optionButtons = new ButtonGroup();
         optionButtons.add(A_Button);
         optionButtons.add(B_Button);
         optionButtons.add(C_Button);
         optionButtons.add(D_Button);
 
-        JPanel optionsPanel = new JPanel();
-        optionsPanel.add(A_Button);
-        optionsPanel.add(B_Button);
-        optionsPanel.add(C_Button);
-        optionsPanel.add(D_Button);
+// Wrap each label+field in a panel to center horizontally
 
-        A_Button.setActionCommand("A");
-        B_Button.setActionCommand("B");
-        C_Button.setActionCommand("C");
-        D_Button.setActionCommand("D");
+// Then add each section
+        add(createCenteredPanel(new JLabel("Quiz Name:"), quizNameField));
+        add(Box.createVerticalStrut(10));
+        add(createCenteredPanel(new JLabel("Category:"), categoryMenu));
+        add(Box.createVerticalStrut(10));
+        add(createCenteredPanel(new JLabel("Difficulty:"), difficultyMenu));
+        add(Box.createVerticalStrut(10));
+        add(createCenteredPanel(new JLabel("Type:"), questionTypeMenu));
+        add(Box.createVerticalStrut(10));
+        add(createCenteredPanel(new JLabel("Question:"), new JScrollPane(questionArea)));
+        add(Box.createVerticalStrut(10));
+        add(createCenteredPanel(optionALabel, optionAField));
+        add(createCenteredPanel(optionBLabel, optionBField));
+        add(createCenteredPanel(optionCLabel, optionCField));
+        add(createCenteredPanel(optionDLabel, optionDField));
+        add(Box.createVerticalStrut(10));
 
-        mainPanel.add(optionsPanel);
+// Radio buttons panel
+        JPanel radioPanel = new JPanel();
+        radioPanel.setOpaque(false);
+        radioPanel.add(A_Button);
+        radioPanel.add(B_Button);
+        radioPanel.add(C_Button);
+        radioPanel.add(D_Button);
+        add(radioPanel);
+        add(Box.createVerticalStrut(10));
 
-        mainPanel.add(addQuestionButton);
-        mainPanel.add(saveQuizButton);
+// Buttons
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setOpaque(false);
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 
-        add(mainPanel, BorderLayout.CENTER);
+        buttonPanel.add(Box.createHorizontalGlue());
+        buttonPanel.add(addQuestionButton);
+        buttonPanel.add(Box.createHorizontalStrut(10));
+        buttonPanel.add(saveQuizButton);
+        buttonPanel.add(Box.createHorizontalGlue());
+
+        add(buttonPanel);
 
         questionTypeMenu.addActionListener(e ->
                 {
@@ -241,6 +244,18 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
 
     }
 
+    private JPanel createCenteredPanel(JComponent label, JComponent field) {
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        field.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(label);
+        panel.add(Box.createVerticalStrut(5));
+        panel.add(field);
+        return panel;
+    }
+
     public void propertyChange(PropertyChangeEvent event) {
         CreateQuizState state = (CreateQuizState) event.getNewValue();
 
@@ -273,12 +288,4 @@ public class CreateQuizView extends JPanel implements PropertyChangeListener {
         C_Button.setSelected(false);
         D_Button.setSelected(false);
     }
-
-
-
-
-
-
-
-
 }

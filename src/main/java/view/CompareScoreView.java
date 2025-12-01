@@ -1,6 +1,5 @@
 package view;
 
-import entities.QuizResults;
 import interface_adapter.compare_score.CompareScoreController;
 import interface_adapter.compare_score.CompareScoreState;
 import interface_adapter.compare_score.CompareScoreViewModel;
