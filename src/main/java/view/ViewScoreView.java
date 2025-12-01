@@ -26,6 +26,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
     private final JButton viewScoreButton;
     private final JButton backButton;
+    private JButton instructionsButton;
 
     private final JLabel scoreDisplayLabel = new JLabel("Score: --");
     private final JLabel messageDisplayLabel = new JLabel("Select a user to view score.");
@@ -92,6 +93,8 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
         bottomPanel.add(backButton);
         this.add(bottomPanel, BorderLayout.SOUTH);
+        instructionsButton = new JButton("Instructions");
+        bottomPanel.add(instructionsButton);
 // for score table
         historyTableModel = new DefaultTableModel(new Object[]{"Quiz #", "Score", "Compare"}, 0) {
             @Override
@@ -163,6 +166,15 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
                     }
                 }
         );
+        instructionsButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(
+                    this,
+                    InstructionsContent.getInstructions(),
+                    "Instructions",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
 
     }
 
