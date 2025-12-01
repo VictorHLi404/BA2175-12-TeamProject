@@ -93,7 +93,7 @@ public class CompareScoreView extends JPanel implements ActionListener, Property
         };
 
         JTable table = new JTable(model);
-        table.setFont(new Font("Times New Roman", Font.PLAIN, 28));
+        table.setFont(new Font("Algerian", Font.PLAIN, 28));
         table.setRowHeight(36);
 
         // Center text
@@ -107,7 +107,7 @@ public class CompareScoreView extends JPanel implements ActionListener, Property
 
     private void styleButton(JButton button, int width, int height) {
         button.setFocusPainted(false);
-        button.setFont(new Font("Times New Roman", Font.PLAIN, 28));
+        button.setFont(new Font("Algerian", Font.PLAIN, 28));
         button.setBackground(new Color(230, 230, 230));
         button.setMaximumSize(new Dimension(width, height));
         button.setAlignmentX(CENTER_ALIGNMENT);

@@ -43,7 +43,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
         // -------- TITLE --------
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel title = new JLabel("Trivia Quiz App");
-        title.setFont(new Font("SansSerif", Font.BOLD, 22));
+        title.setFont(new Font("Algerian", Font.BOLD, 22));
         titlePanel.add(title);
         add(titlePanel, BorderLayout.NORTH);
 
@@ -59,7 +59,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
 
         JLabel subtitle = new JLabel(LoginViewModel.SUBTITLE_LABEL);
-        subtitle.setFont(new Font("SansSerif", Font.BOLD, 16));
+        subtitle.setFont(new Font("Algerian", Font.BOLD, 16));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -201,7 +201,7 @@ public class LoginView extends JPanel implements ActionListener, PropertyChangeL
 
     private void styleButton(JButton b) {
         b.setFocusPainted(false);
-        b.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        b.setFont(new Font("Algerian", Font.PLAIN, 14));
         b.setBackground(new Color(230, 230, 230));
         b.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
     }

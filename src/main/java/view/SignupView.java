@@ -40,7 +40,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel title = new JLabel(SignupViewModel.TITLE_LABEL);
 
-        title.setFont(new Font("SansSerif", Font.BOLD, 22));
+        title.setFont(new Font("Algerian", Font.BOLD, 22));
         titlePanel.add(title);
 
         // force the panel to appear at the top
@@ -58,7 +58,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         gbc.anchor = GridBagConstraints.WEST;
 
         JLabel subtitle = new JLabel(SignupViewModel.SUBTITLE_LABEL);
-        subtitle.setFont(new Font("SansSerif", Font.BOLD, 16));
+        subtitle.setFont(new Font("Algerian", Font.BOLD, 16));
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -150,7 +150,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
 
     private void styleButton(JButton b) {
         b.setFocusPainted(false);
-        b.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        b.setFont(new Font("Algerian", Font.PLAIN, 14));
         b.setBackground(new Color(230, 230, 230));
         b.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
     }

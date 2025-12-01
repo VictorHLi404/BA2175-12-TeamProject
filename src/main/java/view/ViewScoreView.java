@@ -56,7 +56,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
         // ===== SCORE LABEL =====
         scoreLabel = new JLabel("Score: --");
-        scoreLabel.setFont(new Font("Times New Roman", Font.BOLD, 36));
+        scoreLabel.setFont(new Font("Algerian", Font.BOLD, 36));
         scoreLabel.setForeground(Color.WHITE);
         scoreLabel.setAlignmentX(CENTER_ALIGNMENT);
         scoreLabel.setVisible(false); // hidden initially
@@ -64,7 +64,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         add(Box.createVerticalStrut(20));
         // ===== MESSAGE =====
         messageLabel = new JLabel("Select a user to view score.");
-        messageLabel.setFont(new Font("Times New Roman", Font.BOLD, 28));
+        messageLabel.setFont(new Font("Algerian", Font.BOLD, 28));
         messageLabel.setForeground(Color.BLACK);
         messageLabel.setAlignmentX(CENTER_ALIGNMENT);
         add(messageLabel);
@@ -85,7 +85,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
         };
 
         historyTable = new JTable(historyTableModel);
-        historyTable.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        historyTable.setFont(new Font("Algerian", Font.PLAIN, 18));
         historyTable.setRowHeight(28);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -172,7 +172,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
 
     private void styleButton(JButton button, int width, int height) {
         button.setFocusPainted(false);
-        button.setFont(new Font("SansSerif", Font.PLAIN, 24));
+        button.setFont(new Font("Algerian", Font.PLAIN, 24));
         button.setBackground(new Color(230, 230, 230));
         button.setMaximumSize(new Dimension(width, height));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -234,7 +234,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
             button = new JButton();
             button.setOpaque(true);
             button.setFocusPainted(false);
-            button.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+            button.setFont(new Font("Algerian", Font.PLAIN, 18));
             button.setBackground(new Color(230, 230, 230));
             button.addActionListener(e -> fireEditingStopped());
         }
@@ -261,7 +261,7 @@ public class ViewScoreView extends JPanel implements ActionListener, PropertyCha
     class ButtonRenderer extends JButton implements javax.swing.table.TableCellRenderer {
         public ButtonRenderer() {
             setOpaque(true);
-            setFont(new Font("Times New Roman", Font.PLAIN, 18));
+            setFont(new Font("Algerian", Font.PLAIN, 18));
             setBackground(new Color(230, 230, 230));
             setFocusPainted(false);
         }

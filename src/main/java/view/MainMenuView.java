@@ -104,7 +104,7 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
 
     private void styleButton(JButton button, int width, int height) {
         button.setFocusPainted(false);
-        button.setFont(new Font("SansSerif", Font.PLAIN, 24));
+        button.setFont(new Font("Algerian", Font.PLAIN, 24));
         button.setBackground(new Color(230, 230, 230));
         button.setMaximumSize(new Dimension(width, height));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
