@@ -1,3 +1,5 @@
+import view.InstructionsContent;
+
 import javax.swing.*;
 import java.awt.*;
 

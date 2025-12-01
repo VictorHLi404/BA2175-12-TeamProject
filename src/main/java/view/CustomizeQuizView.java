@@ -13,6 +13,8 @@ public class CustomizeQuizView extends JPanel {
     private final String viewName = "customize quiz";
     private JButton playNow;
     private JButton playPrevious;
+    private JButton instructionsButton;
+
 
     private JComboBox<String> difficulty;
     private JComboBox<String> type;
@@ -76,6 +78,18 @@ public class CustomizeQuizView extends JPanel {
         add(playNow);
         add(playPrevious);
 
+        instructionsButton = new JButton("Instructions");
+        add(instructionsButton);
+
+// 再加监听
+        instructionsButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(
+                    this,
+                    InstructionsContent.getInstructions(),
+                    "Instructions",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
 
 
         // Apply customization

@@ -28,6 +28,7 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
     private final JButton signUp;
     private final JButton cancel;
     private final JButton toLogin;
+    private final JButton instructionsButton = new JButton("Instructions");
 
     public SignupView(SignupViewModel signupViewModel) {
         this.signupViewModel = signupViewModel;
@@ -50,6 +51,8 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         buttons.add(signUp);
         cancel = new JButton(SignupViewModel.CANCEL_BUTTON_LABEL);
         buttons.add(cancel);
+        buttons.add(instructionsButton);   // 新增
+
 
         signUp.addActionListener(
                 // This creates an anonymous subclass of ActionListener and instantiates it.
@@ -77,6 +80,16 @@ public class SignupView extends JPanel implements ActionListener, PropertyChange
         );
 
         cancel.addActionListener(this);
+
+        instructionsButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(
+                    this,
+                    InstructionsContent.getInstructions(),
+                    "Instructions",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
+
 
         addUsernameListener();
         addPasswordListener();

@@ -20,6 +20,8 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
     private MainMenuController mainMenuController;
     private JButton play;
     private ViewManagerModel viewManagerModel;
+    private JButton instructionsButton;
+
 
     public MainMenuView(MainMenuViewModel mainMenuViewModel,  ViewManagerModel viewManagerModel) {
         this.mainMenuViewModel = mainMenuViewModel;
@@ -81,6 +83,25 @@ public class MainMenuView extends JPanel implements ActionListener, PropertyChan
         gbc.gridy = 3;
         gbc.weighty = 1;
         this.add(viewScores, gbc);
+
+        instructionsButton = new JButton("INSTRUCTIONS");
+        instructionsButton.setFont(new Font("Times New Roman", Font.PLAIN, 24));
+        instructionsButton.setPreferredSize(new Dimension(300, 80));
+        instructionsButton.setBackground(Color.GREEN);
+        gbc.gridx = 0;
+        gbc.gridy = 4;          // 放在最下面一行
+        gbc.weighty = 1;
+        this.add(instructionsButton, gbc);
+
+// 给 instructions 按钮加监听
+        instructionsButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(
+                    this,
+                    InstructionsContent.getInstructions(),
+                    "Instructions",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+        });
 
         viewScores.addActionListener(new ActionListener() {
             public void actionPerformed (ActionEvent e) {
