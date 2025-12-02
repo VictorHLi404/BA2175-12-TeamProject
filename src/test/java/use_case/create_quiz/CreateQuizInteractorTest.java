@@ -108,5 +108,39 @@ public class CreateQuizInteractorTest {
 
     }
 
-}
+    @Test
+    void testSwitchToUserScoreView() {
+
+        // Creating a dummy presenter to see if the interactor calls the presenter correctly
+        class DummyPresenter implements CreateQuizOutputBoundary {
+
+            boolean switchWasCalled = false;
+
+            @Override
+            public void prepareSuccessView(CreateQuizOutputData outputData) {}
+
+            @Override
+            public void prepareFailView(String error) {}
+
+            @Override
+            public void switchToUserScoreView() {
+                switchWasCalled = true;
+            }
+
+        }
+
+        DummyPresenter presenter = new DummyPresenter();
+        CreateQuizInteractor interactor = new CreateQuizInteractor(DAO, presenter);
+        interactor.switchToUserScoreView();
+
+        // Checking that 'switchWasCalled' becomes true in the DummyPresenter class
+        Assertions.assertTrue(presenter.switchWasCalled);
+
+    }
+
+    }
+
+
+
+
 
