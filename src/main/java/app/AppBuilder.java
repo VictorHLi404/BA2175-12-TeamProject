@@ -364,15 +364,13 @@ public class AppBuilder {
         List<String> labels = new ArrayList<>();
 
         for (entities.QuizResults results : allQuizResults.values()) {
-            if (Objects.equals(results.getUserId(), userId)) {
-                entities.Quiz quiz = userDataReadObject.loadQuiz(results.getQuizId());
-                String quizName = quiz != null && quiz.getQuizName() != null
-                        ? quiz.getQuizName()
-                        : "Quiz " + results.getQuizId().toString().substring(0, 8);
-                String label = quizName + " (" + results.getTimestamp() + ")";
-                previousQuizLookup.put(label, results.getQuizId());
-                labels.add(label);
-            }
+            entities.Quiz quiz = userDataReadObject.loadQuiz(results.getQuizId());
+            String quizName = quiz != null && quiz.getQuizName() != null
+                    ? quiz.getQuizName()
+                    : "Quiz " + results.getQuizId().toString().substring(0, 8);
+            String label = quizName + " (" + results.getTimestamp() + ")";
+            previousQuizLookup.put(label, results.getQuizId());
+            labels.add(label);
         }
 
         if (labels.isEmpty()) {
